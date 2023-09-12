@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_shell.c                                       :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/12 16:38:28 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/08 13:05:22 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/08 18:39:19 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/mini_shell.h"
+#include <unistd.h>
 
-void	minishell(void)
+void	ft_putchar_fd(char c, int fd)
 {
-	char	*cmd_buff;
-
-	while (1)
-	{
-		config_signals();
-		cmd_buff = readline("minishell> ");
-		if (ft_strlen(cmd_buff) > 0)
-			add_history(cmd_buff);
-		if (!ft_strcmp(cmd_buff, "exit"))
-			break ;
-	}
-}
-
-int	main(void)
-{
-	minishell();
-	return (0);
+	write(fd, &c, 1);
 }

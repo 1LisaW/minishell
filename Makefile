@@ -8,7 +8,7 @@ CFLAGS	=	-Wall -Wextra -Werror
 
 RM		=	rm -rf
 
-FILES	=	mini_shell processes
+FILES	=	mini_shell processes signals
 
 PARSER_FILES	=	parser
 

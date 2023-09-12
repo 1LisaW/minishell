@@ -1,34 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_shell.c                                       :+:      :+:    :+:   */
+/*   ft_putendl_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/12 16:38:28 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/08 13:12:48 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/08 13:17:36 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/mini_shell.h"
+#include <unistd.h>
 
-void	minishell(void)
+void	ft_putendl_fd(char *s, int fd)
 {
-	char	*cmd_buff;
+	int	i;
 
-	while (1)
+	i = 0;
+	while (s[i] != '\0')
 	{
-		config_signals();
-		cmd_buff = readline("minishell> ");
-		if (ft_strlen(cmd_buff) > 0)
-			add_history(cmd_buff);
-		if (!ft_strcmp(cmd_buff, "exit"))
-			break ;
+		write(fd, &s[i], 1);
+		i++;
 	}
-}
-
-int	main(void)
-{
-	minishell();
-	return (0);
+	write(fd, "\n", 1);
 }
