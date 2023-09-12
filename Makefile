@@ -67,7 +67,7 @@ $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)):
 $(LIB):
 	cd lib && $(MAKE) all
 
-$(NAME):	$(addprefix $(OBJ_DIR)/, $(ALL_OBJS))
+$(NAME):	$(addprefix $(OBJ_DIR)/, $(ALL_OBJS)) $(LIB)
 		$(CC) $(addprefix $(OBJ_DIR)/, $(ALL_OBJS))  -I include $(LIB) -lreadline -o $(NAME)
 
 clean:

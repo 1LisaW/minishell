@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/09/11 20:05:35 by root             ###   ########.fr       */
+/*   Updated: 2023/09/12 13:37:20 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,6 @@
 
 int	ft_strcmp(char *str1, char *str2);
 
-int ft_strlen(char *str);
+int	ft_strlen(char *str);
 
 #endif
