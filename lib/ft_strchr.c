@@ -1,36 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_shell.c                                       :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/13 11:18:45 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/04 13:06:53 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/06 16:45:17 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../includes/mini_shell.h"
+#include <stdio.h>
 
-void	minishell(void)
+char	*ft_strchr(const char *str, int c)
 {
-	char	*cmd_buff;
+	unsigned int	i;
+	char			*first;
 
-	while (1)
+	first = NULL;
+	i = 0;
+	while (str[i])
 	{
-		config_signals();
-		cmd_buff = readline("minishell> ");
-		if (!cmd_buff)
+		if (str[i] == (char)c)
+		{
+			first = (char *)&str[i];
 			break ;
-		if (ft_strlen(cmd_buff) > 0)
-			add_history(cmd_buff);
-		if (!ft_strcmp(cmd_buff, "exit"))
-			break ;
+		}
+		i++;
 	}
-}
-
-int	main(void)
-{
-	minishell();
-	return (0);
+	if ((char)c == str[i])
+		return ((char *)&str[i]);
+	return (first);
 }
