@@ -18,6 +18,7 @@
 # include <sys/types.h>
 # include <stdio.h>
 # include <string.h>
+# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <signal.h>
@@ -71,7 +72,19 @@ typedef struct data
 	t_env			*env_del;
 }			t_data;
 
-int		create_process(int *fd1, int *fd2);
+void			init_data(t_data *data);
+
+void			destroy_data(t_data *data);
+
+void			lexer(t_data *data, char *cmd_buff);
+
+t_lexer_data	*add_lexer_node(t_data *data, char *text);
+
+void			delete_lexer_data(t_lexer_data *lexer_data);
+
+void			tokenizer(t_lexer_data *lexer_node);
+
+int				create_process(int *fd1, int *fd2);
 
 void	child_signals(int signum);
 
