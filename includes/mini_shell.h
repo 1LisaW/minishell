@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/12 14:49:53 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/09/18 11:58:36 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,11 @@
 # include <unistd.h>
 # include <sys/types.h>
 # include <stdio.h>
+# include <stdlib.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 
-typedef enum e_lexer_type { 
+typedef enum e_lexer_type {
 	word,
 	operator,
 	redir_notation
@@ -68,6 +69,18 @@ typedef struct data
 	t_env			*env_del;
 }			t_data;
 
-int		create_process(int *fd1, int *fd2);
+void			init_data(t_data *data);
+
+void			destroy_data(t_data *data);
+
+void			lexer(t_data *data, char *cmd_buff);
+
+t_lexer_data	*add_lexer_node(t_data *data, char *text);
+
+void			delete_lexer_data(t_lexer_data *lexer_data);
+
+void			tokenizer(t_lexer_data *lexer_node);
+
+int				create_process(int *fd1, int *fd2);
 
 #endif
