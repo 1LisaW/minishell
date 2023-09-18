@@ -8,17 +8,17 @@ CFLAGS	=	-Wall -Wextra -Werror
 
 RM		=	rm -rf
 
-FILES	=	mini_shell processes
+FILES	=	mini_shell processes data_init
 
-PARSER_FILES	=	parser
+PARSER_FILES	=	sintax_parser
 
-LEXER_FILES	=	lexer
+LEXER_FILES	=	lexer lexer_data tokenizer
 
 SRC_DIR		= src
 
 LEXER_DIR	= lexer
 
-PARSER_DIR	= parser
+PARSER_DIR	= sintax_parser
 
 OBJ_DIR	=	build
 

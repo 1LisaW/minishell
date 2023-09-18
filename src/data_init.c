@@ -1,43 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   mini_shell.c                                       :+:      :+:    :+:   */
+/*   data_init.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: root <root@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/18 12:58:12 by root             ###   ########.fr       */
+/*   Created: 2023/09/12 13:23:52 by root              #+#    #+#             */
+/*   Updated: 2023/09/18 12:59:31 by root             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void	minishell(void)
+void	init_data(t_data *data)
 {
-	char	*cmd_buff;
-	t_data	data[1];
-
-	init_data(data);
-	while (1)
-	{
-		cmd_buff = readline("minishell> ");
-		if (ft_strlen(cmd_buff) > 0)
-			add_history(cmd_buff);
-		if (!ft_strcmp(cmd_buff, "exit"))
-		{
-			if (cmd_buff)
-				free(cmd_buff);
-			destroy_data(data);
-			rl_clear_history();
-			break ;
-		}
-		lexer(data, cmd_buff);
-		free(cmd_buff);
-	}
+	data->lexer_data = NULL;
+	data->parser_data = NULL;
+	data->env_vars = NULL;
+	data->env_del = NULL;
 }
 
-int	main(void)
+void	destroy_data(t_data *data)
 {
-	minishell();
-	return (0);
+	if (data && data->lexer_data)
+	{
+		delete_lexer_data(data->lexer_data);
+	}
 }
