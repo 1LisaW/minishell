@@ -8,7 +8,7 @@ AR	=	ar -rcs
 
 RM	=	rm -rf
 
-FILES	=	ft_strcmp ft_strlen
+FILES	=	ft_strcmp ft_strlen ft_putendl_fd ft_putchar_fd ft_strchr
 
 SRC	=	$(addsuffix .c, $(FILES))
 

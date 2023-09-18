@@ -1,26 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/09/13 10:55:19 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/04 13:06:53 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/06 16:45:17 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include <stdio.h>
 
-int		ft_strcmp(char *str1, char *str2);
+char	*ft_strchr(const char *str, int c)
+{
+	unsigned int	i;
+	char			*first;
 
-int		ft_strlen(char *str);
-
-void	ft_putendl_fd(char *s, int fd);
-
-void	ft_putchar_fd(char c, int fd);
-
-int		ft_strchr(char *str, char c);
-
-#endif
+	first = NULL;
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == (char)c)
+		{
+			first = (char *)&str[i];
+			break ;
+		}
+		i++;
+	}
+	if ((char)c == str[i])
+		return ((char *)&str[i]);
+	return (first);
+}

@@ -1,26 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lib.h                                              :+:      :+:    :+:   */
+/*   ft_putchar_fd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/09/13 10:55:19 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/08 13:05:22 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/08 18:39:19 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIB_H
-# define LIB_H
+#include <unistd.h>
 
-int		ft_strcmp(char *str1, char *str2);
-
-int		ft_strlen(char *str);
-
-void	ft_putendl_fd(char *s, int fd);
-
-void	ft_putchar_fd(char c, int fd);
-
-int		ft_strchr(char *str, char c);
-
-#endif
+void	ft_putchar_fd(char c, int fd)
+{
+	write(fd, &c, 1);
+}
