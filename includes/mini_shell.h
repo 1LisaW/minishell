@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/12 16:50:15 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/09/27 16:30:48 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,10 +86,14 @@ void			tokenizer(t_lexer_data *lexer_node);
 
 int				create_process(int *fd1, int *fd2);
 
-void	child_signals(int signum);
+void			child_signals(int signum);
 
-void	dismiss_signal(int signum);
+void			dismiss_signal(int signum);
 
-void	config_signals(void);
+void			config_signals(void);
+
+void			ft_init_env(char **envp, t_data *data);
+
+void			add_env(char *var, char *value, t_data *data);
 
 #endif

@@ -1,34 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 13:06:53 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/27 16:00:55 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/05 17:11:59 by plandolf          #+#    #+#             */
+/*   Updated: 2023/09/28 10:18:30 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "lib.h"
 
-char	*ft_strchr(char *str, int c)
+char	*ft_strdup(char *src)
 {
-	unsigned int	i;
-	char			*first;
+	int		i;
+	int		len;
+	char	*str;
 
-	first = NULL;
+	len = 0;
+	while (src[len])
+		len++;
+	str = (char *)malloc(sizeof(*str) * (len + 1));
+	if (!str)
+		return (NULL);
 	i = 0;
-	while (str[i])
+	while (i < len)
 	{
-		if (str[i] == (char)c)
-		{
-			first = (char *)&str[i];
-			break ;
-		}
+		str[i] = src[i];
 		i++;
 	}
-	if ((char)c == str[i])
-		return ((char *)&str[i]);
-	return (first);
+	return (str);
 }
