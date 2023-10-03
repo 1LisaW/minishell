@@ -14,7 +14,7 @@ PARSER_FILES	=	syntax_parser parser_data
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
-EXEC_FILES	= executer
+EXEC_FILES	= executor
 
 SRC_DIR		= src
 
@@ -22,7 +22,7 @@ LEXER_DIR	= lexer
 
 PARSER_DIR	= syntax_parser
 
-EXEC_DIR	= executer
+EXEC_DIR	= executor
 
 OBJ_DIR	=	build
 

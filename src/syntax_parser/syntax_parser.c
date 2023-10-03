@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:29:14 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/03 13:51:20 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/04 00:31:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,4 +62,5 @@ void	syntax_parser(t_data *data)
 	if (!oper_arr)
 		return ;
 	build_tree(data, get_oper_arr(oper_arr));
+	executor(data);
 }

@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/02 23:39:45 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/04 00:30:48 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,7 @@ t_lexer_data	*get_last_lexer_node(t_data *data);
 void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
+
+void			executor(t_data *data);
 
 #endif
