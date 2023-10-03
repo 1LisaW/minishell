@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/27 16:32:06 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:19:00 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_env(envp, envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
+	printf("%s", get_path("ls", envv));
 	minishell(envv);
 	return (0);
 }

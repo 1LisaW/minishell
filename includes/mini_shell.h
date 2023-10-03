@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/27 16:30:48 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:28:22 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,5 +95,16 @@ void			config_signals(void);
 void			ft_init_env(char **envp, t_data *data);
 
 void			add_env(char *var, char *value, t_data *data);
+
+char			*get_env(char *text, t_data *data);
+
+void			set_env(char *var, char *value, t_data *data);
+
+void			unset_var(char *var, t_data *data);
+
+char			*get_path(char *text, t_data *data);
+
+
+
 
 #endif

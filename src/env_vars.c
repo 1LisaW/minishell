@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:30:06 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/28 10:35:23 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:03:07 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,21 +79,4 @@ void	add_env(char *var, char *value, t_data *data)
 	tmp->value = ft_strdup(value);
 	tmp->next = data->env_vars;
 	data->env_vars = tmp;
-}
-
-void	ft_init_env(char **envp, t_data *data)
-{
-	int		i;
-	char	*tmp;
-	char	*tmp2;
-
-	i = 0;
-	while (envp[i])
-	{
-		tmp = ft_strchr(envp[i], 61);
-		tmp2 = ft_substr(envp[i], 0, tmp - envp[i]);
-		add_env(tmp2, tmp + 1, data);
-		free(tmp2);
-		i++;
-	}
 }

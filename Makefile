@@ -4,7 +4,7 @@ LIB	= lib.a
 
 CC		=	cc
 
-CFLAGS	=	-Wall -Wextra -Werror
+CFLAGS	=	-Wall -Wextra -Werror -g
 
 RM		=	rm -rf
 
@@ -14,11 +14,15 @@ PARSER_FILES	=	sintax_parser
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
+HELPERS_FILES = helpers
+
 SRC_DIR		= src
 
 LEXER_DIR	= lexer
 
 PARSER_DIR	= sintax_parser
+
+HELPERS_DIR = helpers
 
 OBJ_DIR	=	build
 
@@ -28,19 +32,25 @@ LEXER_SRC	=	$(addprefix $(LEXER_DIR)/, $(addsuffix .c, $(LEXER_FILES)))
 
 PARSER_SRC	=	$(addprefix $(PARSER_DIR)/, $(addsuffix .c, $(PARSER_FILES)))
 
+HELPERS_SRC	=	$(addprefix $(HELPERS_DIR)/, $(addsuffix .c, $(HELPERS_FILES)))
+
 SRCS	= $(addprefix $(SRC_DIR)/, $(SRC))
 
 LEXER_SRCS	=	$(addprefix $(SRC_DIR)/, $(LEXER_SRC))
 
 PARSER_SRCS	=	$(addprefix $(SRC_DIR)/, $(PARSER_SRC))
 
+HELPERS_SRCS	=	$(addprefix $(SRC_DIR)/, $(HELPERS_SRC))
+
 LEXER_OBJS	=	$(addsuffix .o, $(LEXER_FILES))
 
 PARSER_OBJS	=	$(addsuffix .o, $(PARSER_FILES))
 
+HELPERS_OBJS	=	$(addsuffix .o, $(HELPERS_FILES))
+
 OBJS	=	$(addsuffix .o, $(FILES))
 
-ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSER_DIR)/, $(PARSER_OBJS))
+ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSER_DIR)/, $(PARSER_OBJS)) $(addprefix $(HELPERS_DIR)/, $(HELPERS_OBJS))
 
 %.o : %.c
 		$(CC) -c $(CFLAGS) $< -o $@
@@ -48,7 +58,7 @@ ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSE
 
 all:	$(NAME)
 
-$(addprefix $(OBJ_DIR)/, $(OBJS)): $(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS))  $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS))
+$(addprefix $(OBJ_DIR)/, $(OBJS)): $(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)) $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS))
 		@mkdir -p $(OBJ_DIR)
 		$(CC) -c $(CFLAGS) $(SRCS)
 		mv $(OBJS) $(OBJ_DIR)/
@@ -63,6 +73,11 @@ $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)):
 		@mkdir -p $(OBJ_DIR)/$(PARSER_DIR)
 		$(CC) -c $(CFLAGS) $(PARSER_SRCS)
 		mv $(PARSER_OBJS) $(OBJ_DIR)/$(PARSER_DIR)/
+
+$(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)):
+		@mkdir -p $(OBJ_DIR)/$(HELPERS_DIR)
+		$(CC) -c $(CFLAGS) $(HELPERS_SRCS)
+		mv $(HELPERS_OBJS) $(OBJ_DIR)/$(HELPERS_DIR)/
 
 $(LIB):
 	cd lib && $(MAKE) all

@@ -6,98 +6,92 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:19:28 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/28 10:24:06 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:03:57 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-static char	*ft_strstr(char *str, char *to_find)
+static char	**ft_alloc_split(char const *s, char c)
 {
-	char	*str_save;
-	char	*to_find_save;
+	size_t	i;
+	char	**split;
+	size_t	total;
 
-	if (*to_find == '\0')
-		return (str);
-	to_find_save = to_find;
-	while (*str != '\0')
+	i = 0;
+	total = 0;
+	while (s[i])
 	{
-		if (*str != *to_find_save)
+		if (s[i] == c)
+			total++;
+		i++;
+	}
+	split = (char**)malloc(sizeof(s) * (total + 2));
+	if (!split)
+		return (NULL);
+	return (split);
+}
+
+void	*ft_free_all_split_alloc(char **split, size_t elts)
+{
+	size_t	i;
+
+	i = 0;
+	while (i < elts)
+	{
+		free(split[i]);
+		i++;
+	}
+	free(split);
+	return (NULL);
+}
+
+static void	*ft_split_range(char **split, char *s,
+		t_split_next *st, t_split_next *lt)
+{
+	split[lt->length] = ft_substr(s, st->start, st->length);
+	if (!split[lt->length])
+		return (ft_free_all_split_alloc(split, lt->length));
+	lt->length++;
+	return (split);
+}
+
+static void	*ft_split_by_char(char **split, char *s, char c)
+{
+	size_t			i;
+	t_split_next	st;
+	t_split_next	lt;
+
+	i = 0;
+	lt.length = 0;
+	lt.start = 0;
+	while (s[i])
+	{
+		if (s[i] == c)
 		{
-			str++;
-			continue ;
+			st.start = lt.start;
+			st.length = (i - lt.start);
+			if (i > lt.start && !ft_split_range(split, s, &st, &lt))
+				return (NULL);
+			lt.start = i + 1;
 		}
-		str_save = str;
-		while (1)
-		{
-			if (*to_find_save == '\0')
-				return (str);
-			if (*str_save++ != *to_find_save++)
-				break ;
-		}
-		to_find_save = to_find;
-		str++;
+		i++;
 	}
-	return (0);
+	st.start = lt.start;
+	st.length = (i - lt.start);
+	if (i > lt.start && i > 0 && !ft_split_range(split, s, &st, &lt))
+		return (NULL);
+	split[lt.length] = 0;
+	return (split);
 }
 
-static char	*ft_strpdup(char *src, char *end)
+char	**ft_split(char *s, char c)
 {
-	char	*dest;
-	char	*buffer;
-	int		length;
+	char	**split;
 
-	buffer = src;
-	length = 0;
-	while (buffer++ < end)
-		length++;
-	dest = (char *)malloc(sizeof(*src) * (length + 1));
-	if (!dest)
-		return (0);
-	buffer = dest;
-	while (src < end)
-		*buffer++ = *src++;
-	*buffer = '\0';
-	return (dest);
-}
-
-static void	duplicate(char **strs, char *str, char *charset, int charset_l)
-{
-	char	*buffer;
-	char	*dup;
-
-	buffer = str;
-	while (buffer)
-	{
-		buffer = ft_strstr(buffer, charset);
-		dup = ft_strpdup(str, buffer);
-		if (dup)
-			*strs++ = dup;
-		buffer += charset_l;
-		str = buffer;
-	}
-	*strs = 0;
-}
-
-char	**ft_split(char *str, char *charset)
-{
-	char	**strs;
-	char	*buffer;
-	int		splits;
-	int		charset_l;
-
-	charset_l = ft_strlen(charset);
-	buffer = str;
-	splits = 0;
-	while (buffer)
-	{
-		buffer = ft_strstr(buffer, charset);
-		buffer += charset_l;
-		splits++;
-	}
-	strs = (char **)malloc((2 + splits) * sizeof(*strs));
-	if (!strs)
-		return (0);
-	duplicate(strs, str, charset, charset_l);
-	return (strs);
+	if (!(split = ft_alloc_split(s, c)))
+		return (NULL);
+	if (!ft_split_by_char(split, s, c))
+		return (NULL);
+	return (split);
 }
