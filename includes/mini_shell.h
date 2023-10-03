@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/02 23:39:45 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/03 12:28:22 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,18 @@ void			child_signals(int signum);
 void			dismiss_signal(int signum);
 
 void			config_signals(void);
+
+void			ft_init_env(char **envp, t_data *data);
+
+void			add_env(char *var, char *value, t_data *data);
+
+char			*get_env(char *text, t_data *data);
+
+void			set_env(char *var, char *value, t_data *data);
+
+void			unset_var(char *var, t_data *data);
+
+char			*get_path(char *text, t_data *data);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 
