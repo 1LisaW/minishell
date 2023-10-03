@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/09/18 12:58:12 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/02 19:38:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	minishell(void)
 		{
 			if (cmd_buff)
 				free(cmd_buff);
-			destroy_data(data);
+			// destroy_data(data);
 			rl_clear_history();
 			break ;
 		}
