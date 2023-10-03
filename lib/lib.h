@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
 /*   Updated: 2023/10/03 15:04:16 by plandolf         ###   ########.fr       */
@@ -50,5 +50,7 @@ char	**ft_split(char *s, char c);
 char	*ft_strjoin(char *s1, char *s2);
 
 void	ft_free_arr(char **arr);
+
+char	*ft_strcopy(char *str);
 
 #endif
