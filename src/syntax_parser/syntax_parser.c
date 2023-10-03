@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:29:14 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/03 03:03:08 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/03 13:51:20 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-// check errors when command line begins or ends with operator caracter
-//	or have sequenses of operators without commands between them
+// check errors when command line begins or ends with operator character
+//	or have sequences of operators without commands between them
 
 char	*catch_syntax_error(t_lexer_data *lexer_data)
 {
@@ -29,8 +29,8 @@ char	*catch_syntax_error(t_lexer_data *lexer_data)
 			return (lexer_data->next->text);
 		curr_lex_data = curr_lex_data->next;
 	}
-	// if (curr_lex_data->lexer_type == operator)
-	// 	return (lexer_data->text);
+	if (curr_lex_data->lexer_type == operator)
+		return (curr_lex_data->text);
 	return (NULL);
 }
 
