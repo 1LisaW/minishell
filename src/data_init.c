@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:23:52 by root              #+#    #+#             */
-/*   Updated: 2023/10/02 23:43:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/09 12:31:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@ void	init_data(t_data *data)
 
 void	destroy_parser_data(t_parser_data *parser_data)
 {
+	char	**tmp_cmd_line;
+
 	if (!parser_data)
 		return ;
 	if (parser_data->left)
@@ -31,10 +33,11 @@ void	destroy_parser_data(t_parser_data *parser_data)
 	if (parser_data->text)
 		free(parser_data->text);
 	parser_data->text = NULL;
-	while (parser_data->cmd_line && *parser_data->cmd_line)
+	tmp_cmd_line = parser_data->cmd_line;
+	while (tmp_cmd_line && *tmp_cmd_line)
 	{
-		free(*parser_data->cmd_line);
-		parser_data->cmd_line++;
+		free(*tmp_cmd_line);
+		tmp_cmd_line++;
 	}
 	if (parser_data->cmd_line)
 		free(parser_data->cmd_line);

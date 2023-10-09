@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 17:46:37 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:02:41 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ typedef struct s_parser_data
 	char					*text;
 	t_lexer_type			lexer_type;
 	char					**cmd_line;
+	int						flags;
 	char					*red_stdin;
 	char					*red_stdout;
 	struct s_parser_data	*parent;
@@ -102,7 +103,7 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node, int *flags);
+void			execute_process(int *prev_fd, t_parser_data *parser_node);
 
 void			executor(t_data *data);
 

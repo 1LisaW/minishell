@@ -3,73 +3,64 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 17:50:43 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/09 13:04:49 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-void	update_flags(t_parser_data *parser_node, int *flags)
+
+int	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
 {
-	if (*flags & IS_WAIT)
-		*flags = 0x0;
-	if (!(*flags & IS_PIPE) && parser_node->parent
-		&& !ft_strcmp(parser_node->parent->text, "|"))
-		*flags = IS_PIPE;
-	if (parser_node->lexer_type == operator)
+	if (dup2(*prev_fd, STDIN_FILENO) == -1)
+		return (3);
+	close(*prev_fd);
+	if (!(parser_node->flags & IS_WAIT))
 	{
-		if (ft_strcmp(parser_node->text, "|"))
-			*flags = IS_WAIT;
-		else if (!parser_node->parent
-			|| !ft_strcmp(parser_node->parent->text, "|"))
-			*flags |= IS_WAIT;
+		close(fd[0]);
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[1]);
 	}
+
+	execve(parser_node->text, parser_node->cmd_line, NULL);
+	write(1, "\n has error \n", 10);
+	return (4);
 }
 
-int	create_process(int *prev_fd, t_parser_data *parser_node, int *flags)
+int	create_process(int *prev_fd, t_parser_data *parser_node)
 {
 	int	fd[2];
 	int	child_id;
 
-	if (pipe(fd) == -1)
-	{
+	if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
 		return (1);
-	}
 	child_id = fork();
 	if (child_id == -1)
-	{
 		return (2);
-	}
 	if (child_id == 0)
-	{
-		close(fd[0]);
-		dup2(*prev_fd, STDIN_FILENO);
-		close(*prev_fd);
-		if (!(*flags & IS_WAIT))
-			dup2(fd[1], STDOUT_FILENO);
-		close(fd[1]);
-		printf("\n EXECUTION!!\n");
-		execve("/bin/cat", parser_node->cmd_line, NULL);
-		exit(3);
-	}
+		child_process(prev_fd, fd, parser_node);
 	close(*prev_fd);
-	close(fd[1]);
-	if (!(*flags & IS_WAIT))
-		*prev_fd = fd[0];
-	else
+	if (!(parser_node->flags & IS_WAIT))
 	{
-		close(*prev_fd);
-		while (wait(NULL) != -1)
-			;
+		close(fd[1]);
+		*prev_fd = fd[0];
 	}
+	else
+		close(*prev_fd);
 	return (0);
 }
 
-void	execute_process(int *prev_fd, t_parser_data *parser_node, int *flags)
+void	execute_process(int *prev_fd, t_parser_data *parser_node)
 {
-	update_flags(parser_node, flags);
-	create_process(prev_fd, parser_node, flags);
+	if (parser_node->lexer_type == word)
+		create_process(prev_fd, parser_node);
+	if (parser_node->flags & IS_WAIT)
+	{
+		printf("\n Waiting for execution: %s\n", parser_node->text);
+		while (wait(NULL) != -1)
+			;
+	}
 }
