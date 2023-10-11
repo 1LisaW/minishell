@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 11:00:51 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:33:23 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	minishell(t_data *envp)
 			rl_clear_history();
 			break ;
 		}
+		// this is just to test if functions work
 		if (!ft_strcmp(cmd_buff, "env"))
 			print_env(envp);
 		if (!ft_strcmp(cmd_buff, "pwd"))
@@ -65,6 +66,7 @@ void	minishell(t_data *envp)
 			cd(args, envp);
 		if (!ft_strcmp(cmd_buff, "echo"))
 			echo(args_echo);
+		// test ends here
 		lexer(data, cmd_buff);
 		free(cmd_buff);
 	}
