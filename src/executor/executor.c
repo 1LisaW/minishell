@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/04 00:56:29 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/11 17:44:26 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 	return (1);
 }
 
-void	morris_traversal(t_parser_data *parser_data)
+void	morris_traversal(t_parser_data *parser_data, int *prev_fd, int *flags)
 {
 	t_parser_data	*curr_node;
 	t_parser_data	*prev_node;
@@ -37,20 +37,26 @@ void	morris_traversal(t_parser_data *parser_data)
 		if (!curr_node->left)
 		{
 			printf("%s   ", curr_node->text);
+			execute_process(prev_fd, curr_node, flags);
 			curr_node = curr_node->right;
 		}
 		else if (get_next_node(&curr_node, &prev_node))
 		{
 			prev_node->right = NULL;
 			printf("%s   ", curr_node->text);
+			execute_process(prev_fd, curr_node, flags);
 			curr_node = curr_node->right;
 		}
 	}
-
 }
 
 void	executor(t_data *data)
 {
+	int	prev_fd;
+	int	flags;
 
-	morris_traversal(data->parser_data);
+	flags = 0x0;
+	prev_fd = dup(STDIN_FILENO);
+	morris_traversal(data->parser_data, &prev_fd, &flags);
+	printf("pipes amount: %d \n", data->pipes_amount);
 }

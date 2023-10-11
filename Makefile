@@ -14,7 +14,7 @@ PARSER_FILES	=	syntax_parser parser_data
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
-EXEC_FILES	= executor
+EXEC_FILES	= executor execute_process
 
 SRC_DIR		= src
 
