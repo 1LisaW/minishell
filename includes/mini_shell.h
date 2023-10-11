@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/03 12:28:22 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <dirent.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -104,7 +105,9 @@ void			unset_var(char *var, t_data *data);
 
 char			*get_path(char *text, t_data *data);
 
-
-
+//builtins
+int				pwd(void);
+int				cd(char **args, t_data *env);
+int				echo(char **args);
 
 #endif
