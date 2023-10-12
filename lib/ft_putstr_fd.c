@@ -1,34 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strchr.c                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/04 13:06:53 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/27 16:00:55 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/08 13:08:01 by plandolf          #+#    #+#             */
+/*   Updated: 2023/09/27 15:49:06 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
+#include "lib.h"
 
-char	*ft_strchr(char *str, int c)
+void	ft_putstr_fd(char *s, int fd)
 {
-	unsigned int	i;
-	char			*first;
-
-	first = NULL;
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] == (char)c)
-		{
-			first = (char *)&str[i];
-			break ;
-		}
-		i++;
-	}
-	if ((char)c == str[i])
-		return ((char *)&str[i]);
-	return (first);
+	write(fd, s, ft_strlen(s));
 }

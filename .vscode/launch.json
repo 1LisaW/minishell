@@ -1,0 +1,27 @@
+{
+	//UseIntelliSensetolearnaboutpossibleattributes.
+	//Hovertoviewdescriptionsofexistingattributes.
+	//Formoreinformation,visit:https://go.microsoft.com/fwlink/?linkid=830387
+	"version":"0.2.0",
+	"configurations":[
+	{
+	"name":"server",
+	"type":"cppdbg",
+	"program":"${workspaceFolder}/minishell",
+	"cwd":"${workspaceFolder}",
+	"args":[],
+	"request":"launch",
+	"MIMode":"gdb"
+	},
+	{
+		"name":"client",
+		"type":"cppdbg",
+		"program":"/nfs/homes/plandolf/curriculum/minitalk/client",
+		"cwd":"${workspaceFolder}",
+		"args":["59399", "hello"],
+		"request":"launch",
+		"MIMode":"gdb"
+		}
+	]
+
+}

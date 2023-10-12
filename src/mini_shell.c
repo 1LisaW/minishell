@@ -6,13 +6,27 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/02 19:38:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/03 15:19:00 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void	minishell(void)
+void	print_env(t_data *envp)
+{
+	t_env	*tmp;
+
+	tmp = envp->env_vars;
+	while (tmp)
+	{
+		ft_putstr_fd(tmp->var, 1);
+		ft_putchar_fd('=', 1);
+		ft_putendl_fd(tmp->value, 1);
+		tmp = tmp->next;
+	}
+}
+
+void	minishell(t_data *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
@@ -34,13 +48,23 @@ void	minishell(void)
 			rl_clear_history();
 			break ;
 		}
+		if (!ft_strcmp(cmd_buff, "env"))
+			print_env(envp);
 		lexer(data, cmd_buff);
 		free(cmd_buff);
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
-	minishell();
+	t_data	*envv;
+
+	(void)argv;
+	envv = (t_data *)malloc(sizeof(t_data));
+	ft_init_env(envp, envv);
+	if (argc != 1)
+		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
+	printf("%s", get_path("ls", envv));
+	minishell(envv);
 	return (0);
 }

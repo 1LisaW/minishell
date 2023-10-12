@@ -97,6 +97,18 @@ void			dismiss_signal(int signum);
 
 void			config_signals(void);
 
+void			ft_init_env(char **envp, t_data *data);
+
+void			add_env(char *var, char *value, t_data *data);
+
+char			*get_env(char *text, t_data *data);
+
+void			set_env(char *var, char *value, t_data *data);
+
+void			unset_var(char *var, t_data *data);
+
+char			*get_path(char *text, t_data *data);
+
 t_lexer_data	*get_last_lexer_node(t_data *data);
 
 void			build_tree(t_data *data, char **oper_arr);
