@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/09 11:02:41 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/12 15:37:57 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,9 @@ typedef struct s_parser_data
 	t_lexer_type			lexer_type;
 	char					**cmd_line;
 	int						flags;
+	int						stdin_flag;
 	char					*red_stdin;
+	int						stdout_flag;
 	char					*red_stdout;
 	struct s_parser_data	*parent;
 	struct s_parser_data	*left;
