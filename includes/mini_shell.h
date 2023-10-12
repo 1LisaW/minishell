@@ -6,12 +6,15 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/03 12:28:22 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/09 11:02:41 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINI_SHELL_H
 # define MINI_SHELL_H
+# define IS_WAIT 0x1
+# define IS_PIPE 0x2
+# define IS_LAST_PIPE_CMD 0x3
 
 # include "../lib/lib.h"
 # include <unistd.h>
@@ -23,6 +26,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <sys/wait.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -51,6 +55,7 @@ typedef struct s_parser_data
 	char					*text;
 	t_lexer_type			lexer_type;
 	char					**cmd_line;
+	int						flags;
 	char					*red_stdin;
 	char					*red_stdout;
 	struct s_parser_data	*parent;
@@ -71,6 +76,7 @@ typedef struct data
 	t_parser_data	*parser_data;
 	t_env			*env_vars;
 	t_env			*env_del;
+	int				pipes_amount;
 }			t_data;
 
 void			init_data(t_data *data);
@@ -84,8 +90,6 @@ t_lexer_data	*add_lexer_node(t_data *data, char *text);
 void			delete_lexer_data(t_data *data);
 
 void			tokenizer(t_lexer_data *lexer_node);
-
-int				create_process(int *fd1, int *fd2);
 
 void			child_signals(int signum);
 
@@ -110,5 +114,9 @@ t_lexer_data	*get_last_lexer_node(t_data *data);
 void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
+
+void			execute_process(int *prev_fd, t_parser_data *parser_node);
+
+void			executor(t_data *data);
 
 #endif
