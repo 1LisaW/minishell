@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
 /*   Updated: 2023/10/11 10:48:50 by plandolf         ###   ########.fr       */
@@ -58,5 +58,7 @@ int		ft_print_formats(va_list args, const char format);
 int		ft_print_char(char c);
 
 int		ft_strncmp(const char *str1, const char *str2, int n);
+
+char	*ft_strcopy(char *str);
 
 #endif

@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
 /*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
@@ -12,6 +12,9 @@
 
 #ifndef MINI_SHELL_H
 # define MINI_SHELL_H
+# define IS_WAIT 0x1
+# define IS_PIPE 0x2
+# define IS_LAST_PIPE_CMD 0x3
 
 # include "../lib/lib.h"
 # include <unistd.h>
@@ -24,6 +27,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <dirent.h>
+# include <sys/wait.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -31,14 +35,14 @@ typedef enum e_lexer_type {
 	redir_notation
 }	t_lexer_type;
 
-typedef enum e_parser_type {
+typedef enum e_sparser_type {
 	command,
 	arg,
 	oper,
 	redir,
 	pipe_ch,
 	file
-}	t_parser_type;
+}	t_sparser_type;
 
 typedef struct s_lexer_data
 {
@@ -50,12 +54,14 @@ typedef struct s_lexer_data
 typedef struct s_parser_data
 {
 	char					*text;
-	t_parser_type			parser_type;
-	char					*operator;
-	struct s_parser_data	*pipeline;
+	t_lexer_type			lexer_type;
+	char					**cmd_line;
+	int						flags;
 	char					*red_stdin;
 	char					*red_stdout;
-	struct s_parser_data	*next;
+	struct s_parser_data	*parent;
+	struct s_parser_data	*left;
+	struct s_parser_data	*right;
 }		t_parser_data;
 
 typedef struct s_env
@@ -71,6 +77,7 @@ typedef struct data
 	t_parser_data	*parser_data;
 	t_env			*env_vars;
 	t_env			*env_del;
+	int				pipes_amount;
 }			t_data;
 
 void			init_data(t_data *data);
@@ -81,11 +88,9 @@ void			lexer(t_data *data, char *cmd_buff);
 
 t_lexer_data	*add_lexer_node(t_data *data, char *text);
 
-void			delete_lexer_data(t_lexer_data *lexer_data);
+void			delete_lexer_data(t_data *data);
 
 void			tokenizer(t_lexer_data *lexer_node);
-
-int				create_process(int *fd1, int *fd2);
 
 void			child_signals(int signum);
 
@@ -109,5 +114,15 @@ char			*get_path(char *text, t_data *data);
 int				pwd(void);
 int				cd(char **args, t_data *env);
 int				echo(char **args);
+
+t_lexer_data	*get_last_lexer_node(t_data *data);
+
+void			build_tree(t_data *data, char **oper_arr);
+
+void			syntax_parser(t_data *data);
+
+void			execute_process(int *prev_fd, t_parser_data *parser_node);
+
+void			executor(t_data *data);
 
 #endif
