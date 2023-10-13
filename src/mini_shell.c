@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/03 15:19:00 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/11 14:33:23 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,14 +30,23 @@ void	minishell(t_data *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
+	char **args = malloc(sizeof(char **)*100000000);
+	char **args_echo = malloc(sizeof(char **)*100000000);
 
+	args[1] = "/nfs/homes/plandolf/curriculum/";
+	args_echo[0] = "echo";
+	args_echo[1] = "-n";
+	args_echo[2] = "hello";
 	init_data(data);
 	while (1)
 	{
 		config_signals();
 		cmd_buff = readline("minishell> ");
 		if (!cmd_buff)
+		{
+			ft_putendl_fd("exit", 2);
 			break ;
+		}
 		if (ft_strlen(cmd_buff) > 0)
 			add_history(cmd_buff);
 		if (!ft_strcmp(cmd_buff, "exit"))
@@ -48,8 +57,16 @@ void	minishell(t_data *envp)
 			rl_clear_history();
 			break ;
 		}
+		// this is just to test if functions work
 		if (!ft_strcmp(cmd_buff, "env"))
 			print_env(envp);
+		if (!ft_strcmp(cmd_buff, "pwd"))
+			pwd();
+		if (!ft_strcmp(cmd_buff, "cd"))
+			cd(args, envp);
+		if (!ft_strcmp(cmd_buff, "echo"))
+			echo(args_echo);
+		// test ends here
 		lexer(data, cmd_buff);
 		free(cmd_buff);
 	}
@@ -64,7 +81,6 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_env(envp, envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
-	printf("%s", get_path("ls", envv));
 	minishell(envv);
 	return (0);
 }

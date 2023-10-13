@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/09 11:02:41 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <dirent.h>
 # include <sys/wait.h>
 
 typedef enum e_lexer_type {
@@ -108,6 +109,11 @@ void			set_env(char *var, char *value, t_data *data);
 void			unset_var(char *var, t_data *data);
 
 char			*get_path(char *text, t_data *data);
+
+//builtins
+int				pwd(void);
+int				cd(char **args, t_data *env);
+int				echo(char **args);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 

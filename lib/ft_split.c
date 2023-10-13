@@ -6,7 +6,7 @@
 /*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:19:28 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/03 15:03:57 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/05 12:02:32 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static char	**ft_alloc_split(char const *s, char c)
 			total++;
 		i++;
 	}
-	split = (char**)malloc(sizeof(s) * (total + 2));
+	split = (char **)malloc(sizeof(s) * (total + 2));
 	if (!split)
 		return (NULL);
 	return (split);
@@ -89,7 +89,8 @@ char	**ft_split(char *s, char c)
 {
 	char	**split;
 
-	if (!(split = ft_alloc_split(s, c)))
+	split = ft_alloc_split(s, c);
+	if (!split)
 		return (NULL);
 	if (!ft_split_by_char(split, s, c))
 		return (NULL);

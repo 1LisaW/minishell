@@ -18,6 +18,8 @@ EXEC_FILES	= executor execute_process
 
 HELPERS_FILES = helpers
 
+BUILTINS_FILES = pwd cd echo
+
 SRC_DIR		= src
 
 LEXER_DIR	= lexer
@@ -27,6 +29,8 @@ PARSER_DIR	= syntax_parser
 EXEC_DIR	= executor
 
 HELPERS_DIR = helpers
+
+BUILTINS_DIR = builtins
 
 OBJ_DIR	=	build
 
@@ -40,6 +44,8 @@ EXEC_SRC	=	$(addprefix $(EXEC_DIR)/, $(addsuffix .c, $(EXEC_FILES)))
 
 HELPERS_SRC	=	$(addprefix $(HELPERS_DIR)/, $(addsuffix .c, $(HELPERS_FILES)))
 
+BUILTINS_SRC	=	$(addprefix $(BUILTINS_DIR)/, $(addsuffix .c, $(BUILTINS_FILES)))
+
 SRCS	= $(addprefix $(SRC_DIR)/, $(SRC))
 
 LEXER_SRCS	=	$(addprefix $(SRC_DIR)/, $(LEXER_SRC))
@@ -50,17 +56,23 @@ EXEC_SRCS	=	$(addprefix $(SRC_DIR)/, $(EXEC_SRC))
 
 HELPERS_SRCS	=	$(addprefix $(SRC_DIR)/, $(HELPERS_SRC))
 
+BUILTINS_SRCS	=	$(addprefix $(SRC_DIR)/, $(BUILTINS_SRC))
+
 LEXER_OBJS	=	$(addsuffix .o, $(LEXER_FILES))
 
 PARSER_OBJS	=	$(addsuffix .o, $(PARSER_FILES))
 
 HELPERS_OBJS	=	$(addsuffix .o, $(HELPERS_FILES))
 
+BUILTINS_OBJS	=	$(addsuffix .o, $(BUILTINS_FILES))
+
 EXEC_OBJS	=	$(addsuffix .o, $(EXEC_FILES))
 
 OBJS	=	$(addsuffix .o, $(FILES))
 
-ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSER_DIR)/, $(PARSER_OBJS)) $(addprefix $(EXEC_DIR)/, $(EXEC_OBJS)) $(addprefix $(HELPERS_DIR)/, $(HELPERS_OBJS))
+ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSER_DIR)/, $(PARSER_OBJS)) \
+           $(addprefix $(EXEC_DIR)/, $(EXEC_OBJS)) $(addprefix $(HELPERS_DIR)/, $(HELPERS_OBJS)) \
+           $(addprefix $(BUILTINS_DIR)/, $(BUILTINS_OBJS))
 
 %.o : %.c
 		$(CC) -c $(CFLAGS) $< -o $@
@@ -68,7 +80,11 @@ ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSE
 
 all:	$(NAME)
 
-$(addprefix $(OBJ_DIR)/, $(OBJS)): $(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS))  $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)) $(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)) $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS))
+$(addprefix $(OBJ_DIR)/, $(OBJS)): $(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)) \
+                                   $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)) \
+                                   $(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)) \
+                                   $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)) \
+                                   $(addprefix $(OBJ_DIR)/$(BUILTINS_DIR)/, $(BUILTINS_OBJS))
 		@mkdir -p $(OBJ_DIR)
 		$(CC) -c $(CFLAGS) $(SRCS)
 		mv $(OBJS) $(OBJ_DIR)/
@@ -93,6 +109,11 @@ $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)):
 		@mkdir -p $(OBJ_DIR)/$(HELPERS_DIR)
 		$(CC) -c $(CFLAGS) $(HELPERS_SRCS)
 		mv $(HELPERS_OBJS) $(OBJ_DIR)/$(HELPERS_DIR)/
+
+$(addprefix $(OBJ_DIR)/$(BUILTINS_DIR)/, $(BUILTINS_OBJS)):
+		@mkdir -p $(OBJ_DIR)/$(BUILTINS_DIR)
+		$(CC) -c $(CFLAGS) $(BUILTINS_SRCS)
+		mv $(BUILTINS_OBJS) $(OBJ_DIR)/$(BUILTINS_DIR)/
 
 $(LIB):
 	cd lib && $(MAKE) all
