@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/12 15:37:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:27:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,16 +50,22 @@ typedef struct s_lexer_data
 	struct s_lexer_data	*next;
 }		t_lexer_data;
 
+typedef struct s_redir_data
+{
+	int					std_fd;
+	int					flags;
+	char				*text;
+	struct s_redir_node	*next;
+}		t_redir_data;
+
+
 typedef struct s_parser_data
 {
 	char					*text;
 	t_lexer_type			lexer_type;
 	char					**cmd_line;
 	int						flags;
-	int						stdin_flag;
-	char					*red_stdin;
-	int						stdout_flag;
-	char					*red_stdout;
+	t_redir_data			*redir_data;
 	struct s_parser_data	*parent;
 	struct s_parser_data	*left;
 	struct s_parser_data	*right;
@@ -82,6 +88,8 @@ typedef struct data
 }			t_data;
 
 void			init_data(t_data *data);
+
+void			destroy_redir_lst(t_parser_data *parser_node);
 
 void			destroy_data(t_data *data);
 

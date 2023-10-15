@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/09 11:42:02 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/15 22:25:27 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_parser_data	*create_parser_node(t_lexer_data *lexer_node,
 	parser_node->parent = parent;
 	parser_node->cmd_line = NULL;
 	parser_node->flags = 0x0;
+	parser_node->redir_data = NULL;
 	if (parent && !ft_strcmp(parent->text, "|"))
 		parser_node->flags |= IS_PIPE;
 	return (parser_node);
@@ -145,18 +146,7 @@ void	build_tree(t_data *data, char **oper_arr)
 	max_pipes = 0;
 	tail_lexer_node = &data->lexer_data;
 	while ((*tail_lexer_node)->next)
-	{
-		if ((*tail_lexer_node)->lexer_type == operator)
-		{
-			if (ft_strcmp((*tail_lexer_node)->text, "|"))
-				max_pipes = 0;
-			else
-				max_pipes++;
-			if (data->pipes_amount < max_pipes)
-				data->pipes_amount = max_pipes;
-		}
 		tail_lexer_node = &(*tail_lexer_node)->next;
-	}
 	data->parser_data = build_subtree(&data->lexer_data,
 			tail_lexer_node,
 			NULL, oper_arr);

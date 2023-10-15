@@ -10,7 +10,7 @@ RM		=	rm -rf
 
 FILES	=	mini_shell processes data_init signals env_vars
 
-PARSER_FILES	=	syntax_parser parser_data
+PARSER_FILES	=	syntax_parser parser_data parse_redirection
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
