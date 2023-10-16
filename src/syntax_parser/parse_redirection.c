@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:38:23 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/15 20:27:51 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/16 15:30:54 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_redir_data	*create_redir_node(t_lexer_data *lexer_node)
 		redir_node->flags = O_CREAT | O_WRONLY | O_TRUNC;
 	else if (!strcmp(lexer_node->text, ">>"))
 		redir_node->flags = O_CREAT | O_WRONLY | O_APPEND;
+	redir_node->next = NULL;
 	return (redir_node);
 }
 
@@ -66,12 +67,12 @@ t_lexer_data	*ft_add_redir_node(t_lexer_data *lexer_node,
 t_lexer_data	*collect_redir(t_lexer_data *lexer_node,
 	t_parser_data *parser_node)
 {
-	while (lexer_node->lexer_type == redir_notation)
+	while (lexer_node && lexer_node->lexer_type == redir_notation)
 		lexer_node = ft_add_redir_node(lexer_node, parser_node);
 	return (lexer_node);
 }
 
-void	destroy_redir_lst(t_parser_data *parser_node)
+void	destroy_redir_lst(t_parser_data *parser_data)
 {
 	t_redir_data	*redir_node;
 

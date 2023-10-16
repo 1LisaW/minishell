@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/15 20:27:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/16 18:31:13 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -55,7 +56,7 @@ typedef struct s_redir_data
 	int					std_fd;
 	int					flags;
 	char				*text;
-	struct s_redir_node	*next;
+	struct s_redir_data	*next;
 }		t_redir_data;
 
 
@@ -107,19 +108,25 @@ void			dismiss_signal(int signum);
 
 void			config_signals(void);
 
-void			ft_init_env(char **envp, t_data *data);
+void			ft_init_env(char **envp, t_env **envv);
 
-void			add_env(char *var, char *value, t_data *data);
+void			add_env(char *var, char *value, t_env **envv);
 
-char			*get_env(char *text, t_data *data);
+char			*get_env(char *text, t_env *envv);
 
-void			set_env(char *var, char *value, t_data *data);
+void			set_env(char *var, char *value, t_env **envv);
 
-void			unset_var(char *var, t_data *data);
+void			unset_var(char *var, t_env **envv);
 
-char			*get_path(char *text, t_data *data);
+char			*get_path(char *text, t_env *envv);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
+
+t_lexer_data	*collect_redir(t_lexer_data *lexer_node,
+					t_parser_data *parser_node);
+
+t_parser_data	*create_parser_node(t_lexer_data *lexer_node,
+					t_parser_data *parent);
 
 void			build_tree(t_data *data, char **oper_arr);
 
