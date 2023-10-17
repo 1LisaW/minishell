@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:30:06 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/16 18:32:34 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:18:10 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ void	add_env(char *var, char *value, t_env **envv)
 	tmp->var = ft_strdup(var);
 	tmp->value = ft_strdup(value);
 	tmp->next = (*envv);
-	(*envv) = tmp;
+	*envv = tmp;
 }

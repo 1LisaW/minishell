@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/16 18:56:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:20:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,11 @@ char	*get_path(char *text, t_env *envv)
 	path = NULL;
 	path = get_env("PATH", envv);
 	paths = ft_split(path, ':');
-	free(path);
+	if (path && *path)
+		free(path);
 	path = NULL;
-	while (access(ft_strjoin(paths[i], ft_strjoin("/", text)), F_OK) == -1
-		&& paths[i])
+	while (paths[i]
+		&& access(ft_strjoin(paths[i], ft_strjoin("/", text)), F_OK) == -1)
 		i++;
 	if (paths[i])
 		path = ft_strjoin(paths[i], ft_strjoin("/", text));
@@ -40,7 +41,7 @@ void	ft_init_env(char **envp, t_env **envv)
 	char	*tmp_var;
 
 	i = 0;
-	while (envp[i])
+	while (envp && envp[i])
 	{
 		tmp_value = ft_strchr(envp[i], 61);
 		tmp_var = ft_substr(envp[i], 0, tmp_value - envp[i]);
