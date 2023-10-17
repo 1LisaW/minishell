@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/12 11:31:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/17 03:04:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,10 @@ int	run_buildin(t_parser_data *parser_node, int opt)
 	return (0);
 }
 
-int	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
+void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
 {
 	if (dup2(*prev_fd, STDIN_FILENO) == -1)
-		return (3);
+		return ;
 	close(*prev_fd);
 	if (!(parser_node->flags & IS_WAIT))
 	{
@@ -35,13 +35,14 @@ int	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
 		close(fd[1]);
 	}
 	if (run_buildin(parser_node, 0x2))
-		return (0);
+		return ;
 	execve(parser_node->text, parser_node->cmd_line, NULL);
-	write(1, "\n has error \n", 10);
-	return (4);
+	execve("/usr/lib/command-not-found", parser_node->cmd_line, NULL);
+	//write(1, "\n has error \n", 10);
+	// exit(EXIT_FAILURE);
 }
 
-int	create_process(int *prev_fd, t_parser_data *parser_node)
+int	create_process(int *prev_fd, t_parser_data *parser_node, int *status)
 {
 	int	fd[2];
 	int	child_id;
@@ -62,20 +63,29 @@ int	create_process(int *prev_fd, t_parser_data *parser_node)
 		*prev_fd = fd[0];
 	}
 	else
+	{
+		waitpid(child_id, status, 0);
+		if (WIFEXITED(*status))
+			printf("\n WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text, WEXITSTATUS(*status), *status);
 		close(*prev_fd);
+	}
 	return (0);
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node)
 {
+	int	status;
+
 	if (parser_node->lexer_type == operator)
 		return ;
 	if (parser_node->lexer_type == word)
-		create_process(prev_fd, parser_node);
+		create_process(prev_fd, parser_node, &status);
 	if (parser_node->flags & IS_WAIT)
 	{
 		printf("\n Waiting for execution: %s\n", parser_node->text);
 		while (wait(NULL) != -1)
 			;
+		// if (WIFEXITED(status))
+			// printf("\n STATUS of %s is: %d\n", parser_node->text, WEXITSTATUS(status));
 	}
 }

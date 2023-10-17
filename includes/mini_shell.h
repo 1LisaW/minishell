@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/16 22:49:47 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 typedef enum e_lexer_type {
 	word,
