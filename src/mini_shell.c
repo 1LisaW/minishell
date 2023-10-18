@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 14:33:23 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/17 14:56:52 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-void	print_env(t_data *envp)
+void	print_env(t_env *envv)
 {
 	t_env	*tmp;
 
-	tmp = envp->env_vars;
+	tmp = envv;
 	while (tmp)
 	{
 		ft_putstr_fd(tmp->var, 1);
@@ -26,7 +26,7 @@ void	print_env(t_data *envp)
 	}
 }
 
-void	minishell(t_data *envp)
+void	minishell(t_env *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
@@ -38,6 +38,7 @@ void	minishell(t_data *envp)
 	args_echo[1] = "-n";
 	args_echo[2] = "hello";
 	init_data(data);
+	data->env_vars = envp;
 	while (1)
 	{
 		config_signals();
@@ -53,7 +54,6 @@ void	minishell(t_data *envp)
 		{
 			if (cmd_buff)
 				free(cmd_buff);
-			// destroy_data(data);
 			rl_clear_history();
 			break ;
 		}
@@ -74,11 +74,11 @@ void	minishell(t_data *envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	*envv;
+	t_env	*envv;
 
 	(void)argv;
-	envv = (t_data *)malloc(sizeof(t_data));
-	ft_init_env(envp, envv);
+	envv = NULL;
+	ft_init_env(envp, &envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	minishell(envv);

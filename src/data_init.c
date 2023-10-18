@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:23:52 by root              #+#    #+#             */
-/*   Updated: 2023/10/09 12:31:25 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/15 20:28:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	destroy_parser_data(t_parser_data *parser_data)
 	}
 	if (parser_data->cmd_line)
 		free(parser_data->cmd_line);
+	destroy_redir_lst(parser_data);
 	parser_data->cmd_line = NULL;
 	parser_data->parent = NULL;
 	if (parser_data)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:29:14 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/04 00:31:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/16 13:39:02 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,10 @@ char	*catch_syntax_error(t_lexer_data *lexer_data)
 	curr_lex_data = lexer_data;
 	while (curr_lex_data->next)
 	{
-		if (curr_lex_data->lexer_type == operator
-			&& curr_lex_data->next->lexer_type == operator)
+		if ((curr_lex_data->lexer_type == operator
+				&& curr_lex_data->next->lexer_type == operator)
+			|| (curr_lex_data->lexer_type == redir_notation
+				&& curr_lex_data->next->lexer_type != word))
 			return (lexer_data->next->text);
 		curr_lex_data = curr_lex_data->next;
 	}

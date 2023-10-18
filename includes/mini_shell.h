@@ -28,6 +28,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <fcntl.h>
 # include <errno.h>
 
 typedef enum e_lexer_type {
@@ -52,14 +53,22 @@ typedef struct s_lexer_data
 	struct s_lexer_data	*next;
 }		t_lexer_data;
 
+typedef struct s_redir_data
+{
+	int					std_fd;
+	int					flags;
+	char				*text;
+	struct s_redir_data	*next;
+}		t_redir_data;
+
+
 typedef struct s_parser_data
 {
 	char					*text;
 	t_lexer_type			lexer_type;
 	char					**cmd_line;
 	int						flags;
-	char					*red_stdin;
-	char					*red_stdout;
+	t_redir_data			*redir_data;
 	struct s_parser_data	*parent;
 	struct s_parser_data	*left;
 	struct s_parser_data	*right;
@@ -83,6 +92,8 @@ typedef struct data
 
 void			init_data(t_data *data);
 
+void			destroy_redir_lst(t_parser_data *parser_node);
+
 void			destroy_data(t_data *data);
 
 void			lexer(t_data *data, char *cmd_buff);
@@ -99,17 +110,17 @@ void			dismiss_signal(int signum);
 
 void			config_signals(void);
 
-void			ft_init_env(char **envp, t_data *data);
+void			ft_init_env(char **envp, t_env **envv);
 
-void			add_env(char *var, char *value, t_data *data);
+void			add_env(char *var, char *value, t_env **envv);
 
-char			*get_env(char *text, t_data *data);
+char			*get_env(char *text, t_env *envv);
 
-void			set_env(char *var, char *value, t_data *data);
+void			set_env(char *var, char *value, t_env **envv);
 
-void			unset_var(char *var, t_data *data);
+void			unset_var(char *var, t_env **envv);
 
-char			*get_path(char *text, t_data *data);
+char			*get_path(char *text, t_env *envv);
 
 //builtins
 int				pwd(void);
@@ -117,6 +128,12 @@ int				cd(char **args, t_data *env);
 int				echo(char **args);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
+
+t_lexer_data	*collect_redir(t_lexer_data *lexer_node,
+					t_parser_data *parser_node);
+
+t_parser_data	*create_parser_node(t_lexer_data *lexer_node,
+					t_parser_data *parent);
 
 void			build_tree(t_data *data, char **oper_arr);
 
