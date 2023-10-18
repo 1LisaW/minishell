@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:38:23 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/16 15:30:54 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/17 12:36:24 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
