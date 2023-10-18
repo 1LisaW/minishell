@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:16:24 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@
 # include <stdlib.h>
 # include <dirent.h>
 # include <sys/wait.h>
+# include <errno.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -77,7 +78,7 @@ typedef struct data
 	t_parser_data	*parser_data;
 	t_env			*env_vars;
 	t_env			*env_del;
-	int				pipes_amount;
+	int				status_code;
 }			t_data;
 
 void			init_data(t_data *data);
@@ -121,7 +122,7 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node);
+void			execute_process(int *prev_fd, t_parser_data *parser_node, int *status);
 
 void			executor(t_data *data);
 
