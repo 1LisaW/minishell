@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 14:25:03 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:12:46 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ typedef struct s_exec_data
 	int		status_code;
 	int		stdin_dup;
 	int		stdout_dup;
+	int		was_stdinredir;
+	int		was_stdoutredir;
 	char	*here_doc;
 	int		go_on;
 }			t_exec_data;
@@ -148,6 +150,10 @@ t_parser_data	*create_parser_node(t_lexer_data *lexer_node,
 void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
+
+void			make_redirections(t_parser_data *parser_node, t_exec_data *exec_data);
+
+void			clear_savedstd(t_exec_data *exec_data);
 
 void			execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data);
 

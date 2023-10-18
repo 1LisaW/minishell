@@ -6,24 +6,33 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 14:42:06 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:31:48 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	run_buildin(t_parser_data *parser_node, int opt)
+int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt)
 {
+	int	status_code;
+
 	if ((parser_node->flags & IS_PIPE) == opt
 		&& !ft_strcmp(parser_node->text, "/bin/pwd"))
 	{
+		//if redir -> run dup for redirs
+		//if !status code run
 		printf("We should run buildin command!!! flags:%d\n", parser_node->flags);
+		// replace 0 on result of exec buildin command
+		status_code = 0;
+		if (parser_node->flags & IS_WAIT)
+			exec_data->status_code = status_code;
+		//it redir clode all fd and redup original stds
 		return (1);
 	}
 	return (0);
 }
 
-void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
+void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node, t_exec_data *exec_data)
 {
 	if (dup2(*prev_fd, STDIN_FILENO) == -1)
 		return ;
@@ -34,7 +43,10 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	if (run_buildin(parser_node, 0x2))
+	make_redirections(parser_node, exec_data);
+	if (exec_data->status_code)
+		exit(1);
+	if (run_buildin(exec_data, parser_node, 0x2))
 		return ;
 	execve(parser_node->text, parser_node->cmd_line, NULL);
 	execve("/usr/lib/command-not-found", parser_node->cmd_line, NULL);
@@ -47,7 +59,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_d
 	int	fd[2];
 	int	child_id;
 
-	if (run_buildin(parser_node, 0x0))
+	if (run_buildin(exec_data ,parser_node, 0x0))
 		return (0);
 	if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
 		return (1);
@@ -55,7 +67,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_d
 	if (child_id == -1)
 		return (2);
 	if (child_id == 0)
-		child_process(prev_fd, fd, parser_node);
+		child_process(prev_fd, fd, parser_node, exec_data);
 	close(*prev_fd);
 	if (!(parser_node->flags & IS_WAIT))
 	{
@@ -92,6 +104,7 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec
 		printf("\n Waiting for execution: %s\n", parser_node->text);
 		while (wait(NULL) != -1)
 			;
+		clear_savedstd(exec_data);
 		// if (WIFEXITED(status))
 			// printf("\n STATUS of %s is: %d\n", parser_node->text, WEXITSTATUS(status));
 	}

@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 14:44:20 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 18:13:46 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,10 @@ void	executor(t_data *data)
 	t_exec_data	exec_data[1];
 
 	exec_data->status_code = 0;
-	exec_data->stdin_dup = -1;
-	exec_data->stdout_dup = -1;
+	exec_data->stdin_dup = 0;
+	exec_data->stdout_dup = 0;
+	exec_data->was_stdinredir = 0;
+	exec_data->was_stdoutredir = 0;
 	exec_data->here_doc = NULL;
 	exec_data->go_on = 1;
 	prev_fd = dup(STDIN_FILENO);

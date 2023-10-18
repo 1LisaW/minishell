@@ -14,7 +14,7 @@ PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
-EXEC_FILES	= executor execute_process
+EXEC_FILES	= executor execute_process redirect
 
 HELPERS_FILES = helpers
 
