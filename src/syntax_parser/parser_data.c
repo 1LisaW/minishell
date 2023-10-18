@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_data.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/09 11:42:02 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:16:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,24 +139,10 @@ t_parser_data	*build_subtree(t_lexer_data **lexer_head,
 void	build_tree(t_data *data, char **oper_arr)
 {
 	t_lexer_data	**tail_lexer_node;
-	int				max_pipes;
 
-	data->pipes_amount = 0;
-	max_pipes = 0;
 	tail_lexer_node = &data->lexer_data;
 	while ((*tail_lexer_node)->next)
-	{
-		if ((*tail_lexer_node)->lexer_type == operator)
-		{
-			if (ft_strcmp((*tail_lexer_node)->text, "|"))
-				max_pipes = 0;
-			else
-				max_pipes++;
-			if (data->pipes_amount < max_pipes)
-				data->pipes_amount = max_pipes;
-		}
 		tail_lexer_node = &(*tail_lexer_node)->next;
-	}
 	data->parser_data = build_subtree(&data->lexer_data,
 			tail_lexer_node,
 			NULL, oper_arr);

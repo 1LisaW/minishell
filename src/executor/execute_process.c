@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/17 03:04:25 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:16:28 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,13 @@ int	create_process(int *prev_fd, t_parser_data *parser_node, int *status)
 	return (0);
 }
 
-void	execute_process(int *prev_fd, t_parser_data *parser_node)
+void	execute_process(int *prev_fd, t_parser_data *parser_node, int *status)
 {
-	int	status;
 
 	if (parser_node->lexer_type == operator)
 		return ;
 	if (parser_node->lexer_type == word)
-		create_process(prev_fd, parser_node, &status);
+		create_process(prev_fd, parser_node, status);
 	if (parser_node->flags & IS_WAIT)
 	{
 		printf("\n Waiting for execution: %s\n", parser_node->text);
