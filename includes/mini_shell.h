@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/16 18:31:13 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:16:24 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,10 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <dirent.h>
 # include <sys/wait.h>
 # include <fcntl.h>
+# include <errno.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -85,7 +87,7 @@ typedef struct data
 	t_parser_data	*parser_data;
 	t_env			*env_vars;
 	t_env			*env_del;
-	int				pipes_amount;
+	int				status_code;
 }			t_data;
 
 void			init_data(t_data *data);
@@ -120,6 +122,11 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
+//builtins
+int				pwd(void);
+int				cd(char **args, t_data *env);
+int				echo(char **args);
+
 t_lexer_data	*get_last_lexer_node(t_data *data);
 
 t_lexer_data	*collect_redir(t_lexer_data *lexer_node,
@@ -132,7 +139,7 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node);
+void			execute_process(int *prev_fd, t_parser_data *parser_node, int *status);
 
 void			executor(t_data *data);
 
