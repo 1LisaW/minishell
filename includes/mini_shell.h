@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:35:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:13:30 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_redir_data
 	int					std_fd;
 	int					flags;
 	char				*text;
+	int					is_here_doc;
 	struct s_redir_data	*next;
 }		t_redir_data;
 
