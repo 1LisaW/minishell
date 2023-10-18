@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:16:24 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:35:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,7 @@ char			*get_path(char *text, t_env *envv);
 
 //builtins
 int				pwd(void);
-int				cd(char **args, t_data *env);
+int				cd(char **args, t_env *env);
 int				echo(char **args);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);

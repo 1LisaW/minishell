@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_parser_tree.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 13:26:17 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/17 12:27:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 15:26:54 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	build_tree(t_data *data, char **oper_arr)
 {
 	t_lexer_data	**tail_lexer_node;
 
-	data->pipes_amount = 0;
 	tail_lexer_node = &data->lexer_data;
 	while ((*tail_lexer_node)->next)
 		tail_lexer_node = &(*tail_lexer_node)->next;
