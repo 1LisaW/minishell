@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 17:25:02 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 12:38:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	open_stream(int *fd, t_redir_data *redir_data,
 		return ;
 	}
 	if (!redir_data->std_fd)
-		fd[0] = open(redir_data->text, F_OK | O_RDONLY);
+	{
+		fd[0] = open(redir_data->text, redir_data->flags);
+		*here_doc = NULL;
+	}
 	else
 		fd[1] = open(redir_data->text, redir_data->flags, 0755);
 	if (fd[redir_data->std_fd] < 0)
@@ -32,7 +35,7 @@ void	open_stream(int *fd, t_redir_data *redir_data,
 	close(fd[redir_data->std_fd]);
 }
 
-void	make_redirections(t_parser_data *parser_node, int *status)
+int	make_redirections(t_parser_data *parser_node, int *status)
 {
 	int				fd[2];
 	char			*here_doc;
@@ -46,6 +49,10 @@ void	make_redirections(t_parser_data *parser_node, int *status)
 	{
 		open_stream(fd, redir_data, status, &here_doc);
 		redir_data = redir_data->next;
+	}
+	if (!fd[0] && here_doc)
+	{
+		while ()
 	}
 }
 

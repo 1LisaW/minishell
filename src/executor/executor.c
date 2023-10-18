@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:16:27 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:44:20 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 	return (1);
 }
 
-void	morris_traversal(t_parser_data *parser_data, int *prev_fd, int *status)
+void	morris_traversal(t_parser_data *parser_data, int *prev_fd, t_exec_data *exec_data)
 {
 	t_parser_data	*curr_node;
 	t_parser_data	*prev_node;
 
 	curr_node = parser_data;
-	while (curr_node)
+	while (curr_node && exec_data->go_on)
 	{
 		if (!curr_node->left)
 		{
 			printf("%s   ", curr_node->text);
-			execute_process(prev_fd, curr_node, status);
+			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
 		else if (get_next_node(&curr_node, &prev_node))
 		{
 			prev_node->right = NULL;
 			printf("%s   ", curr_node->text);
-			execute_process(prev_fd, curr_node, status);
+			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
 	}
@@ -52,8 +52,14 @@ void	morris_traversal(t_parser_data *parser_data, int *prev_fd, int *status)
 
 void	executor(t_data *data)
 {
-	int	prev_fd;
+	int			prev_fd;
+	t_exec_data	exec_data[1];
 
+	exec_data->status_code = 0;
+	exec_data->stdin_dup = -1;
+	exec_data->stdout_dup = -1;
+	exec_data->here_doc = NULL;
+	exec_data->go_on = 1;
 	prev_fd = dup(STDIN_FILENO);
-	morris_traversal(data->parser_data, &prev_fd, &data->status_code);
+	morris_traversal(data->parser_data, &prev_fd, exec_data);
 }

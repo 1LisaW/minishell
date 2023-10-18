@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:16:28 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:42:06 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node)
 	// exit(EXIT_FAILURE);
 }
 
-int	create_process(int *prev_fd, t_parser_data *parser_node, int *status)
+int	create_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data)
 {
 	int	fd[2];
 	int	child_id;
@@ -64,21 +64,29 @@ int	create_process(int *prev_fd, t_parser_data *parser_node, int *status)
 	}
 	else
 	{
-		waitpid(child_id, status, 0);
-		if (WIFEXITED(*status))
-			printf("\n WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text, WEXITSTATUS(*status), *status);
+		waitpid(child_id, &exec_data->status_code, 0);
+		if (WIFEXITED(exec_data->status_code))
+			printf("\n WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text, WEXITSTATUS(exec_data->status_code), exec_data->status_code);
 		close(*prev_fd);
 	}
 	return (0);
 }
 
-void	execute_process(int *prev_fd, t_parser_data *parser_node, int *status)
+void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data)
+{
+	if (!ft_strcmp(parser_node->text, "&&") && exec_data->status_code)
+		exec_data->go_on = 0;
+	if (!ft_strcmp(parser_node->text, "||") && !exec_data->status_code)
+		exec_data->go_on = 0;
+}
+
+void	execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data)
 {
 
 	if (parser_node->lexer_type == operator)
-		return ;
+		return check_prolong(parser_node, exec_data);
 	if (parser_node->lexer_type == word)
-		create_process(prev_fd, parser_node, status);
+		create_process(prev_fd, parser_node, exec_data);
 	if (parser_node->flags & IS_WAIT)
 	{
 		printf("\n Waiting for execution: %s\n", parser_node->text);

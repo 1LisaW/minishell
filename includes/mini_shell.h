@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 17:13:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 14:25:03 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
-typedef struct data
+typedef struct s_data
 {
 	t_lexer_data	*lexer_data;
 	t_parser_data	*parser_data;
@@ -90,6 +90,15 @@ typedef struct data
 	t_env			*env_del;
 	int				status_code;
 }			t_data;
+
+typedef struct s_exec_data
+{
+	int		status_code;
+	int		stdin_dup;
+	int		stdout_dup;
+	char	*here_doc;
+	int		go_on;
+}			t_exec_data;
 
 void			init_data(t_data *data);
 
@@ -140,7 +149,7 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node, int *status);
+void			execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data);
 
 void			executor(t_data *data);
 
