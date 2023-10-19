@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 11:00:51 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:51:04 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ void	minishell(t_data *envp)
 			rl_clear_history();
 			break ;
 		}
+		//testing builtin commands TO REMOVE
 		if (!ft_strcmp(cmd_buff, "env"))
 			print_env(envp);
 		if (!ft_strcmp(cmd_buff, "pwd"))
@@ -65,6 +66,7 @@ void	minishell(t_data *envp)
 			cd(args, envp);
 		if (!ft_strcmp(cmd_buff, "echo"))
 			echo(args_echo);
+		//end testing builtin commands
 		lexer(data, cmd_buff);
 		free(cmd_buff);
 	}
@@ -79,6 +81,11 @@ int	main(int argc, char **argv, char **envp)
 	ft_init_env(envp, envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
+	//testing modify_cmd TO REMOVE
+	char test_string[] = "e'c$AR\"\"G'";
+	modify_cmd(test_string, envv);
+	printf("%s\n", test_string);
+	//end testing modify_cmd
 	minishell(envv);
 	return (0);
 }

@@ -14,7 +14,7 @@ PARSER_FILES	=	sintax_parser
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
-HELPERS_FILES = helpers
+HELPERS_FILES = helpers modify_cmd
 
 BUILTINS_FILES = pwd cd echo
 

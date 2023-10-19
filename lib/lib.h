@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/10/11 10:48:50 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:45:56 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,5 +58,9 @@ int		ft_print_formats(va_list args, const char format);
 int		ft_print_char(char c);
 
 int		ft_strncmp(const char *str1, const char *str2, int n);
+
+int		ft_strlcpy(char *dst, char *src, int size);
+
+int		ft_isalpha(int c);
 
 #endif

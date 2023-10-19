@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/11 10:53:30 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/19 11:48:37 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <dirent.h>
+# include <stdbool.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -73,6 +74,13 @@ typedef struct data
 	t_env			*env_del;
 }			t_data;
 
+typedef struct s_ptrs 
+{
+	char	*temp;
+	char	*r_ptr;
+	char	*w_ptr;
+}				t_ptrs;
+
 void			init_data(t_data *data);
 
 void			destroy_data(t_data *data);
@@ -104,6 +112,8 @@ void			set_env(char *var, char *value, t_data *data);
 void			unset_var(char *var, t_data *data);
 
 char			*get_path(char *text, t_data *data);
+
+void			modify_cmd(char *str, t_data *data);
 
 //builtins
 int				pwd(void);
