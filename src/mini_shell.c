@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/17 14:56:52 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:44:36 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	minishell(t_env *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
-	char **args = malloc(sizeof(char **)*100000000);
-	char **args_echo = malloc(sizeof(char **)*100000000);
+	char	**args = malloc(sizeof(char **) * 100000000);
+	char	**args_echo = malloc(sizeof(char **) * 100000000);
 
 	args[1] = "/nfs/homes/plandolf/curriculum/";
 	args_echo[0] = "echo";

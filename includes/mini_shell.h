@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 18:12:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:52:46 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ typedef struct s_redir_data
 	int					is_here_doc;
 	struct s_redir_data	*next;
 }		t_redir_data;
-
 
 typedef struct s_parser_data
 {
@@ -151,11 +150,13 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			make_redirections(t_parser_data *parser_node, t_exec_data *exec_data);
+void			make_redirections(t_parser_data *parser_node,
+					t_exec_data *exec_data);
 
 void			clear_savedstd(t_exec_data *exec_data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data);
+void			execute_process(int *prev_fd, t_parser_data *parser_node,
+					t_exec_data *exec_data);
 
 void			executor(t_data *data);
 

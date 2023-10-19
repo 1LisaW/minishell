@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 18:31:48 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:48:54 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt)
 	{
 		//if redir -> run dup for redirs
 		//if !status code run
-		printf("We should run buildin command!!! flags:%d\n", parser_node->flags);
+		printf("We should run buildin command!!! flags:%d\n",
+			parser_node->flags);
 		// replace 0 on result of exec buildin command
 		status_code = 0;
 		if (parser_node->flags & IS_WAIT)
@@ -32,7 +33,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt)
 	return (0);
 }
 
-void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node, t_exec_data *exec_data)
+void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
+			t_exec_data *exec_data)
 {
 	if (dup2(*prev_fd, STDIN_FILENO) == -1)
 		return ;
@@ -54,12 +56,13 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node, t_exec_dat
 	// exit(EXIT_FAILURE);
 }
 
-int	create_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data)
+int	create_process(int *prev_fd, t_parser_data *parser_node,
+		t_exec_data *exec_data)
 {
 	int	fd[2];
 	int	child_id;
 
-	if (run_buildin(exec_data ,parser_node, 0x0))
+	if (run_buildin(exec_data, parser_node, 0x0))
 		return (0);
 	if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
 		return (1);
@@ -92,7 +95,8 @@ void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data)
 		exec_data->go_on = 0;
 }
 
-void	execute_process(int *prev_fd, t_parser_data *parser_node, t_exec_data *exec_data)
+void	execute_process(int *prev_fd, t_parser_data *parser_node,
+			t_exec_data *exec_data)
 {
 
 	if (parser_node->lexer_type == operator)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 18:13:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:45:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 	return (1);
 }
 
-void	morris_traversal(t_parser_data *parser_data, int *prev_fd, t_exec_data *exec_data)
+void	morris_traversal(t_parser_data *parser_data, int *prev_fd,
+			t_exec_data *exec_data)
 {
 	t_parser_data	*curr_node;
 	t_parser_data	*prev_node;

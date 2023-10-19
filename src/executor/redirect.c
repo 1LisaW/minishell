@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 18:29:19 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 15:45:39 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	save_std(t_exec_data *exec_data)
 void	clear_savedstd(t_exec_data *exec_data)
 {
 	if (!exec_data->was_stdinredir && !exec_data->was_stdoutredir)
-		return;
+		return ;
 	if (exec_data->was_stdinredir)
 	{
 		dup2(STDIN_FILENO, exec_data->stdin_dup);
@@ -69,13 +69,11 @@ void	open_stream(int *fd, t_redir_data *redir_data,
 	{
 		clear_savedstd(exec_data);
 		exec_data->status_code = 1;
+		return ;
 	}
-	else
-	{
-		save_std(exec_data);
-		dup2(fd[redir_data->std_fd], redir_data->std_fd);
-		close(fd[redir_data->std_fd]);
-	}
+	save_std(exec_data);
+	dup2(fd[redir_data->std_fd], redir_data->std_fd);
+	close(fd[redir_data->std_fd]);
 }
 
 void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data)
@@ -97,4 +95,3 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data)
 		redir_data = redir_data->next;
 	}
 }
-
