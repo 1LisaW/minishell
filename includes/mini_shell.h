@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/23 17:48:04 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:33:03 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,9 +154,7 @@ void			syntax_parser(t_data *data);
 
 void			init_exec_data(t_exec_data *exec_data);
 
-void			reset_std(t_exec_data *exec_data);
-
-void			restart_std(t_exec_data *exec_data, int fd);
+void			reset_std(t_exec_data *exec_data, int fd);
 
 void			make_redirections(t_parser_data *parser_node,
 					t_exec_data *exec_data, int *prev_fd);

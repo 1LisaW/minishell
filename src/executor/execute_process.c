@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/23 17:48:35 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/23 00:20:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 		close(fd[1]);
 	}
 	else if (!exec_data->was_stdoutredir)
-		restart_std(exec_data, 1);
+		reset_std(exec_data, 1);
 	if (exec_data->was_stdoutredir)
 	{
 		dup2(exec_data->fd_out, STDOUT_FILENO);
@@ -99,6 +99,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		if (WIFEXITED(exec_data->status_code))
 			printf("\n WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text, WEXITSTATUS(exec_data->status_code), exec_data->status_code);
 		close(*prev_fd);
+		*prev_fd = dup(exec_data->stdin_dup);
 	}
 	return (0);
 }

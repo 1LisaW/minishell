@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/23 18:05:51 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/22 21:33:39 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ void	open_write_stream(t_redir_data *redir_data,
 			close(exec_data->fd_out);
 		exec_data->was_stdoutredir = 1;
 		exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
+		if (exec_data->fd_out < 0)
+			exec_data->status_code = 1;
 }
 
 void	open_stream(t_redir_data *redir_data,
@@ -77,6 +79,8 @@ void	open_stream(t_redir_data *redir_data,
 	}
 	if (!redir_data->std_fd && *prev_fd < 0)
 	{
+		if (exec_data->was_stdoutredir)
+			close(exec_data->fd_out);
 		exec_data->status_code = 1;
 	}
 	// else if (!redir_data->std_fd)
@@ -87,8 +91,8 @@ void update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 {
 	if (!(parser_node->flags & IS_PIPE))
 	{
-		restart_std(exec_data, 0);
-		restart_std(exec_data, 1);
+		reset_std(exec_data, 0);
+		reset_std(exec_data, 1);
 	}
 	else
 		exec_data->status_code = 0;
