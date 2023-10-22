@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/19 15:45:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:29:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	morris_traversal(t_parser_data *parser_data, int *prev_fd,
 	{
 		if (!curr_node->left)
 		{
-			printf("%s   ", curr_node->text);
+			// printf("%s   ", curr_node->text);
 			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
 		else if (get_next_node(&curr_node, &prev_node))
 		{
 			prev_node->right = NULL;
-			printf("%s   ", curr_node->text);
+			// printf("%s   ", curr_node->text);
 			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
@@ -56,13 +56,9 @@ void	executor(t_data *data)
 	int			prev_fd;
 	t_exec_data	exec_data[1];
 
-	exec_data->status_code = 0;
-	exec_data->stdin_dup = 0;
-	exec_data->stdout_dup = 0;
-	exec_data->was_stdinredir = 0;
-	exec_data->was_stdoutredir = 0;
-	exec_data->here_doc = NULL;
-	exec_data->go_on = 1;
-	prev_fd = dup(STDIN_FILENO);
+	init_exec_data(exec_data);
+	prev_fd = STDIN_FILENO;
 	morris_traversal(data->parser_data, &prev_fd, exec_data);
+	reset_std(exec_data);
+
 }

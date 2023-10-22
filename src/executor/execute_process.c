@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/19 15:48:54 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/22 18:25:08 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
-	make_redirections(parser_node, exec_data);
+	// make_redirections(parser_node, exec_data);
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2))
@@ -62,6 +62,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 	int	fd[2];
 	int	child_id;
 
+	make_redirections(parser_node, exec_data, prev_fd,);
 	if (run_buildin(exec_data, parser_node, 0x0))
 		return (0);
 	if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
