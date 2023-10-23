@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/22 18:25:08 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:48:35 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt)
 {
 	int	status_code;
 
+	if (!opt && exec_data->was_stdoutredir)
+	{
+		dup2(exec_data->fd_out, STDOUT_FILENO);
+		if (!exec_data->status_code)
+			close(exec_data->fd_out);
+	}
 	if ((parser_node->flags & IS_PIPE) == opt
 		&& !ft_strcmp(parser_node->text, "/bin/pwd"))
 	{
@@ -45,13 +51,22 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 		dup2(fd[1], STDOUT_FILENO);
 		close(fd[1]);
 	}
+	else if (!exec_data->was_stdoutredir)
+		restart_std(exec_data, 1);
+	if (exec_data->was_stdoutredir)
+	{
+		dup2(exec_data->fd_out, STDOUT_FILENO);
+		if (!exec_data->status_code)
+			close(exec_data->fd_out);
+	}
 	// make_redirections(parser_node, exec_data);
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2))
 		return ;
 	execve(parser_node->text, parser_node->cmd_line, NULL);
-	execve("/usr/lib/command-not-found", parser_node->cmd_line, NULL);
+	exit (127);
+	//execve("/usr/lib/command-not-found", parser_node->cmd_line, NULL);
 	//write(1, "\n has error \n", 10);
 	// exit(EXIT_FAILURE);
 }
@@ -62,7 +77,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 	int	fd[2];
 	int	child_id;
 
-	make_redirections(parser_node, exec_data, prev_fd,);
+	make_redirections(parser_node, exec_data, prev_fd);
 	if (run_buildin(exec_data, parser_node, 0x0))
 		return (0);
 	if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
@@ -109,7 +124,7 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		printf("\n Waiting for execution: %s\n", parser_node->text);
 		while (wait(NULL) != -1)
 			;
-		clear_savedstd(exec_data);
+		// clear_savedstd(exec_data);
 		// if (WIFEXITED(status))
 			// printf("\n STATUS of %s is: %d\n", parser_node->text, WEXITSTATUS(status));
 	}

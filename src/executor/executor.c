@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/22 16:29:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/23 15:47:58 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ void	executor(t_data *data)
 	t_exec_data	exec_data[1];
 
 	init_exec_data(exec_data);
-	prev_fd = STDIN_FILENO;
+	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data->parser_data, &prev_fd, exec_data);
 	reset_std(exec_data);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/22 18:02:22 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/23 17:48:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ typedef struct s_exec_data
 	int		was_stdoutredir;
 	char	*here_doc;
 	int		go_on;
-	int		fd_in;
+	// int		fd_in;
 	int		fd_out;
 }			t_exec_data;
 
@@ -156,8 +156,10 @@ void			init_exec_data(t_exec_data *exec_data);
 
 void			reset_std(t_exec_data *exec_data);
 
+void			restart_std(t_exec_data *exec_data, int fd);
+
 void			make_redirections(t_parser_data *parser_node,
-					t_exec_data *exec_data, int *prev_fd, int *fd);
+					t_exec_data *exec_data, int *prev_fd);
 
 void			clear_savedstd(t_exec_data *exec_data);
 
