@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/19 11:48:37 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:23:12 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,5 +119,15 @@ void			modify_cmd(char *str, t_data *data);
 int				pwd(void);
 int				cd(char **args, t_data *env);
 int				echo(char **args);
+
+//modif_cmd
+void process_char(t_ptrs *ptrs, bool *in_single_quotes, t_data *data);
+void	modify_cmd(char *str, t_data *data);
+char	*copy_variable_name(char **r_ptr, char *variable_name);
+void	write_replacement_or_variable(char **w_ptr, char *variable_name,
+	t_data *data);
+char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_data *data);
+void handle_quotes(char **r_ptr, char **w_ptr, bool *in_single_quotes);
+void	init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes);
 
 #endif

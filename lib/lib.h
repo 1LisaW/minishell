@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/10/19 11:45:56 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/23 11:39:58 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,9 @@ int		ft_strncmp(const char *str1, const char *str2, int n);
 int		ft_strlcpy(char *dst, char *src, int size);
 
 int		ft_isalpha(int c);
+
+int		ft_isalnum(int c);
+
+int		ft_isdigit(int c);
 
 #endif
