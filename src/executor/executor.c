@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/23 00:20:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/24 15:25:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,12 @@ void	morris_traversal(t_parser_data *parser_data, int *prev_fd,
 	{
 		if (!curr_node->left)
 		{
-			// printf("%s   ", curr_node->text);
 			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
 		else if (get_next_node(&curr_node, &prev_node))
 		{
 			prev_node->right = NULL;
-			// printf("%s   ", curr_node->text);
 			execute_process(prev_fd, curr_node, exec_data);
 			curr_node = curr_node->right;
 		}
@@ -59,7 +57,6 @@ void	executor(t_data *data)
 	init_exec_data(exec_data);
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data->parser_data, &prev_fd, exec_data);
-	reset_std(exec_data, 0);
-	reset_std(exec_data, 1);
+	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }
