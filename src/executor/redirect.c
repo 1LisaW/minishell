@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/24 15:25:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/26 00:43:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	open_write_stream(t_redir_data *redir_data,
 		t_exec_data *exec_data)
 {
-	if (exec_data->status_code)
-		return;
-	if (exec_data->was_stdoutredir)
-		close(exec_data->fd_out);
-	exec_data->was_stdoutredir = 1;
-	exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
-	if (exec_data->fd_out < 0)
-		exec_data->status_code = 1;
+		if (exec_data->status_code)
+			return;
+		if (exec_data->was_stdoutredir)
+			close(exec_data->fd_out);
+		exec_data->was_stdoutredir = 1;
+		exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
+		if (exec_data->fd_out < 0)
+			exec_data->status_code = 1;
 }
 
 void	open_stream(t_redir_data *redir_data,
@@ -35,21 +35,22 @@ void	open_stream(t_redir_data *redir_data,
 	}
 	if (exec_data->status_code)
 		return ;
-	if (!redir_data->std_fd)
+	if (redir_data->std_fd == STDIN_FILENO)
 	{
-		//if (exec_data->was_stdinredir)
 		close(*prev_fd);
 		exec_data->was_stdinredir = 1;
 		*prev_fd = open(redir_data->text, redir_data->flags);
-		if (*prev_fd < 0)
-		{
-			if (exec_data->was_stdoutredir)
-				close(exec_data->fd_out);
-			exec_data->status_code = 1;
-		}
 	}
 	else
+	{
 		open_write_stream(redir_data, exec_data);
+	}
+	if ((redir_data->std_fd == STDIN_FILENO) && *prev_fd < 0)
+	{
+		if (exec_data->was_stdoutredir)
+			close(exec_data->fd_out);
+		exec_data->status_code = 1;
+	}
 }
 
 void update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
@@ -59,10 +60,12 @@ void update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 		reset_std(exec_data, 0);
 		reset_std(exec_data, 1);
 	}
-	else
+	// else
+	if (parser_node->flags & IS_PIPE)
 		exec_data->status_code = 0;
 	exec_data->was_stdinredir = 0;
 	exec_data->was_stdoutredir = 0;
+	exec_data->fd_out = STDOUT_FILENO;
 }
 
 void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
@@ -70,12 +73,12 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 {
 	t_redir_data	*redir_data;
 
+	update_exec_data(parser_node, exec_data);
 	if (!parser_node || !parser_node->redir_data)
 		return ;
 	redir_data = parser_node->redir_data;
 	while (redir_data && !exec_data->status_code)
 	{
-		update_exec_data(parser_node, exec_data);
 		open_stream(redir_data, exec_data, prev_fd);
 		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);
 		redir_data = redir_data->next;
