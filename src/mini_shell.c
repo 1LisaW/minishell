@@ -12,11 +12,11 @@
 
 #include "../includes/mini_shell.h"
 
-void	print_env(t_data *envp)
+void	print_env(t_env *envv)
 {
 	t_env	*tmp;
 
-	tmp = envp->env_vars;
+	tmp = envv;
 	while (tmp)
 	{
 		ft_putstr_fd(tmp->var, 1);
@@ -26,18 +26,19 @@ void	print_env(t_data *envp)
 	}
 }
 
-void	minishell(t_data *envp)
+void	minishell(t_env *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
-	char **args = malloc(sizeof(char **)*100000000);
-	char **args_echo = malloc(sizeof(char **)*100000000);
+	char	**args = malloc(sizeof(char **) * 100000000);
+	char	**args_echo = malloc(sizeof(char **) * 100000000);
 
 	args[1] = "/nfs/homes/plandolf/curriculum/";
 	args_echo[0] = "echo";
 	args_echo[1] = "-n";
 	args_echo[2] = "hello";
 	init_data(data);
+	data->env_vars = envp;
 	while (1)
 	{
 		config_signals();
@@ -53,7 +54,6 @@ void	minishell(t_data *envp)
 		{
 			if (cmd_buff)
 				free(cmd_buff);
-			destroy_data(data);
 			rl_clear_history();
 			break ;
 		}
@@ -85,11 +85,11 @@ static void test_modify_cmd(const char *input, const char *expected, t_data *dat
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_data	*envv;
+	t_env	*envv;
 
 	(void)argv;
-	envv = (t_data *)malloc(sizeof(t_data));
-	ft_init_env(envp, envv);
+	envv = NULL;
+	ft_init_env(envp, &envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	//testing modify_cmd TO REMOVE

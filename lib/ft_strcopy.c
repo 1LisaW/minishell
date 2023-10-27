@@ -1,36 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*   ft_strcopy.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/05 17:11:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/17 14:54:25 by tklimova         ###   ########.fr       */
+/*   Created: 2023/09/27 12:57:25 by tklimova          #+#    #+#             */
+/*   Updated: 2023/10/03 13:52:53 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-char	*ft_strdup(char *src)
+char	*ft_strcopy(char *str)
 {
+	char	*dup_str;
 	int		i;
-	int		len;
-	char	*str;
 
-	len = 0;
-	str = NULL;
-	while (src && src[len])
-		len++;
-	str = (char *)malloc(sizeof(char) * (len + 1));
 	if (!str)
 		return (NULL);
 	i = 0;
-	while (i < len)
+	dup_str = malloc((ft_strlen(str) + 1) * sizeof(char));
+	if (!dup_str)
+		return (NULL);
+	while (str[i])
 	{
-		str[i] = src[i];
+		dup_str[i] = str[i];
 		i++;
 	}
-	str[i] = '\0';
-	return (str);
+	dup_str[i] = '\0';
+	return (dup_str);
 }

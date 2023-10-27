@@ -3,21 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   env_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:30:06 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/09 13:24:55 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/17 15:18:10 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include <string.h>
 
-char	*get_env(char *text, t_data *data)
+char	*get_env(char *text, t_env *envv)
 {
 	t_env	*tmp;
 
-	tmp = data->env_vars;
+	tmp = envv;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->var, text))
@@ -27,11 +27,11 @@ char	*get_env(char *text, t_data *data)
 	return ("\0");
 }
 
-void	set_env(char *var, char *value, t_data *data)
+void	set_env(char *var, char *value, t_env **envv)
 {
 	t_env	*tmp;
 
-	tmp = data->env_vars;
+	tmp = *envv;
 	while (tmp)
 	{
 		if (!ft_strcmp(tmp->var, var))
@@ -42,15 +42,15 @@ void	set_env(char *var, char *value, t_data *data)
 		}
 		tmp = tmp->next;
 	}
-	add_env(var, value, data);
+	add_env(var, value, envv);
 }
 
-void	unset_var(char *var, t_data *data)
+void	unset_var(char *var, t_env **envv)
 {
 	t_env	*tmp;
 	t_env	*prev;
 
-	tmp = data->env_vars;
+	tmp = *envv;
 	prev = NULL;
 	while (tmp)
 	{
@@ -59,7 +59,7 @@ void	unset_var(char *var, t_data *data)
 			if (prev)
 				prev->next = tmp->next;
 			else
-				data->env_vars = tmp->next;
+				*envv = tmp->next;
 			free(tmp->var);
 			free(tmp->value);
 			free(tmp);
@@ -70,13 +70,14 @@ void	unset_var(char *var, t_data *data)
 	}
 }
 
-void	add_env(char *var, char *value, t_data *data)
+void	add_env(char *var, char *value, t_env **envv)
 {
 	t_env	*tmp;
 
+	tmp = NULL;
 	tmp = malloc(sizeof(t_env));
 	tmp->var = ft_strdup(var);
 	tmp->value = ft_strdup(value);
-	tmp->next = data->env_vars;
-	data->env_vars = tmp;
+	tmp->next = (*envv);
+	*envv = tmp;
 }

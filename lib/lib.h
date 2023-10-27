@@ -67,4 +67,6 @@ int		ft_isalnum(int c);
 
 int		ft_isdigit(int c);
 
+char	*ft_strcopy(char *str);
+
 #endif
