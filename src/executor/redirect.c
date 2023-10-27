@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/27 13:45:08 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:45:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,10 @@ void	open_write_stream(t_redir_data *redir_data,
 	exec_data->was_stdoutredir = 1;
 	exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
 	if (exec_data->fd_out < 0)
+	{
+		exec_data->err_file = redir_data->text;
 		exec_data->status_code = 1;
+	}
 }
 
 void	open_stream(t_redir_data *redir_data,
@@ -50,6 +53,7 @@ void	open_stream(t_redir_data *redir_data,
 		if (exec_data->was_stdoutredir)
 			close(exec_data->fd_out);
 		exec_data->status_code = 1;
+		exec_data->err_file = redir_data->text;
 	}
 }
 
@@ -76,10 +80,12 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 	if (!parser_node || !parser_node->redir_data)
 		return ;
 	redir_data = parser_node->redir_data;
-	while (redir_data && !exec_data->status_code)
+	while (redir_data)//&& !exec_data->status_code)
 	{
 		open_stream(redir_data, exec_data, prev_fd);
 		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);
 		redir_data = redir_data->next;
 	}
+	if (exec_data->status_code)
+		perror(exec_data->err_file);
 }

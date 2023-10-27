@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/27 13:45:50 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:42:37 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,7 @@ typedef struct s_exec_data
 	char	*here_doc;
 	int		go_on;
 	int		fd_out;
+	char	*err_file;
 }			t_exec_data;
 
 void			init_data(t_data *data);
