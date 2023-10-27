@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/26 00:43:04 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:45:08 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,14 +15,14 @@
 void	open_write_stream(t_redir_data *redir_data,
 		t_exec_data *exec_data)
 {
-		if (exec_data->status_code)
-			return;
-		if (exec_data->was_stdoutredir)
-			close(exec_data->fd_out);
-		exec_data->was_stdoutredir = 1;
-		exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
-		if (exec_data->fd_out < 0)
-			exec_data->status_code = 1;
+	if (exec_data->status_code)
+		return ;
+	if (exec_data->was_stdoutredir)
+		close(exec_data->fd_out);
+	exec_data->was_stdoutredir = 1;
+	exec_data->fd_out = open(redir_data->text, redir_data->flags, 0755);
+	if (exec_data->fd_out < 0)
+		exec_data->status_code = 1;
 }
 
 void	open_stream(t_redir_data *redir_data,
@@ -53,14 +53,13 @@ void	open_stream(t_redir_data *redir_data,
 	}
 }
 
-void update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
+void	update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 {
 	if (!(parser_node->flags & IS_PIPE))
 	{
 		reset_std(exec_data, 0);
 		reset_std(exec_data, 1);
 	}
-	// else
 	if (parser_node->flags & IS_PIPE)
 		exec_data->status_code = 0;
 	exec_data->was_stdinredir = 0;

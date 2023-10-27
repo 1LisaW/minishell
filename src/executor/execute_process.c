@@ -3,16 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/26 19:37:17 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:52:39 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt, int *prev_fd)
+int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
+		int opt, int *prev_fd)
 {
 	int	status_code;
 
@@ -33,27 +34,14 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node, int opt, int
 	if ((parser_node->flags & IS_PIPE) == opt
 		&& !ft_strcmp(parser_node->text, "/bin/pwd"))
 	{
-		//if redir -> run dup for redirs
-		//if !status code run
-		printf("We should run buildin command!!! flags:%d\n",
-			parser_node->flags);
-		// replace 0 on result of exec buildin command
+		printf("RUN builtin, flags:%d\n", parser_node->flags);
 		status_code = 0;
 		if (parser_node->flags & IS_WAIT)
 			exec_data->status_code = status_code;
-		//it redir clode all fd and redup original stds
 		return (1);
 	}
 	return (0);
 }
-
-// void	dup_std(int *prev_fd, int *fd, t_exec_data *exec_data)
-// {
-// 	if (dup2(*prev_fd, STDIN_FILENO) == -1)
-// 		return ;
-// 	if (*prev_fd != -1)
-// 		close(*prev_fd);
-// }
 
 void	handle_fd(int *prev_fd)
 {
@@ -75,15 +63,14 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	close(fd[1]);
 	if (exec_data->was_stdoutredir)
 	{
-		// reset_std(exec_data, STDOUT_FILENO);
 		dup2(exec_data->fd_out, STDOUT_FILENO);
-		if (!exec_data->status_code && exec_data->fd_out!= -1)
+		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2, prev_fd))
-		exit (0) ;
+		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, NULL);
 	exit (127);
 	//execve("/usr/lib/command-not-found", parser_node->cmd_line, NULL);
@@ -97,11 +84,9 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 	int	fd[2];
 	int	child_id;
 
-	// reset_std(exec_data, STDIN_FILENO);
 	make_redirections(parser_node, exec_data, prev_fd);
 	if (run_buildin(exec_data, parser_node, 0x0, prev_fd))
 		return (0);
-	// if (!(parser_node->flags & IS_WAIT) && pipe(fd) == -1)
 	if (pipe(fd) == -1)
 		return (1);
 	child_id = fork();
@@ -113,19 +98,11 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		close(*prev_fd);
 	close(fd[1]);
 	if (exec_data->was_stdoutredir && !exec_data->status_code)
-			close(exec_data->fd_out);
-	// if (exec_data->was_stdoutredir)
-		// {
-			// dup2(fd[0], STDOUT_FILENO);
-			// close(fd[0]);
-		// }
+		close(exec_data->fd_out);
 	if (!(parser_node->flags & IS_WAIT))
-	{
 		*prev_fd = fd[0];
-	}
 	else
 	{
-		// reset_std(exec_data, STDOUT_FILENO);
 		dup2(fd[0], STDOUT_FILENO);
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
@@ -148,16 +125,13 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 {
 
 	if (parser_node->lexer_type == operator)
-		return check_prolong(parser_node, exec_data);
+		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 		create_process(prev_fd, parser_node, exec_data);
 	if (parser_node->flags & IS_WAIT)
 	{
-		printf("\n Waiting for execution in execute_process: %s\n", parser_node->text);
+		printf("\n Waiting for execution in	execute_process:%s\n", parser_node->text);
 		while (wait(NULL) != -1)
 			;
-		// clear_savedstd(exec_data);
-		// if (WIFEXITED(status))
-			// printf("\n STATUS of %s is: %d\n", parser_node->text, WEXITSTATUS(status));
 	}
 }

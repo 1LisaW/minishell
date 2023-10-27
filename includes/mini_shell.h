@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/24 15:25:32 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 13:45:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ typedef struct s_exec_data
 	int		was_stdoutredir;
 	char	*here_doc;
 	int		go_on;
-	// int		fd_in;
 	int		fd_out;
 }			t_exec_data;
 
@@ -159,7 +158,7 @@ void			reset_std(t_exec_data *exec_data, int fd);
 void			here_doc(t_exec_data *exec_data, t_redir_data *redir_data,
 					int *prev_fd);
 
-void 			clear_exec_data(t_exec_data *exec_data, t_data *data);
+void			clear_exec_data(t_exec_data *exec_data, t_data *data);
 
 void			make_redirections(t_parser_data *parser_node,
 					t_exec_data *exec_data, int *prev_fd);
