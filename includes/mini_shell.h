@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <dirent.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -90,6 +91,13 @@ typedef struct s_data
 	int				status_code;
 }			t_data;
 
+typedef struct s_ptrs 
+{
+	char	*temp;
+	char	*r_ptr;
+	char	*w_ptr;
+}				t_ptrs;
+
 typedef struct s_exec_data
 {
 	int		status_code;
@@ -135,10 +143,22 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
+void			modify_cmd(char *str, t_data *data);
+
 //builtins
 int				pwd(void);
 int				cd(char **args, t_env *env);
 int				echo(char **args);
+
+//modif_cmd
+void process_char(t_ptrs *ptrs, bool *in_single_quotes, t_data *data);
+void	modify_cmd(char *str, t_data *data);
+char	*copy_variable_name(char **r_ptr, char *variable_name);
+void	write_replacement_or_variable(char **w_ptr, char *variable_name,
+	t_data *data);
+char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_data *data);
+void handle_quotes(char **r_ptr, char **w_ptr, bool *in_single_quotes);
+void	init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 

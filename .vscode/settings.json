@@ -4,7 +4,8 @@
 		"stdlib.h": "c",
 		"signal.h": "c",
 		"types.h": "c",
-		"libft.h": "c"
+		"libft.h": "c",
+		"lib.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }
