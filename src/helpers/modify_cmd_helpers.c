@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/24 15:25:49 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:01:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	write_replacement_or_variable(char **w_ptr, char *variable_name,
 	while (i >= 0)
 	{
 		variable_name[i] = '\0';
-		replacement = get_env(variable_name, data);
+		replacement = get_env(variable_name, data->env_vars);
 		if (replacement && *replacement)
 		{
 			while (*replacement)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/24 15:11:58 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:03:24 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	minishell(t_env *envp)
 	}
 }
 
-static void test_modify_cmd(const char *input, const char *expected, t_data *data) {
+static void test_modify_cmd(const char *input, const char *expected, t_env *data) {
     char test_string[1024];  // Large enough for our test cases
     strcpy(test_string, input);
     modify_cmd(test_string, data);

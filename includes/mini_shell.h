@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/27 16:42:37 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:03:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
-void			modify_cmd(char *str, t_data *data);
+void			modify_cmd(char *str, t_env *data);
 
 //builtins
 int				pwd(void);
@@ -152,7 +152,7 @@ int				echo(char **args);
 
 //modif_cmd
 void process_char(t_ptrs *ptrs, bool *in_single_quotes, t_data *data);
-void	modify_cmd(char *str, t_data *data);
+void	modify_cmd(char *str, t_env *data);
 char	*copy_variable_name(char **r_ptr, char *variable_name);
 void	write_replacement_or_variable(char **w_ptr, char *variable_name,
 	t_data *data);

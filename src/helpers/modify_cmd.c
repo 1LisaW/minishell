@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:42:42 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/24 15:25:14 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/27 17:03:36 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	process_char(t_ptrs *ptrs, bool *in_single_quotes, t_data *data)
 		*ptrs->w_ptr++ = *ptrs->r_ptr++;
 }
 
-void	modify_cmd(char *str, t_data *data)
+void	modify_cmd(char *str, t_env *data)
 {
 	t_ptrs	ptrs;
 	bool	in_single_quotes;
