@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/10/09 12:45:00 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:57:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,6 @@ void	lexer(t_data *data, char *cmd_buff)
 			lexer_node = add_lexer_node(data, get_word(cmd_buff, w_len));
 			tokenizer(lexer_node);
 		}
-		// printf("text: %s, type: %i\n",
-		// 	lexer_node->text, lexer_node->lexer_type);
 		cmd_buff += w_len;
 	}
 	syntax_parser(data);

@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:35:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/27 16:42:37 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ typedef struct s_redir_data
 	int					std_fd;
 	int					flags;
 	char				*text;
+	int					is_here_doc;
 	struct s_redir_data	*next;
 }		t_redir_data;
-
 
 typedef struct s_parser_data
 {
@@ -81,7 +81,7 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
-typedef struct data
+typedef struct s_data
 {
 	t_lexer_data	*lexer_data;
 	t_parser_data	*parser_data;
@@ -89,6 +89,19 @@ typedef struct data
 	t_env			*env_del;
 	int				status_code;
 }			t_data;
+
+typedef struct s_exec_data
+{
+	int		status_code;
+	int		stdin_dup;
+	int		stdout_dup;
+	int		was_stdinredir;
+	int		was_stdoutredir;
+	char	*here_doc;
+	int		go_on;
+	int		fd_out;
+	char	*err_file;
+}			t_exec_data;
 
 void			init_data(t_data *data);
 
@@ -139,7 +152,22 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node, int *status);
+void			init_exec_data(t_exec_data *exec_data);
+
+void			reset_std(t_exec_data *exec_data, int fd);
+
+void			here_doc(t_exec_data *exec_data, t_redir_data *redir_data,
+					int *prev_fd);
+
+void			clear_exec_data(t_exec_data *exec_data, t_data *data);
+
+void			make_redirections(t_parser_data *parser_node,
+					t_exec_data *exec_data, int *prev_fd);
+
+void			clear_savedstd(t_exec_data *exec_data);
+
+void			execute_process(int *prev_fd, t_parser_data *parser_node,
+					t_exec_data *exec_data);
 
 void			executor(t_data *data);
 

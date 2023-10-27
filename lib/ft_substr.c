@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/05 18:22:31 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/17 14:35:26 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/19 12:56:06 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,11 +34,7 @@ char	*ft_substr(char *s, unsigned int start, int len)
 	if (sub == NULL)
 		return (NULL);
 	while (i < len && s[start] != '\0')
-	{
-		sub[i] = s[start];
-		i++;
-		start++;
-	}
+		sub[i++] = s[start++];
 	sub[i] = '\0';
 	return (sub);
 }
