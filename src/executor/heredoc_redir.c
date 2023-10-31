@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 15:19:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:53:43 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,22 @@ void	update_is_new_line(char *buffer, int *new_l, char c)
 			buffer++;
 		if (*buffer == 10 || c == 10)
 			*new_l = 1;
+	}
+}
+
+void	read_str(char *buffer, char *delimiter, int fd, int len)
+{
+	int	pos;
+	int	rb;
+
+	pos = 0;
+	rb = 1;
+	buffer[pos] = '\0';
+	while (pos < len && rb)
+	{
+		rb = read(fd, buffer + pos, 1);
+		if (buffer[pos] != delimiter[pos])
+			pos = 0;
 	}
 }
 
