@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/19 15:45:28 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:31:45 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,20 @@ t_parser_data	*init_parser_node(t_lexer_data *lexer_node,
 	return (parser_node);
 }
 
+void	fill_cmd_line(int *cmd_i, int number_cmds, t_parser_data *parser_node,
+			t_lexer_data *curr_lexer_node)
+{
+	while (*cmd_i < number_cmds)
+	{
+		parser_node->cmd_line[*cmd_i] = ft_strcopy(curr_lexer_node->text);
+		curr_lexer_node = curr_lexer_node->next;
+		(*cmd_i)++;
+	}
+	parser_node->cmd_line[*cmd_i] = NULL;
+	if (!curr_lexer_node || ft_strcmp(curr_lexer_node->text, "|"))
+		parser_node->flags |= IS_WAIT;
+}
+
 t_lexer_data	*collect_cmd_line(t_lexer_data *lexer_node,
 	t_parser_data *parser_node)
 {
@@ -48,7 +62,6 @@ t_lexer_data	*collect_cmd_line(t_lexer_data *lexer_node,
 	curr_lexer_node = lexer_node;
 	number_cmds = 0;
 	cmd_i = 0;
-	// printf("\ncollect_cmd_line ***********\n");
 	if (!curr_lexer_node || curr_lexer_node->lexer_type != word)
 		return (NULL);
 	while (curr_lexer_node && curr_lexer_node->lexer_type == word)
@@ -57,25 +70,10 @@ t_lexer_data	*collect_cmd_line(t_lexer_data *lexer_node,
 		curr_lexer_node = curr_lexer_node->next;
 	}
 	curr_lexer_node = lexer_node;
-	// printf("\n number of cmds:%d\n", number_cmds);
 	parser_node->cmd_line = (char **)malloc((number_cmds + 1) * sizeof(char *));
 	if (!parser_node->cmd_line)
 		return (NULL);
-	while (cmd_i < number_cmds)
-	{
-		parser_node->cmd_line[cmd_i] = ft_strcopy(curr_lexer_node->text);
-		curr_lexer_node = curr_lexer_node->next;
-		// printf("\n cmd line № %d: %s\n", cmd_i, parser_node->cmd_line[cmd_i]);
-		cmd_i++;
-	}
-	parser_node->cmd_line[cmd_i] = NULL;
-	if (!curr_lexer_node || ft_strcmp(curr_lexer_node->text, "|"))
-	{
-		parser_node->flags |= IS_WAIT;
-		// printf("\n flag is changed: %d\n", parser_node->flags);
-	}
-	// else
-		// printf("\n Curr lexer node: %s\n", curr_lexer_node->text);
+	fill_cmd_line(&cmd_i, number_cmds, parser_node, curr_lexer_node);
 	return (curr_lexer_node);
 }
 

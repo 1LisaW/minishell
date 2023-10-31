@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/27 17:03:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:18:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,14 +151,21 @@ int				cd(char **args, t_env *env);
 int				echo(char **args);
 
 //modif_cmd
-void process_char(t_ptrs *ptrs, bool *in_single_quotes, t_data *data);
-void	modify_cmd(char *str, t_env *data);
-char	*copy_variable_name(char **r_ptr, char *variable_name);
-void	write_replacement_or_variable(char **w_ptr, char *variable_name,
-	t_data *data);
-char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_data *data);
-void handle_quotes(char **r_ptr, char **w_ptr, bool *in_single_quotes);
-void	init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes);
+void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);
+
+void			modify_cmd(char *str, t_env *env);
+
+char			*copy_variable_name(char **r_ptr, char *variable_name);
+
+void			write_replacement_or_variable(char **w_ptr, char *variable_name,
+					t_env *env);
+
+char			*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_env *env);
+
+void			handle_quotes(char **r_ptr, char **w_ptr,
+					bool *in_single_quotes);
+
+void			init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 
@@ -186,7 +193,7 @@ void			make_redirections(t_parser_data *parser_node,
 
 void			clear_savedstd(t_exec_data *exec_data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node,
+int				create_process(int *prev_fd, t_parser_data *parser_node,
 					t_exec_data *exec_data);
 
 void			executor(t_data *data);

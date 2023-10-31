@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/27 16:45:16 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 15:14:38 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 	if (!parser_node || !parser_node->redir_data)
 		return ;
 	redir_data = parser_node->redir_data;
-	while (redir_data)//&& !exec_data->status_code)
+	while (redir_data)
 	{
 		open_stream(redir_data, exec_data, prev_fd);
 		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);

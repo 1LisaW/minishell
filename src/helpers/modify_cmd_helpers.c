@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/27 17:01:14 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 13:43:34 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*copy_variable_name(char **r_ptr, char *variable_name)
 }
 
 void	write_replacement_or_variable(char **w_ptr, char *variable_name,
-	t_data *data)
+	t_env *data)
 {
 	char	*replacement;
 	int		i;
@@ -40,7 +40,7 @@ void	write_replacement_or_variable(char **w_ptr, char *variable_name,
 	while (i >= 0)
 	{
 		variable_name[i] = '\0';
-		replacement = get_env(variable_name, data->env_vars);
+		replacement = get_env(variable_name, data);
 		if (replacement && *replacement)
 		{
 			while (*replacement)
@@ -54,12 +54,12 @@ void	write_replacement_or_variable(char **w_ptr, char *variable_name,
 		*(*w_ptr)++ = *variable_name++;
 }
 
-char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_data *data)
+char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_env *env)
 {
 	char	variable_name[100];
 
 	copy_variable_name(&r_ptr, variable_name);
-	write_replacement_or_variable(w_ptr, variable_name, data);
+	write_replacement_or_variable(w_ptr, variable_name, env);
 	return (r_ptr);
 }
 
