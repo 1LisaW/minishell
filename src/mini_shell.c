@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 04:13:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 16:17:30 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,16 +72,16 @@ void	minishell(t_env *envp)
 	}
 }
 
-// static void test_modify_cmd(const char *input, const char *expected, t_env *data) {
-//     char test_string[1024];  // Large enough for our test cases
-//     strcpy(test_string, input);
-//     modify_cmd(test_string, data);
-//     if (strcmp(test_string, expected) != 0) {
-//         printf("Failed for input \"%s\". Expected \"%s\" but got \"%s\".\n", input, expected, test_string);
-//     } else {
-//         printf("Passed for input \"%s\".\n", input);
-//     }
-// }
+static void test_modify_cmd(const char *input, const char *expected, t_env *data) {
+    char test_string[1024];  // Large enough for our test cases
+    strcpy(test_string, input);
+    modify_cmd(test_string, data);
+    if (strcmp(test_string, expected) != 0) {
+        printf("Failed for input \"%s\". Expected \"%s\" but got \"%s\".\n", input, expected, test_string);
+    } else {
+        printf("Passed for input \"%s\".\n", input);
+    }
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -93,14 +93,14 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	//testing modify_cmd TO REMOVE
-// test_modify_cmd("echo $ARG", "echo ho", envv);
-// test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
-// test_modify_cmd("echo \"$ARG\"", "echo \"ho\"", envv);
-// test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
-// char test_string[1024];  // Large enough for our test cases
-// strcpy(test_string, "ec$ARG'a");
-// modify_cmd(test_string, envv);
-// printf("%s\n", test_string);
+test_modify_cmd("echo $ARG", "echo ho", envv);
+test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
+test_modify_cmd("echo \"$ARG\"", "echo \"ho\"", envv);
+test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
+char test_string[1024];  // Large enough for our test cases
+strcpy(test_string, "ec$ARG'a");
+modify_cmd(test_string, envv);
+printf("%s\n", test_string);
 
 //end testing modify_cmd
 	minishell(envv);

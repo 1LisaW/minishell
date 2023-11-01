@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_data.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 12:36:53 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 17:44:35 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,8 @@ t_parser_data	*init_parser_node(t_lexer_data *lexer_node,
 	return (parser_node);
 }
 
-t_lexer_data	*fill_cmd_line(int *cmd_i, int number_cmds, t_parser_data *parser_node,
-			t_lexer_data *curr_lexer_node)
+t_lexer_data	*fill_cmd_line(int *cmd_i, int number_cmds,
+			t_parser_data *parser_node, t_lexer_data *curr_lexer_node)
 {
 	while (*cmd_i < number_cmds)
 	{
@@ -64,7 +64,7 @@ t_lexer_data	*collect_cmd_line(t_lexer_data *lexer_node,
 	number_cmds = 0;
 	cmd_i = 0;
 	if (!curr_lexer_node || curr_lexer_node->lexer_type != word)
-		return (NULL);
+		return (curr_lexer_node);
 	while (curr_lexer_node && curr_lexer_node->lexer_type == word)
 	{
 		number_cmds++;
@@ -74,7 +74,8 @@ t_lexer_data	*collect_cmd_line(t_lexer_data *lexer_node,
 	parser_node->cmd_line = (char **)malloc((number_cmds + 1) * sizeof(char *));
 	if (!parser_node->cmd_line)
 		return (NULL);
-	curr_lexer_node = fill_cmd_line(&cmd_i, number_cmds, parser_node, curr_lexer_node);
+	curr_lexer_node = fill_cmd_line(&cmd_i, number_cmds,
+			parser_node, curr_lexer_node);
 	return (curr_lexer_node);
 }
 

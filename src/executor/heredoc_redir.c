@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 12:42:55 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 13:49:20 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
-
-void	update_is_new_line(char *buffer, int *new_l, char c)
-{
-	if (*new_l)
-		*new_l = 0;
-	else
-	{
-		while (*buffer && *buffer != 10)
-			buffer++;
-		if (*buffer == 10 || c == 10)
-			*new_l = 1;
-	}
-}
 
 void	update_heredoc_params(int *pos, int *is_new_line, char curr_char)
 {
@@ -34,11 +21,18 @@ void	update_heredoc_params(int *pos, int *is_new_line, char curr_char)
 		*is_new_line = 0;
 }
 
-void	read_str(char *buffer, char *delimiter, int fd_out, t_exec_data *exec_data)
+void	write_in_stdout(int fd_out, char *buffer, int *pos, int *is_new_line)
+{
+	write(fd_out, buffer, *pos + 1);
+	update_heredoc_params(pos, is_new_line, buffer[*pos]);
+}
+
+void	read_str(char *buffer, char *delimiter, int fd_out,
+			t_exec_data *exec_data)
 {
 	int	pos;
 	int	rb;
-	int is_new_line;
+	int	is_new_line;
 	int	len;
 
 	len = ft_strlen(delimiter);
@@ -49,19 +43,15 @@ void	read_str(char *buffer, char *delimiter, int fd_out, t_exec_data *exec_data)
 		buffer[pos] = '\0';
 		rb = read(exec_data->stdin_dup, buffer + pos, 1);
 		if (buffer[pos] != delimiter[pos] || buffer[pos] == 10)
-		{
-			write(fd_out, buffer, pos + 1);
-			update_heredoc_params(&pos, &is_new_line, buffer[pos]);
-		}
+			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		else
 			pos++;
 		if (pos == len && rb && is_new_line)
 		{
 			rb = read(exec_data->stdin_dup, buffer + pos, 1);
 			if (buffer[pos] == 10)
-				break;
-			write(fd_out, buffer, pos + 1);
-			update_heredoc_params(&pos, &is_new_line, buffer[pos]);
+				break ;
+			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		}
 	}
 }
@@ -70,27 +60,11 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 			int *len, int *fd)
 {
 	char	*buffer;
-	// char	eol;
-	// int		is_new_l;
 
 	buffer = malloc(sizeof(char) * (len[0] + 1));
 	if (!buffer)
 		return ;
 	read_str(buffer, redir_data->text, fd[1], exec_data);
-	// len[1] = read(exec_data->stdin_dup, buffer, len[0]);
-	// buffer[len[1]] = '\0';
-	// is_new_l = 1;
-	// while (len[1] > 0)
-	// {
-	// 	read(exec_data->stdin_dup, &eol, 1);
-	// 	if (!ft_strcmp(redir_data->text, buffer) && eol == 10 && is_new_l)
-	// 		break ;
-	// 	write(fd[1], buffer, len[1]);
-	// 	write(fd[1], &eol, 1);
-	// 	len[1] = read(exec_data->stdin_dup, buffer, len[0]);
-	// 	buffer[len[1]] = '\0';
-	// 	update_is_new_line(buffer, &is_new_l, eol);
-	// }
 	close(fd[1]);
 	free(buffer);
 }
