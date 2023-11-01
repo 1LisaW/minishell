@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_parser.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:29:14 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/16 13:39:02 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:36:43 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	syntax_parser(t_data *data)
 	char	*syntax_error;
 	char	**oper_arr;
 
-	printf("syntax parser \n");
 	if (!data->lexer_data)
 		return ;
 	syntax_error = catch_syntax_error(data->lexer_data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 15:42:33 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/31 04:10:45 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
