@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/21 12:15:25 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:42:28 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,12 @@ void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data)
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
 			t_exec_data *exec_data)
 {
-	if (parser_node->lexer_type == redir_notation)
-	{
-		parser_node->lexer_type = word;
-		parser_node->text = ft_strcopy("/bin/cat");
-	}
+	t_parser_data	*temp;
+
+	temp = parser_node;
+	printf("\n NO_DE:%s, %i\n",
+		parser_node->text, parser_node->lexer_type);
+	make_redir_without_cmd(parser_node, exec_data);
 	if (parser_node->lexer_type == operator)
 		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)

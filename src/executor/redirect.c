@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/21 11:30:52 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:40:58 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,40 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 	}
 	if (exec_data->status_code)
 		perror(exec_data->err_file);
+}
+
+void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
+{
+	t_redir_data	*redir_data;
+	int				has_stdin_red;
+
+	redir_data = parser_node->redir_data;
+	has_stdin_red = 0;
+	update_exec_data(parser_node, exec_data);
+	while (!has_stdin_red && redir_data)
+	{
+		if (redir_data && !redir_data->std_fd)
+			has_stdin_red = 1;
+		redir_data = redir_data->next;
+	}
+	if (has_stdin_red)
+	{
+		parser_node->lexer_type = word;
+		parser_node->text = ft_strcopy("/bin/cat");
+		if (parser_node->redir_data->is_here_doc && (!parser_node->parent 
+				|| !ft_strcmp(parser_node->parent->text, "|")))
+			parser_node->flags = IS_WAIT;
+		return ;
+	}
+	redir_data = parser_node->redir_data;
+	while (redir_data)
+	{
+		open_write_stream(redir_data, exec_data);
+		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);
+		redir_data = redir_data->next;
+	}
+	if (exec_data->status_code)
+		perror(exec_data->err_file);
+	else
+		close(exec_data->fd_out);
 }
