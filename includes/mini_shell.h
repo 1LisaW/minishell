@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:35:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:03:04 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,7 @@ char			*get_path(char *text, t_env *envv);
 //builtins
 int				pwd(void);
 int				cd(char **args, t_env *env);
-int				echo(char **args);
+int				echo(t_parser_data *data);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 

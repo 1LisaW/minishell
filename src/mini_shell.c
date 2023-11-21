@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/17 14:56:52 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/26 14:02:22 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,15 @@ void	minishell(t_env *envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
+	t_parser_data	*parser_data = NULL;
+	parser_data = malloc(sizeof(t_parser_data));
+	parser_data->cmd_line = malloc(sizeof(char **)*100000000);
+	parser_data->text = malloc(sizeof(char **)*100000000);
 	char **args = malloc(sizeof(char **)*100000000);
 	char **args_echo = malloc(sizeof(char **)*100000000);
 
+	parser_data->text = "echo";
+	parser_data->cmd_line[0] = "hello";
 	args[1] = "/nfs/homes/plandolf/curriculum/";
 	args_echo[0] = "echo";
 	args_echo[1] = "-n";
@@ -65,7 +71,7 @@ void	minishell(t_env *envp)
 		if (!ft_strcmp(cmd_buff, "cd"))
 			cd(args, envp);
 		if (!ft_strcmp(cmd_buff, "echo"))
-			echo(args_echo);
+			echo(parser_data);
 		// test ends here
 		lexer(data, cmd_buff);
 		free(cmd_buff);

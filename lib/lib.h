@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/10/11 10:48:50 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:14:31 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include <readline/history.h>
 # include <signal.h>
 # include <stdlib.h>
+# include <stdbool.h>
 
 typedef struct s_split_next
 {
@@ -60,5 +61,13 @@ int		ft_print_char(char c);
 int		ft_strncmp(const char *str1, const char *str2, int n);
 
 char	*ft_strcopy(char *str);
+
+long	ft_atol(const char *str);
+
+int		ft_isspace(int c);
+
+int		ft_issign(char c);
+
+int		ft_isdigit(int c);
 
 #endif
