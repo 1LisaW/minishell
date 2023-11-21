@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 04:10:45 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/21 12:17:05 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	handle_fd(prev_fd);
 	close(fd[0]);
 	if (!(parser_node->flags & IS_WAIT))
-	{
 		dup2(fd[1], STDOUT_FILENO);
-	}
 	close(fd[1]);
 	if (exec_data->was_stdoutredir)
 	{

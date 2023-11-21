@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 15:14:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/21 11:30:52 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,9 @@ void	update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 	if (!(parser_node->flags & IS_PIPE))
 	{
 		reset_std(exec_data, 0);
-		reset_std(exec_data, 1);
 	}
+	if (parser_node->flags && IS_WAIT)
+		reset_std(exec_data, 1);
 	if (parser_node->flags & IS_PIPE)
 		exec_data->status_code = 0;
 	exec_data->was_stdinredir = 0;
