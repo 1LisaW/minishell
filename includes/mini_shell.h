@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 15:18:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/21 15:41:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -190,6 +190,9 @@ void			clear_exec_data(t_exec_data *exec_data, t_data *data);
 
 void			make_redirections(t_parser_data *parser_node,
 					t_exec_data *exec_data, int *prev_fd);
+
+void			make_redir_without_cmd(t_parser_data *parser_node,
+					t_exec_data *exec_data);
 
 void			clear_savedstd(t_exec_data *exec_data);
 
