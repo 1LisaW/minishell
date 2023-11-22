@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 14:08:13 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:32:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	minishell(t_env *envp)
 		if (!ft_strcmp(cmd_buff, "echo"))
 			echo(parser_data);
 		// test ends here
-			echo(args_echo);
+			// echo(args_echo);
 		//end testing builtin commands
 		lexer(data, cmd_buff);
 		free(cmd_buff);
