@@ -1,20 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 10:59:04 by plandolf          #+#    #+#             */
-/*   Updated: 2023/05/02 10:59:08 by plandolf         ###   ########.fr       */
+/*   Created: 2021/09/02 14:08:50 by tschmitt          #+#    #+#             */
+/*   Updated: 2023/10/26 12:09:10 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-int	ft_isdigit(int c)
+int	ft_isspace(int c)
 {
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
+	if (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\v' || c == '\f' || c == '\r')
+		return (true);
+	return (false);
 }

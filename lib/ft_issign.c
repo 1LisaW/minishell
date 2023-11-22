@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_issign.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/02 10:59:04 by plandolf          #+#    #+#             */
-/*   Updated: 2023/05/02 10:59:08 by plandolf         ###   ########.fr       */
+/*   Created: 2021/08/22 21:18:28 by tschmitt          #+#    #+#             */
+/*   Updated: 2023/10/26 12:09:37 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "lib.h"
 
-int	ft_isdigit(int c)
+int	ft_issign(char c)
 {
-	if (c >= 48 && c <= 57)
-		return (1);
-	return (0);
+	if (c == '+' || c == '-')
+		return (true);
+	return (false);
 }

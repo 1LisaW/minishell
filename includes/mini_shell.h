@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/21 15:41:04 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:03:04 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ void			modify_cmd(char *str, t_env *data);
 //builtins
 int				pwd(void);
 int				cd(char **args, t_env *env);
-int				echo(char **args);
+int				echo(t_parser_data *data);
 
 //modif_cmd
 void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);

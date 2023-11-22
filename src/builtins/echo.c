@@ -3,32 +3,32 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:14 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/11 10:59:56 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/10/26 12:02:47 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	echo(char **args)
+int	echo(t_parser_data *data)
 {
 	int		i;
 	int		n;
 
-	i = 1;
+	i = 0;
 	n = 0;
-	if (args[1] && ft_strcmp(args[1], "-n") == 0)
+	if (data->cmd_line[0] && ft_strcmp(data->cmd_line[0], "-n") == 0)
 	{
 		n = 1;
 		i++;
 	}
-	while (args[i])
+	while (data->cmd_line[i])
 	{
-		if (printf("%s", args[i]) != ft_strlen(args[i]))
+		if (printf("%s", data->cmd_line[i]) != ft_strlen(data->cmd_line[i]))
 			return (EXIT_FAILURE);
-		if (ft_strlen(args[i]) != 0 && args[i + 1] != NULL)
+		if (ft_strlen(data->cmd_line[i]) != 0 && data->cmd_line[i + 1] != NULL)
 			if (printf(" ") != ft_strlen(" "))
 				return (EXIT_FAILURE);
 		i++;
