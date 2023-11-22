@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 16:17:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:08:13 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static void test_modify_cmd(const char *input, const char *expected, t_env *data
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*envv;
+	char	*tmpstr;
 
 	(void)argv;
 	envv = NULL;
@@ -93,14 +94,19 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	//testing modify_cmd TO REMOVE
-test_modify_cmd("echo $ARG", "echo ho", envv);
-test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
-test_modify_cmd("echo \"$ARG\"", "echo \"ho\"", envv);
+//	tmpstr = ft_strcopy("\"echo $ARG\"");
+//test_modify_cmd(tmpstr, "echo ho", envv);
+//free(tmpstr);
+//test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
+//test_modify_cmd("echo $ARG", "echo ho", envv);
+tmpstr = ft_strcopy("\'\'ec\"$ARG\"a");
+test_modify_cmd(tmpstr, "e'c$ARGa'", envv);
 test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
-char test_string[1024];  // Large enough for our test cases
-strcpy(test_string, "ec$ARG'a");
-modify_cmd(test_string, envv);
-printf("%s\n", test_string);
+free(tmpstr);
+//char test_string[1024];  // Large enough for our test cases
+//strcpy(test_string, "ec$ARG'a");
+//modify_cmd(test_string, envv);
+//printf("%s\n", test_string);
 
 //end testing modify_cmd
 	minishell(envv);
