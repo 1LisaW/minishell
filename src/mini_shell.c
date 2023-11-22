@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 14:32:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:59:51 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,21 @@ void	minishell(t_env *envp)
 	}
 }
 
-static void test_modify_cmd(const char *input, const char *expected, t_env *data) {
-    char test_string[1024];  // Large enough for our test cases
-    strcpy(test_string, input);
-    modify_cmd(test_string, data);
-    if (strcmp(test_string, expected) != 0) {
-        printf("Failed for input \"%s\". Expected \"%s\" but got \"%s\".\n", input, expected, test_string);
-    } else {
-        printf("Passed for input \"%s\".\n", input);
-    }
-}
+// static void test_modify_cmd(const char *input, const char *expected, t_env *data) {
+//     char test_string[1024];  // Large enough for our test cases
+//     strcpy(test_string, input);
+//     modify_cmd(test_string, data);
+//     if (strcmp(test_string, expected) != 0) {
+//         printf("Failed for input \"%s\". Expected \"%s\" but got \"%s\".\n", input, expected, test_string);
+//     } else {
+//         printf("Passed for input \"%s\".\n", input);
+//     }
+// }
 
 int	main(int argc, char **argv, char **envp)
 {
 	t_env	*envv;
-	char	*tmpstr;
+	// char	*tmpstr;
 
 	(void)argv;
 	envv = NULL;
@@ -107,10 +107,12 @@ int	main(int argc, char **argv, char **envp)
 //free(tmpstr);
 //test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
 //test_modify_cmd("echo $ARG", "echo ho", envv);
-tmpstr = ft_strcopy("\'\'ec\"$ARG\"a");
-test_modify_cmd(tmpstr, "e'c$ARGa'", envv);
-test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
-free(tmpstr);
+
+// tmpstr = ft_strcopy("\'\'ec\"$ARG\"a");
+// test_modify_cmd(tmpstr, "e'c$ARGa'", envv);
+// test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
+// free(tmpstr);
+
 //char test_string[1024];  // Large enough for our test cases
 //strcpy(test_string, "ec$ARG'a");
 //modify_cmd(test_string, envv);

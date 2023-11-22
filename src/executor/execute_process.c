@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 14:02:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:11:06 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ void	handle_fd(int *prev_fd)
 void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			t_exec_data *exec_data)
 {
+	printf("\nRUN CHILD PROCESS\n");
 	handle_fd(prev_fd);
 	close(fd[0]);
 	if (!(parser_node->flags & IS_WAIT))
@@ -83,6 +84,7 @@ int	parent_process(int *prev_fd, t_exec_data *exec_data,
 		close(exec_data->fd_out);
 	if (!(parser_node->flags & IS_WAIT))
 	{
+		printf("\nParent is WAITING!\n");
 		*prev_fd = fd[0];
 		return (0);
 	}

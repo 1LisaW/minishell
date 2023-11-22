@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 13:59:19 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:13:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,8 @@ void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
 
 	redir_data = parser_node->redir_data;
 	has_stdin_red = 0;
+	if (!redir_data)
+		return ;
 	while (!has_stdin_red && redir_data)
 	{
 		if (redir_data && !redir_data->std_fd)

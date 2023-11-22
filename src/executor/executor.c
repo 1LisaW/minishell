@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 14:16:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 15:12:56 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,13 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 	printf("\n NO_DE:%s, %i\n",
 		parser_node->text, parser_node->lexer_type);
 	make_redir_without_cmd(parser_node, exec_data);
+	printf("\nEXEC PROC\n");
 	if (parser_node->lexer_type == operator)
 		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 		create_process(prev_fd, parser_node, exec_data);
+	printf("\n Parent node : %s flags:%i\n",
+			parser_node->text, parser_node->flags);
 	if (parser_node->flags & IS_WAIT)
 	{
 		printf("\n Waiting for execution in	execute_process:%s\n",
