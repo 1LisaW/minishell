@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:42:42 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/31 15:12:10 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 12:36:13 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,13 @@ void	modify_cmd(char *str, t_env *env)
 	bool	in_single_quotes;
 
 	init_pointers(&ptrs, str, &in_single_quotes);
+	printf("Before modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
 	if (!ptrs.temp)
 		return ;
 	while (*ptrs.r_ptr)
 		process_char(&ptrs, &in_single_quotes, env);
 	*ptrs.w_ptr = '\0';
 	ft_strlcpy(str, ptrs.temp, ft_strlen(ptrs.temp) + 1);
+	printf("Result of modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
 	free(ptrs.temp);
 }

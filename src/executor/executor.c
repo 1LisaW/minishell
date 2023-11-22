@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/21 15:42:28 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/22 14:16:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,18 @@ void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data)
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
-			t_exec_data *exec_data)
+			t_exec_data *exec_data, t_data *data)
 {
 	t_parser_data	*temp;
+	t_redir_data	*redir_node;
 
 	temp = parser_node;
+	redir_node = parser_node->redir_data;
+	while (redir_node)
+	{
+		modify_cmd(redir_node->text, data->env_vars);
+		redir_node = redir_node->next;
+	}
 	printf("\n NO_DE:%s, %i\n",
 		parser_node->text, parser_node->lexer_type);
 	make_redir_without_cmd(parser_node, exec_data);
@@ -56,24 +63,24 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 	}
 }
 
-void	morris_traversal(t_parser_data *parser_data, int *prev_fd,
+void	morris_traversal(t_data *data, int *prev_fd,
 			t_exec_data *exec_data)
 {
 	t_parser_data	*curr_node;
 	t_parser_data	*prev_node;
 
-	curr_node = parser_data;
+	curr_node = data->parser_data;
 	while (curr_node && exec_data->go_on)
 	{
 		if (!curr_node->left)
 		{
-			execute_process(prev_fd, curr_node, exec_data);
+			execute_process(prev_fd, curr_node, exec_data, data);
 			curr_node = curr_node->right;
 		}
 		else if (get_next_node(&curr_node, &prev_node))
 		{
 			prev_node->right = NULL;
-			execute_process(prev_fd, curr_node, exec_data);
+			execute_process(prev_fd, curr_node, exec_data, data);
 			curr_node = curr_node->right;
 		}
 	}
@@ -86,7 +93,7 @@ void	executor(t_data *data)
 
 	init_exec_data(exec_data);
 	prev_fd = dup(STDIN_FILENO);
-	morris_traversal(data->parser_data, &prev_fd, exec_data);
+	morris_traversal(data, &prev_fd, exec_data);
 	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }
