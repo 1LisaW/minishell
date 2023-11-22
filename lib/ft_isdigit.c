@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_isdigit.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/07/06 13:56:21 by tschmitt          #+#    #+#             */
-/*   Updated: 2023/10/26 12:12:42 by plandolf         ###   ########.fr       */
+/*   Created: 2023/05/02 10:59:04 by plandolf          #+#    #+#             */
+/*   Updated: 2023/05/02 10:59:08 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isdigit(int c)
 {
-	if (c >= '0' && c <= '9')
-		return (true);
-	return (false);
+	if (c >= 48 && c <= 57)
+		return (1);
+	return (0);
 }

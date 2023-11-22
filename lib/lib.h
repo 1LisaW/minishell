@@ -60,6 +60,14 @@ int		ft_print_char(char c);
 
 int		ft_strncmp(const char *str1, const char *str2, int n);
 
+int		ft_strlcpy(char *dst, char *src, int size);
+
+int		ft_isalpha(int c);
+
+int		ft_isalnum(int c);
+
+int		ft_isdigit(int c);
+
 char	*ft_strcopy(char *str);
 
 long	ft_atol(const char *str);

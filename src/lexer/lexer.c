@@ -6,11 +6,24 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/10/09 12:45:00 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:37:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
+
+int	get_oper_length(char quote, char *str)
+{
+	if (quote)
+		return (0);
+	if (!ft_strncmp(str, "||", 2) || !ft_strncmp(str, "&&", 2)
+		|| !ft_strncmp(str, "<<", 2) || !ft_strncmp(str, ">>", 2))
+		return (2);
+	if (!ft_strncmp(str, "|", 1) || !ft_strncmp(str, "<", 1)
+		|| !ft_strncmp(str, ">", 1))
+		return (1);
+	return (0);
+}
 
 void	get_word_len(char *cmd_buff, int *w_len)
 {
@@ -20,6 +33,9 @@ void	get_word_len(char *cmd_buff, int *w_len)
 	sep = ' ';
 	quote = '\0';
 	*w_len = 0;
+	*w_len = get_oper_length(quote, cmd_buff);
+	if (*w_len)
+		return ;
 	while (cmd_buff[*w_len])
 	{
 		if (!quote && cmd_buff[*w_len] == '\'')
@@ -29,7 +45,8 @@ void	get_word_len(char *cmd_buff, int *w_len)
 		else if (quote && (cmd_buff[*w_len] == quote))
 			quote = 0;
 		(*w_len)++;
-		if (cmd_buff[*w_len] == sep && !quote)
+		if ((cmd_buff[*w_len] == sep
+				|| get_oper_length(quote, cmd_buff + *w_len)) && !quote)
 			break ;
 	}
 }
@@ -72,8 +89,6 @@ void	lexer(t_data *data, char *cmd_buff)
 			lexer_node = add_lexer_node(data, get_word(cmd_buff, w_len));
 			tokenizer(lexer_node);
 		}
-		// printf("text: %s, type: %i\n",
-		// 	lexer_node->text, lexer_node->lexer_type);
 		cmd_buff += w_len;
 	}
 	syntax_parser(data);

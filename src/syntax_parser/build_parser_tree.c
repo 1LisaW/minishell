@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   build_parser_tree.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 13:26:17 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/18 15:26:54 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/01 12:37:07 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,19 +47,13 @@ t_parser_data	*build_subtree(t_lexer_data **lexer_head,
 	if (oper_node)
 	{
 		subtree_root = create_parser_node(oper_node, parent);
-		// printf("node (if oper_node): %s\n", subtree_root->text);
-		// if (parent)
-			// printf("parent: %s\n", parent->text);
 	}
 	else
 	{
 		subtree_root = create_parser_node(*lexer_head, parent);
-		// printf("node: %s, flags: %d \n", subtree_root->text, subtree_root->flags);
-		// if (parent)
-			// printf("parent: %s\n", parent->text);
 		return (subtree_root);
 	}
-	while ((*left_tail)->next
+	while ((*left_tail) && (*left_tail)->next
 		&& ft_strcmp((*left_tail)->next->text, oper_node->text))
 		left_tail = &(*left_tail)->next;
 	subtree_root->left = build_subtree(lexer_head, left_tail,

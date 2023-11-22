@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redirection.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/12 15:38:23 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/17 12:36:24 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/10/18 17:13:38 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,16 @@ t_redir_data	*create_redir_node(t_lexer_data *lexer_node)
 	if (!redir_node)
 		return (NULL);
 	redir_node->std_fd = 0;
+	redir_node->is_here_doc = 0;
 	if (!strcmp(lexer_node->text, ">") || (!strcmp(lexer_node->text, ">>")))
 		redir_node->std_fd += 1;
 	if (!strcmp(lexer_node->text, "<"))
-		redir_node->flags = O_RDONLY;
+		redir_node->flags = F_OK | O_RDONLY;
 	else if (!strcmp(lexer_node->text, "<<"))
+	{
 		redir_node->flags = 0x0;
+		redir_node->is_here_doc = 1;
+	}
 	else if (!strcmp(lexer_node->text, ">"))
 		redir_node->flags = O_CREAT | O_WRONLY | O_TRUNC;
 	else if (!strcmp(lexer_node->text, ">>"))

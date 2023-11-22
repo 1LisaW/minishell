@@ -14,9 +14,9 @@ PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
-EXEC_FILES	= executor execute_process
+HELPERS_FILES = helpers modify_cmd modify_cmd_helpers
 
-HELPERS_FILES = helpers
+EXEC_FILES	= executor execute_process redirect redir_utils heredoc_redir
 
 BUILTINS_FILES = pwd cd echo
 

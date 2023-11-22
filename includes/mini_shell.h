@@ -27,6 +27,7 @@
 # include <signal.h>
 # include <stdlib.h>
 # include <dirent.h>
+# include <stdbool.h>
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -58,9 +59,9 @@ typedef struct s_redir_data
 	int					std_fd;
 	int					flags;
 	char				*text;
+	int					is_here_doc;
 	struct s_redir_data	*next;
 }		t_redir_data;
-
 
 typedef struct s_parser_data
 {
@@ -81,7 +82,7 @@ typedef struct s_env
 	struct s_env	*next;
 }		t_env;
 
-typedef struct data
+typedef struct s_data
 {
 	t_lexer_data	*lexer_data;
 	t_parser_data	*parser_data;
@@ -89,6 +90,26 @@ typedef struct data
 	t_env			*env_del;
 	int				status_code;
 }			t_data;
+
+typedef struct s_ptrs 
+{
+	char	*temp;
+	char	*r_ptr;
+	char	*w_ptr;
+}				t_ptrs;
+
+typedef struct s_exec_data
+{
+	int		status_code;
+	int		stdin_dup;
+	int		stdout_dup;
+	int		was_stdinredir;
+	int		was_stdoutredir;
+	char	*here_doc;
+	int		go_on;
+	int		fd_out;
+	char	*err_file;
+}			t_exec_data;
 
 void			init_data(t_data *data);
 
@@ -122,10 +143,29 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
+void			modify_cmd(char *str, t_env *data);
+
 //builtins
 int				pwd(void);
 int				cd(char **args, t_env *env);
 int				echo(t_parser_data *data);
+
+//modif_cmd
+void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);
+
+void			modify_cmd(char *str, t_env *env);
+
+char			*copy_variable_name(char **r_ptr, char *variable_name);
+
+void			write_replacement_or_variable(char **w_ptr, char *variable_name,
+					t_env *env);
+
+char			*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_env *env);
+
+void			handle_quotes(char **r_ptr, char **w_ptr,
+					bool *in_single_quotes);
+
+void			init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes);
 
 t_lexer_data	*get_last_lexer_node(t_data *data);
 
@@ -139,7 +179,25 @@ void			build_tree(t_data *data, char **oper_arr);
 
 void			syntax_parser(t_data *data);
 
-void			execute_process(int *prev_fd, t_parser_data *parser_node, int *status);
+void			init_exec_data(t_exec_data *exec_data);
+
+void			reset_std(t_exec_data *exec_data, int fd);
+
+void			here_doc(t_exec_data *exec_data, t_redir_data *redir_data,
+					int *prev_fd);
+
+void			clear_exec_data(t_exec_data *exec_data, t_data *data);
+
+void			make_redirections(t_parser_data *parser_node,
+					t_exec_data *exec_data, int *prev_fd);
+
+void			make_redir_without_cmd(t_parser_data *parser_node,
+					t_exec_data *exec_data);
+
+void			clear_savedstd(t_exec_data *exec_data);
+
+int				create_process(int *prev_fd, t_parser_data *parser_node,
+					t_exec_data *exec_data);
 
 void			executor(t_data *data);
 
