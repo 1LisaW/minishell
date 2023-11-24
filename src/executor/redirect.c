@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 15:13:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/24 18:14:48 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,9 @@ void	open_stream(t_redir_data *redir_data,
 
 void	update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 {
-	if (!(parser_node->flags & IS_PIPE))
-	{
 		reset_std(exec_data, 0);
-	}
-	if (parser_node->flags && IS_WAIT)
 		reset_std(exec_data, 1);
+
 	if (parser_node->flags & IS_PIPE)
 		exec_data->status_code = 0;
 	exec_data->was_stdinredir = 0;
@@ -77,10 +74,10 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 {
 	t_redir_data	*redir_data;
 
+	// update_exec_data(parser_node, exec_data);
 	if (!parser_node || !parser_node->redir_data)
 		return ;
-	 update_exec_data(parser_node, exec_data);
-	 printf("\nmake_redirections\n");
+	 printf("\nmake_redirections: %s\n", parser_node->text);
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{
@@ -107,7 +104,7 @@ void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
 			has_stdin_red = 1;
 		redir_data = redir_data->next;
 	}
-	printf("make_redir_without_cmd");
+	printf("make_redir_without_cmd:  %s", parser_node->text);
 	if (has_stdin_red)
 	{
 		parser_node->lexer_type = word;
@@ -117,7 +114,7 @@ void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
 			parser_node->flags = IS_WAIT;
 		return ;
 	}
-	update_exec_data(parser_node, exec_data);
+	// update_exec_data(parser_node, exec_data);
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{

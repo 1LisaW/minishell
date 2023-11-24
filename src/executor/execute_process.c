@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 15:11:06 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:58:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,12 +60,16 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	if (!(parser_node->flags & IS_WAIT))
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
+	perror("/n!!!!!!!!!!!!!!!!!!!!!/n");
 	if (exec_data->was_stdoutredir)
 	{
+		perror("/nSTDOUT WAS REDIRED/n");
 		dup2(exec_data->fd_out, STDOUT_FILENO);
 		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
+	else
+		perror("/nSTDOUT WAS NOT REDIRED/n");
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2, prev_fd))

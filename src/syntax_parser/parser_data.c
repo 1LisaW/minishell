@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 17:44:35 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/24 17:37:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,6 @@ t_lexer_data	*fill_cmd_line(int *cmd_i, int number_cmds,
 		(*cmd_i)++;
 	}
 	parser_node->cmd_line[*cmd_i] = NULL;
-	if (!curr_lexer_node || ft_strcmp(curr_lexer_node->text, "|"))
-		parser_node->flags |= IS_WAIT;
 	return (curr_lexer_node);
 }
 
@@ -131,6 +129,8 @@ t_parser_data	*create_parser_node(t_lexer_data *lexer_node,
 		curr_lexer_node = collect_cmd_line(curr_lexer_node, parser_node);
 		curr_lexer_node = collect_redir(curr_lexer_node, parser_node);
 	}
+	if (!curr_lexer_node || ft_strcmp(curr_lexer_node->text, "|"))
+		parser_node->flags |= IS_WAIT;
 	print_parser_node(parser_node);
 	return (parser_node);
 }

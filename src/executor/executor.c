@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 15:12:56 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/24 18:11:13 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,24 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 	return (1);
 }
 
-void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data)
+void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data, int *prev_fd)
 {
+	// if (!ft_strcmp(parser_node->text, "|"))
+	// {
+	// 	reset_std(exec_data, 0);
+	// 	reset_std(exec_data, 1);
+	// }
 	if (!ft_strcmp(parser_node->text, "&&") && exec_data->status_code)
 		exec_data->go_on = 0;
 	if (!ft_strcmp(parser_node->text, "||") && !exec_data->status_code)
 		exec_data->go_on = 0;
+	if (exec_data->go_on)
+	{
+		reset_std(exec_data, 0);
+		reset_std(exec_data, 1);
+		*prev_fd = dup(STDIN_FILENO);
+		perror("/nGOON/n");
+	}
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
@@ -49,10 +61,11 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 	}
 	printf("\n NO_DE:%s, %i\n",
 		parser_node->text, parser_node->lexer_type);
-	make_redir_without_cmd(parser_node, exec_data);
+	if (parser_node->lexer_type == redir_notation)
+		make_redir_without_cmd(parser_node, exec_data);
 	printf("\nEXEC PROC\n");
 	if (parser_node->lexer_type == operator)
-		return (check_prolong(parser_node, exec_data));
+		return (check_prolong(parser_node, exec_data, prev_fd));
 	if (parser_node->lexer_type == word)
 		create_process(prev_fd, parser_node, exec_data);
 	printf("\n Parent node : %s flags:%i\n",
