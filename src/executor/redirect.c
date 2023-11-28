@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/24 18:14:48 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:24:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,7 @@ void	open_stream(t_redir_data *redir_data,
 		*prev_fd = open(redir_data->text, redir_data->flags);
 	}
 	else
-	{
 		open_write_stream(redir_data, exec_data);
-	}
 	if ((redir_data->std_fd == STDIN_FILENO) && *prev_fd < 0)
 	{
 		if (exec_data->was_stdoutredir)
@@ -59,9 +57,10 @@ void	open_stream(t_redir_data *redir_data,
 
 void	update_exec_data(t_parser_data *parser_node, t_exec_data *exec_data)
 {
-		reset_std(exec_data, 0);
-		reset_std(exec_data, 1);
+	reset_std(exec_data, 0);
+	reset_std(exec_data, 1);
 
+	printf("\n[LOG] update_exec_data\n");
 	if (parser_node->flags & IS_PIPE)
 		exec_data->status_code = 0;
 	exec_data->was_stdinredir = 0;
@@ -74,15 +73,15 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 {
 	t_redir_data	*redir_data;
 
-	// update_exec_data(parser_node, exec_data);
+	update_exec_data(parser_node, exec_data);
 	if (!parser_node || !parser_node->redir_data)
 		return ;
-	 printf("\nmake_redirections: %s\n", parser_node->text);
+	 printf("\n[LOG] make_redirections: %s\n", parser_node->text);
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{
 		open_stream(redir_data, exec_data, prev_fd);
-		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);
+		printf("\n[LOG] STATUS_CODE REDIR %d\n", exec_data->status_code);
 		redir_data = redir_data->next;
 	}
 	if (exec_data->status_code)
@@ -104,7 +103,7 @@ void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
 			has_stdin_red = 1;
 		redir_data = redir_data->next;
 	}
-	printf("make_redir_without_cmd:  %s", parser_node->text);
+	printf("[LOG] make_redir_without_cmd:  %s", parser_node->text);
 	if (has_stdin_red)
 	{
 		parser_node->lexer_type = word;
@@ -119,7 +118,7 @@ void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
 	while (redir_data)
 	{
 		open_write_stream(redir_data, exec_data);
-		printf("\n STATUS_CODE REDIR %d\n", exec_data->status_code);
+		printf("\n[LOG] STATUS_CODE REDIR %d\n", exec_data->status_code);
 		redir_data = redir_data->next;
 	}
 	if (exec_data->status_code)

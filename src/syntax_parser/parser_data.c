@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/24 17:37:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/28 15:22:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ void	print_parser_node(t_parser_data *pars_node)
 	i = 0;
 	if (!pars_node)
 		return ;
-	printf("AST NODE: text: %s, type: %d\n", pars_node->text,
+	printf("[LOG] AST NODE: text: %s, type: %d\n", pars_node->text,
 		pars_node->lexer_type);
-	printf("flags: %d\n", pars_node->flags);
+	printf("[LOG] flags: %d\n", pars_node->flags);
 	redirs = pars_node->redir_data;
 	while (redirs)
 	{
-		printf("Redir № %d, direction: %d, flags: %d, file name: %s \n",
+		printf("[LOG] Redir № %d, direction: %d, flags: %d, file name: %s \n",
 			i, redirs->std_fd, redirs->flags, redirs->text);
 		redirs = redirs->next;
 		i++;
@@ -100,7 +100,7 @@ void	print_parser_node(t_parser_data *pars_node)
 	i = 0;
 	while (pars_node->cmd_line && pars_node->cmd_line[i])
 	{
-		printf("[%s] ", pars_node->cmd_line[i]);
+		printf("[LOG] [%s] ", pars_node->cmd_line[i]);
 		i++;
 	}
 	printf("\n");
