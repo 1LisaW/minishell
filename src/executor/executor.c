@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/28 15:24:02 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:52:23 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,21 +52,21 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		modify_cmd(redir_node->text, data->env_vars);
 		redir_node = redir_node->next;
 	}
-	printf("\n [LOG] NO_DE:%s, %i\n",
-		parser_node->text, parser_node->lexer_type);
+	// printf("\n [LOG] NO_DE:%s, %i\n",
+		// parser_node->text, parser_node->lexer_type);
 	if (parser_node->lexer_type == redir_notation)
 		make_redir_without_cmd(parser_node, exec_data);
-	printf("\n [LOG] EXEC PROC\n");
+	// printf("\n [LOG] EXEC PROC\n");
 	if (parser_node->lexer_type == operator)
 		return (check_prolong(parser_node, exec_data, prev_fd));
 	if (parser_node->lexer_type == word)
 		create_process(prev_fd, parser_node, exec_data);
-	printf("\n [LOG] Parent node : %s flags:%i\n",
-			parser_node->text, parser_node->flags);
+	// printf("\n [LOG] Parent node : %s flags:%i\n",
+			// parser_node->text, parser_node->flags);
 	if (parser_node->flags & IS_WAIT)
 	{
-		printf("\n [LOG] Waiting for execution in	execute_process:%s\n",
-			parser_node->text);
+		// printf("\n [LOG] Waiting for execution in	execute_process:%s\n",
+			// parser_node->text);
 		while (wait(NULL) != -1)
 			;
 	}

@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/27 12:45:54 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/28 15:22:33 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/11/30 13:14:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ t_parser_data	*init_parser_node(t_lexer_data *lexer_node,
 	parser_node->redir_data = NULL;
 	if (parent && !ft_strcmp(parent->text, "|"))
 		parser_node->flags |= IS_PIPE;
+	if (!ft_strcmp(parser_node->text, "|") && parser_node->left)
+		parser_node->left->flags |= IS_PIPE;
 	return (parser_node);
 }
 
