@@ -80,7 +80,8 @@ ALL_OBJS = $(OBJS) $(addprefix $(LEXER_DIR)/, $(LEXER_OBJS)) $(addprefix $(PARSE
 
 all:	$(NAME)
 
-$(addprefix $(OBJ_DIR)/, $(OBJS)): $(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)) \
+$(addprefix $(OBJ_DIR)/, $(OBJS)): $(SRCS) \
+									$(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)) \
                                    $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)) \
                                    $(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)) \
                                    $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)) \
@@ -105,7 +106,7 @@ $(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)):
 		$(CC) -c $(CFLAGS) $(EXEC_SRCS)
 		mv $(EXEC_OBJS) $(OBJ_DIR)/$(EXEC_DIR)/
 
-$(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)):
+$(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)): $(HELPERS_SRCS)
 		@mkdir -p $(OBJ_DIR)/$(HELPERS_DIR)
 		$(CC) -c $(CFLAGS) $(HELPERS_SRCS)
 		mv $(HELPERS_OBJS) $(OBJ_DIR)/$(HELPERS_DIR)/

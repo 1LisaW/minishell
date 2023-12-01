@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/26 12:03:04 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/01 16:13:01 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,6 +132,8 @@ void			dismiss_signal(int signum);
 void			config_signals(void);
 
 void			ft_init_env(char **envp, t_env **envv);
+
+void			ft_destroy_env(t_env **envv);
 
 void			add_env(char *var, char *value, t_env **envv);
 
