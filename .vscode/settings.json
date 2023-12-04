@@ -5,7 +5,8 @@
 		"signal.h": "c",
 		"types.h": "c",
 		"libft.h": "c",
-		"lib.h": "c"
+		"lib.h": "c",
+		"mini_shell.h": "c"
 	},
 	"C_Cpp.errorSquiggles": "disabled"
 }

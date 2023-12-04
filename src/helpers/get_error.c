@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:12:18 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/25 12:15:56 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:59:55 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static int	get_error_code(int err_code, bool set_err_code)
 	return (error_code);
 }
 
-void		set_error_code(int err_code)
+void	set_error_code(int err_code)
 {
 	static bool	ctrlc = false;
 
@@ -35,7 +35,7 @@ void		set_error_code(int err_code)
 	get_error_code(err_code, true);
 }
 
-int			get_error(void)
+int	get_error(void)
 {
 	return (get_error_code(0, false));
 }

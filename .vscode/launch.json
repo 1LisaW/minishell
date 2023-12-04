@@ -18,7 +18,7 @@
 		"type":"cppdbg",
 		"program":"/nfs/homes/plandolf/curriculum/minitalk/client",
 		"cwd":"${workspaceFolder}",
-		"args":["59399", "hello"],
+		"args":[],
 		"request":"launch",
 		"MIMode":"gdb"
 		}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/22 13:59:19 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:46:31 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,8 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 
 	if (!parser_node || !parser_node->redir_data)
 		return ;
-	 update_exec_data(parser_node, exec_data);
-	 printf("\nmake_redirections\n");
+	update_exec_data(parser_node, exec_data);
+	printf("\nmake_redirections\n");
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{
@@ -92,7 +92,8 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 		perror(exec_data->err_file);
 }
 
-void	make_redir_without_cmd(t_parser_data *parser_node, t_exec_data *exec_data)
+void	make_redir_without_cmd(t_parser_data *parser_node,
+			t_exec_data *exec_data)
 {
 	t_redir_data	*redir_data;
 	int				has_stdin_red;

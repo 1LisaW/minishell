@@ -3,38 +3,100 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:42:42 by plandolf          #+#    #+#             */
-/*   Updated: 2023/11/22 12:36:13 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:59:03 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-void	process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env)
+static	void	fill_between_quo_1(char **ret, char *s, int *i)
 {
-	if (*ptrs->r_ptr == '\'' && !(*in_single_quotes))
-		handle_quotes(&ptrs->r_ptr, &ptrs->w_ptr, in_single_quotes);
-	else if (*ptrs->r_ptr == '$' && !(*in_single_quotes))
-		ptrs->r_ptr = copy_var_and_get_next(ptrs->r_ptr, &ptrs->w_ptr, env);
-	else
-		*ptrs->w_ptr++ = *ptrs->r_ptr++;
+	while (s[*i])
+	{
+		*(*ret)++ = s[(*i)++];
+		if (s[*i] == 39)
+		{
+			*(*ret)++ = s[(*i)++];
+			*(*ret) = '\0';
+			return ;
+		}
+	}
 }
 
-void	modify_cmd(char *str, t_env *env)
+static	void	quo_2_hlp(char **ret, int *i, char *s, t_data *data)
 {
-	t_ptrs	ptrs;
-	bool	in_single_quotes;
+	char	*var;
 
-	init_pointers(&ptrs, str, &in_single_quotes);
-	printf("Before modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
-	if (!ptrs.temp)
+	(*i)++;
+	var = expand_var(s, i, data);
+	if (!var || !*var)
 		return ;
-	while (*ptrs.r_ptr)
-		process_char(&ptrs, &in_single_quotes, env);
-	*ptrs.w_ptr = '\0';
-	ft_strlcpy(str, ptrs.temp, ft_strlen(ptrs.temp) + 1);
-	printf("Result of modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
-	free(ptrs.temp);
+	while (*var)
+		*(*ret)++ = *var++;
+}
+
+static	void	fill_between_quo_2(char **ret, char *s, int *i, t_data *data)
+{
+	*(*ret)++ = s[(*i)++];
+	while (s[*i])
+	{
+		if (s[*i] == '$' && is_identifier(s[(*i) + 1]))
+			quo_2_hlp(ret, i, s, data);
+		else if (s[*i] == 34)
+		{
+			*(*ret)++ = s[(*i)++];
+			*(*ret) = '\0';
+			return ;
+		}
+		else
+			*(*ret)++ = s[(*i)++];
+		*(*ret) = '\0';
+	}
+}
+
+static	void	replace_var(char **keep, char *s, int *i, t_data *data)
+{
+	char	*var;
+	char	**ret;
+	char	*save;
+	bool	flg;
+
+	(*i)++;
+	ret = keep;
+	flg = false;
+	if (s[*i] == '?')
+		flg = true;
+	var = expand_var(s, i, data);
+	save = var;
+	if (!var)
+		return ;
+	while (*var)
+		*(*ret)++ = *var++;
+	*(*ret) = '\0';
+	if (flg)
+		free(save);
+}
+
+void	modify_cmd(char *ret, char *s, t_data *data)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == 39)
+			fill_between_quo_1(&ret, s, &i);
+		else if (s[i] == 34)
+			fill_between_quo_2(&ret, s, &i, data);
+		else if (s[i] == '$' && (is_identifier(s[i + 1]) || s[i + 1] == '?'))
+			replace_var(&ret, s, &i, data);
+		else if (s[i] == '$' && (s[i + 1] == 34 || s[i + 1] == 39))
+			i++;
+		else
+			*ret++ = s[i++];
+	}
+	*ret = '\0';
 }

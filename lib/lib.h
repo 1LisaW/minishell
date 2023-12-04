@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/10/26 12:14:31 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/01 10:43:35 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,5 +77,7 @@ int		ft_isspace(int c);
 int		ft_issign(char c);
 
 int		ft_isdigit(int c);
+
+char	*ft_itoa(int n);
 
 #endif
