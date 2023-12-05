@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/04 11:25:57 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:06:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,11 @@ int	main(int argc, char **argv, char **envp)
 	t_env	*envv;
 
 	tmpstr = malloc(sizeof(char **)*100000000);
-	data = malloc(sizeof(t_data));
+	// data = malloc(sizeof(t_data));
 	(void)argv;
 	g_gb.exit_st = 0;
 // 	data->env_vars = NULL;
-	ft_init_env(envp, &data->env_vars);
+	ft_init_env(envp, &envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	//testing modify_cmd TO REMOVE
@@ -120,7 +120,7 @@ int	main(int argc, char **argv, char **envp)
 //test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
 //test_modify_cmd("echo $ARG", "echo ho", envv);
 s = ft_strcopy("\"\"ec\'ho $ARG");
-modify_cmd(tmpstr, s, data);
+modify_cmd(tmpstr, s, envv);
 printf("%s\n", tmpstr);
 tmpstr = new_cmd(tmpstr, NULL);
 printf("%s\n", tmpstr);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 14:42:42 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:59:03 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:08:37 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,25 @@ static	void	fill_between_quo_1(char **ret, char *s, int *i)
 	}
 }
 
-static	void	quo_2_hlp(char **ret, int *i, char *s, t_data *data)
+static	void	quo_2_hlp(char **ret, int *i, char *s, t_env *env)
 {
 	char	*var;
 
 	(*i)++;
-	var = expand_var(s, i, data);
+	var = expand_var(s, i, env);
 	if (!var || !*var)
 		return ;
 	while (*var)
 		*(*ret)++ = *var++;
 }
 
-static	void	fill_between_quo_2(char **ret, char *s, int *i, t_data *data)
+static	void	fill_between_quo_2(char **ret, char *s, int *i, t_env *env)
 {
 	*(*ret)++ = s[(*i)++];
 	while (s[*i])
 	{
 		if (s[*i] == '$' && is_identifier(s[(*i) + 1]))
-			quo_2_hlp(ret, i, s, data);
+			quo_2_hlp(ret, i, s, env);
 		else if (s[*i] == 34)
 		{
 			*(*ret)++ = s[(*i)++];
@@ -57,7 +57,7 @@ static	void	fill_between_quo_2(char **ret, char *s, int *i, t_data *data)
 	}
 }
 
-static	void	replace_var(char **keep, char *s, int *i, t_data *data)
+static	void	replace_var(char **keep, char *s, int *i, t_env *env)
 {
 	char	*var;
 	char	**ret;
@@ -69,7 +69,7 @@ static	void	replace_var(char **keep, char *s, int *i, t_data *data)
 	flg = false;
 	if (s[*i] == '?')
 		flg = true;
-	var = expand_var(s, i, data);
+	var = expand_var(s, i, env);
 	save = var;
 	if (!var)
 		return ;
@@ -80,7 +80,7 @@ static	void	replace_var(char **keep, char *s, int *i, t_data *data)
 		free(save);
 }
 
-void	modify_cmd(char *ret, char *s, t_data *data)
+void	modify_cmd(char *ret, char *s, t_env *env)
 {
 	int	i;
 
@@ -90,9 +90,9 @@ void	modify_cmd(char *ret, char *s, t_data *data)
 		if (s[i] == 39)
 			fill_between_quo_1(&ret, s, &i);
 		else if (s[i] == 34)
-			fill_between_quo_2(&ret, s, &i, data);
+			fill_between_quo_2(&ret, s, &i, env);
 		else if (s[i] == '$' && (is_identifier(s[i + 1]) || s[i + 1] == '?'))
-			replace_var(&ret, s, &i, data);
+			replace_var(&ret, s, &i, env);
 		else if (s[i] == '$' && (s[i + 1] == 34 || s[i + 1] == 39))
 			i++;
 		else

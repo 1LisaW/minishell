@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:44:16 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:07:43 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-char	*expand_var(char *s, int *i, t_data *data)
+char	*expand_var(char *s, int *i, t_env *env)
 {
 	int		keep;
 	char	*var;
@@ -25,7 +25,7 @@ char	*expand_var(char *s, int *i, t_data *data)
 		keep++;
 	keep -= *i;
 	str = ft_substr(s, *i, keep);
-	var = get_env(str, data->env_vars);
+	var = get_env(str, env);
 	*i += keep;
 	if (!var || !*var)
 		return (free(str), str = NULL, NULL);

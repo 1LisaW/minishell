@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/01 16:13:01 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:08:35 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
-void			modify_cmd(char *ret, char *s, t_data *data);
+void			modify_cmd(char *ret, char *s, t_env *env);
 
 //builtins
 int				pwd(void);
@@ -209,7 +209,7 @@ void			executor(t_data *data);
 
 bool			is_identifier(int c);
 
-char			*expand_var(char *s, int *i, t_data *data);
+char			*expand_var(char *s, int *i, t_env *env);
 
 void			exit_with_status(int exit_status);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/05 13:46:50 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/05 14:05:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ void	print_error(int n, ...)
 	}
 	ft_putstr_fd("\n", 2);
 	va_end(ptr);
+}
 
   void	ft_destroy_env(t_env **envv)
 {
