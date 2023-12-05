@@ -101,7 +101,7 @@ $(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)):
 		$(CC) -c $(CFLAGS) $(PARSER_SRCS)
 		mv $(PARSER_OBJS) $(OBJ_DIR)/$(PARSER_DIR)/
 
-$(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)):
+$(addprefix $(OBJ_DIR)/$(EXEC_DIR)/, $(EXEC_OBJS)): $(EXEC_SRCS)
 		@mkdir -p $(OBJ_DIR)/$(EXEC_DIR)
 		$(CC) -c $(CFLAGS) $(EXEC_SRCS)
 		mv $(EXEC_OBJS) $(OBJ_DIR)/$(EXEC_DIR)/
