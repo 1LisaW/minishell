@@ -99,4 +99,14 @@ void	modify_cmd(char *ret, char *s, t_data *data)
 			*ret++ = s[i++];
 	}
 	*ret = '\0';
+// 	init_pointers(&ptrs, str, &in_single_quotes);
+// 	printf("[LOG] Before modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
+// 	if (!ptrs.temp)
+// 		return ;
+// 	while (*ptrs.r_ptr)
+// 		process_char(&ptrs, &in_single_quotes, env);
+// 	*ptrs.w_ptr = '\0';
+// 	ft_strlcpy(str, ptrs.temp, ft_strlen(ptrs.temp) + 1);
+// 	printf("[LOG] Result of modification: %s, (%s, %s, %s), len: %i", str,  ptrs.temp, ptrs.r_ptr, ptrs.w_ptr, ft_strlen(str));
+// 	free(ptrs.temp);
 }

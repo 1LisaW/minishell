@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:42:05 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:46:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,26 @@ void	print_error(int n, ...)
 	}
 	ft_putstr_fd("\n", 2);
 	va_end(ptr);
+
+  void	ft_destroy_env(t_env **envv)
+{
+	t_env	*curr_env;
+
+	while (envv 
+		&& (*envv))
+	{
+		// printf("\n(*envv)->var: %s, (*envv)->value : %s\n", (*envv)->var, (*envv)->value);
+		curr_env = (*envv)->next;
+		// if (curr_env)
+		// 	printf("\n(*curr_env)->var: %s, (*curr_env)->value : %s\n", curr_env->var, curr_env->value);
+
+		if ((*envv)->var)
+			free((*envv)->var);
+		(*envv)->var = NULL;
+		if ((*envv)->value)
+			free((*envv)->value);
+		(*envv)->value = NULL;
+		free((*envv));
+		*envv = curr_env; 
+	}
 }
