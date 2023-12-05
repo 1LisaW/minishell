@@ -31,6 +31,7 @@
 # include <sys/wait.h>
 # include <fcntl.h>
 # include <errno.h>
+# include <stdarg.h>
 
 typedef enum e_lexer_type {
 	word,
@@ -111,6 +112,11 @@ typedef struct s_exec_data
 	char	*err_file;
 }			t_exec_data;
 
+typedef struct s_gb
+{
+	int		exit_st;
+}	t_gb;
+
 void			init_data(t_data *data);
 
 void			destroy_redir_lst(t_parser_data *parser_node);
@@ -145,7 +151,7 @@ void			unset_var(char *var, t_env **envv);
 
 char			*get_path(char *text, t_env *envv);
 
-void			modify_cmd(char *str, t_env *data);
+void			modify_cmd(char *ret, char *s, t_data *data);
 
 //builtins
 int				pwd(void);
@@ -154,8 +160,6 @@ int				echo(t_parser_data *data);
 
 //modif_cmd
 void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);
-
-void			modify_cmd(char *str, t_env *env);
 
 char			*copy_variable_name(char **r_ptr, char *variable_name);
 
@@ -203,4 +207,29 @@ int				create_process(int *prev_fd, t_parser_data *parser_node,
 
 void			executor(t_data *data);
 
+bool			is_identifier(int c);
+
+char			*expand_var(char *s, int *i, t_data *data);
+
+void			exit_with_status(int exit_status);
+
+int				check_next_quote(char *s, char c);
+
+void			should_expnd(bool *flg);
+
+int				calc_len(char *s);
+
+void			eliminate_quotes_phase(char **args);
+
+void			*malloc_error(int errnum);
+
+void			print_error(int n, ...);
+
+char			*new_cmd(char *s, bool *flg);
+
+void			expand_and_modify(void);
+
+int				calc_len(char *s);
+
+extern t_gb	g_gb;
 #endif

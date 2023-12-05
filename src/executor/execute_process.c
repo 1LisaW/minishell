@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/30 15:24:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:45:34 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,4 +129,3 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 	}
 	return (0);
 }
-

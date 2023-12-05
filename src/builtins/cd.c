@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/18 15:35:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:59:02 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,9 @@ static char	*ft_home(t_env *env)
 
 static void	ft_update_pwd(t_env *env, char *var, char *value)
 {
-	// int		i;
 	char	*pwd;
 	t_env	*tmp;
 
-	// i = 0;
 	tmp = env;
 	pwd = get_env("PWD", tmp);
 	if (ft_strcmp(var, "OLDPWD") == 0)

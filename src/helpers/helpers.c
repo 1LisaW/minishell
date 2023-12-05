@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
 /*   Updated: 2023/12/05 13:46:50 by tklimova         ###   ########.fr       */
@@ -51,7 +51,33 @@ void	ft_init_env(char **envp, t_env **envv)
 	}
 }
 
-void	ft_destroy_env(t_env **envv)
+void	exit_with_status(int exit_status)
+{
+	g_gb.exit_st = exit_status;
+}
+
+void	*malloc_error(int errnum)
+{
+	print_error(2, "malloc", strerror(errnum));
+	exit_with_status(1);
+	exit(1);
+}
+
+void	print_error(int n, ...)
+{
+	va_list	ptr;
+
+	va_start(ptr, n);
+	ft_putstr_fd("bash", 2);
+	while (n--)
+	{
+		ft_putstr_fd(": ", 2);
+		ft_putstr_fd(va_arg(ptr, char *), 2);
+	}
+	ft_putstr_fd("\n", 2);
+	va_end(ptr);
+
+  void	ft_destroy_env(t_env **envv)
 {
 	t_env	*curr_env;
 

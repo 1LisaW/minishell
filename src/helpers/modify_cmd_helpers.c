@@ -3,87 +3,83 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/31 13:43:34 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/04 11:44:16 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-char	*copy_variable_name(char **r_ptr, char *variable_name)
+char	*expand_var(char *s, int *i, t_data *data)
 {
-	int	var_index;
+	int		keep;
+	char	*var;
+	char	*str;
 
-	var_index = 0;
-	(*r_ptr)++;
-	while (**r_ptr && ((**r_ptr >= 'A' && **r_ptr <= 'Z') || **r_ptr == '_'
-			|| (var_index > 0 && **r_ptr >= '0' && **r_ptr <= '9')))
-	{
-		variable_name[var_index++] = **r_ptr;
-		(*r_ptr)++;
-	}
-	variable_name[var_index] = '\0';
-	return (variable_name);
+	keep = *i;
+	if (s[keep] == '?')
+		return ((*i)++, ft_itoa(g_gb.exit_st));
+	while (is_identifier(s[keep]))
+		keep++;
+	keep -= *i;
+	str = ft_substr(s, *i, keep);
+	var = get_env(str, data->env_vars);
+	*i += keep;
+	if (!var || !*var)
+		return (free(str), str = NULL, NULL);
+	return (free(str), str = NULL, var);
 }
 
-void	write_replacement_or_variable(char **w_ptr, char *variable_name,
-	t_env *data)
+bool	is_identifier(int c)
 {
-	char	*replacement;
-	int		i;
-	int		var_index;
+	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z')
+		|| (c >= '0' && c <= '9') || c == '_');
+}
 
-	var_index = ft_strlen(variable_name);
-	i = var_index;
-	while (i >= 0)
+char	*new_cmd(char *s, bool *flg)
+{
+	char	*new;
+	char	*save;
+	ssize_t	l;
+	char	kp;
+
+	new = malloc(sizeof(char) * (calc_len(s) + 1));
+	if (!new)
+		return (malloc_error(errno));
+	l = 0;
+	save = s;
+	while (*s)
 	{
-		variable_name[i] = '\0';
-		replacement = get_env(variable_name, data);
-		if (replacement && *replacement)
+		if (*s == 34 || *s == 39)
 		{
-			while (*replacement)
-				*(*w_ptr)++ = *replacement++;
-			return ;
+			kp = *s++;
+			should_expnd(flg);
+			while (*s != kp && *s)
+				new[l++] = *s++;
+			s++;
+			continue ;
 		}
-		i--;
+		new[l++] = *s++;
 	}
-	*(*w_ptr)++ = '$';
-	while (*variable_name)
-		*(*w_ptr)++ = *variable_name++;
+	return (new[l] = '\0', free(save), new);
 }
 
-char	*copy_var_and_get_next(char *r_ptr, char **w_ptr, t_env *env)
+void	eliminate_quotes_phase(char **args)
 {
-	char	variable_name[100];
+	char	*s;
 
-	copy_variable_name(&r_ptr, variable_name);
-	write_replacement_or_variable(w_ptr, variable_name, env);
-	return (r_ptr);
-}
-
-void	handle_quotes(char **r_ptr, char **w_ptr, bool *in_single_quotes)
-{
-	*(*w_ptr)++ = **r_ptr;
-	(*r_ptr)++; 
-	while (**r_ptr != '\'' && **r_ptr != '\0')
+	while (*args)
 	{
-		*(*w_ptr)++ = **r_ptr;
-		(*r_ptr)++;
+		s = new_cmd(*args, NULL);
+		*args = s;
+		args++;
 	}
-	if (**r_ptr == '\'')
-	{
-		*(*w_ptr)++ = **r_ptr;
-		(*r_ptr)++;
-	}
-	*in_single_quotes = !(*in_single_quotes);
 }
 
-void	init_pointers(t_ptrs *ptrs, char *str, bool *in_single_quotes)
+void	should_expnd(bool *flg)
 {
-	ptrs->temp = (char *)malloc(ft_strlen(str) + 1);
-	ptrs->r_ptr = str;
-	ptrs->w_ptr = ptrs->temp;
-	*in_single_quotes = false;
+	if (flg)
+		*flg = 0;
 }

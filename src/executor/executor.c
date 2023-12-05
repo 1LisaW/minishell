@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/30 13:52:23 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/01 12:22:12 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,12 +44,14 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 {
 	t_parser_data	*temp;
 	t_redir_data	*redir_node;
+	t_data			*temp2;
 
+	temp2 = data;
 	temp = parser_node;
 	redir_node = parser_node->redir_data;
 	while (redir_node)
 	{
-		modify_cmd(redir_node->text, data->env_vars);
+		//modify_cmd(redir_node->text, parser_node->text, data);
 		redir_node = redir_node->next;
 	}
 	// printf("\n [LOG] NO_DE:%s, %i\n",
