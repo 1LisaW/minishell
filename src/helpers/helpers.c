@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/17 15:20:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/05 13:46:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,28 @@ void	ft_init_env(char **envp, t_env **envv)
 		add_env(tmp_var, tmp_value + 1, envv);
 		free(tmp_var);
 		i++;
+	}
+}
+
+void	ft_destroy_env(t_env **envv)
+{
+	t_env	*curr_env;
+
+	while (envv 
+		&& (*envv))
+	{
+		// printf("\n(*envv)->var: %s, (*envv)->value : %s\n", (*envv)->var, (*envv)->value);
+		curr_env = (*envv)->next;
+		// if (curr_env)
+		// 	printf("\n(*curr_env)->var: %s, (*curr_env)->value : %s\n", curr_env->var, curr_env->value);
+
+		if ((*envv)->var)
+			free((*envv)->var);
+		(*envv)->var = NULL;
+		if ((*envv)->value)
+			free((*envv)->value);
+		(*envv)->value = NULL;
+		free((*envv));
+		*envv = curr_env; 
 	}
 }
