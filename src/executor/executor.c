@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/05 14:57:44 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:09:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 	redir_node = parser_node->redir_data;
 	while (redir_node)
 	{
-		modify_cmd(redir_node->text, redir_node->text, data->env_vars);
+		mutate_cmd(redir_node->text, data->env_vars);
 		redir_node = redir_node->next;
 	}
 	// printf("\n [LOG] NO_DE:%s, %i\n",

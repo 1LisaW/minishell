@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/05 14:54:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/06 15:09:49 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,8 @@ int	main(int argc, char **argv, char **envp)
 	char	*s;
 	t_env	*envv;
 
-	tmpstr = malloc(sizeof(char **)*1000);
+	tmpstr = NULL;
+	// tmpstr = malloc(sizeof(char **)*1000);
 	// data = malloc(sizeof(t_data));
 	(void)argv;
 	g_gb.exit_st = 0;
@@ -114,17 +115,19 @@ int	main(int argc, char **argv, char **envp)
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	//testing modify_cmd TO REMOVE
-//	tmpstr = ft_strcopy("\"echo $ARG\"");
+	tmpstr = ft_strcopy("\"echo $ARG\"");
 //test_modify_cmd(tmpstr, "echo ho", envv);
 //free(tmpstr);
 //test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
 //test_modify_cmd("echo $ARG", "echo ho", envv);
-s = ft_strcopy("\"\"\'\'echo \"$ARG\"");
-modify_cmd(tmpstr, s, envv);
-printf("%s\n", tmpstr);
-tmpstr = new_cmd(tmpstr, NULL);
-printf("%s\n", tmpstr);
-free(tmpstr);
+	s = ft_strcopy("\"\"\'\'echo \"$ARG\"");
+	// s = ft_strcopy("\"\"\"\'f\'f\""); 
+	modify_cmd(tmpstr, s, envv);
+	printf("%s\n", tmpstr);
+	tmpstr = new_cmd(tmpstr, NULL);
+	printf("%s\n", tmpstr);
+	free(tmpstr);
+	free(s);
 //test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
 
 // tmpstr = ft_strcopy("\'\'ec\"$ARG\"a");

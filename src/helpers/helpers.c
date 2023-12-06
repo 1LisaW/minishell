@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/05 14:05:14 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/06 13:56:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	ft_init_env(char **envp, t_env **envv)
 	char	*tmp_var;
 
 	i = 0;
+	*envv = NULL;
 	while (envp && envp[i])
 	{
 		tmp_value = ft_strchr(envp[i], 61);
