@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/04 11:45:34 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:51:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,6 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 
 	if (ft_strcmp(parser_node->text, "/bin/pwd"))
 		return (0);
-	// printf("\n [LOG] prev_fd: %i\n",*prev_fd);
-	// if (exec_data->was_stdinredir) //!opt &&
-	// {
-	// 	dup2(*prev_fd, STDIN_FILENO);
-	// 	if (!exec_data->status_code && *prev_fd != -1)
-	// 		close(*prev_fd);
-	// }
 	if ((parser_node->flags & IS_PIPE) == opt && exec_data->was_stdoutredir)
 	{
 		dup2(exec_data->fd_out, STDOUT_FILENO);
@@ -34,7 +27,6 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 	}
 	printf("[LOG] BEFORE RUN builtin, flags:%d, opt: %i, text: %s\n", parser_node->flags, opt, parser_node->text);
 	if ((parser_node->flags & IS_PIPE) == opt)
-		// && !ft_strcmp(parser_node->text, "/bin/pwd"))
 	{
 		printf("[LOG] RUN builtin [IS_PIPE], flags:%d\n", parser_node->flags);
 		status_code = pwd();
@@ -62,7 +54,6 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	if (!(parser_node->flags & IS_WAIT))
 		dup2(fd[1], STDOUT_FILENO);
 	close(fd[1]);
-	// perror("/n[LOG] !!!!!!!!!!!!!!!!!!!!!/n");
 	if (exec_data->was_stdoutredir)
 	{
 		perror("/n[LOG] STDOUT WAS REDIRED/n");
@@ -95,9 +86,8 @@ int	parent_process(int *prev_fd, t_exec_data *exec_data,
 		*prev_fd = fd[0];
 		return (0);
 	}
-	else {
+	else
 		*prev_fd = dup(STDIN_FILENO);
-	}
 	return (1);
 }
 

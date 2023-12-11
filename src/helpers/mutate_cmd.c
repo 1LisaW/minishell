@@ -3,99 +3,103 @@
 /*                                                        :::      ::::::::   */
 /*   mutate_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/06 16:38:20 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 22:47:53 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-static	void	get_substr_single_q(char **res, char *str, int *i)
+int	count_expand_var_len(char **str, t_env *env, int idx)
 {
-	char	*tmp;
-	char	*substr;
-	int		idx;
-
-	idx = *i;
-	tmp = NULL;
-
-	while (str[idx])
-	{
-		idx++;
-		if (!str[idx] || str[idx] == 39)
-			break ;
-	}
-	idx++;
-	substr = ft_substr(str, *i, idx - *i + 1);
-	*i = idx;
-	tmp = ft_strjoin(*res, substr);
-	free(*res);
-	free(substr);
-	*res = tmp;
-}
-
-static	void	quo_2_hlp(char **res, int *i, char *s, t_env *env)
-{
+	int		keep;
 	char	*var;
-	char	*tmp;
+	char	*n_str;
 
-	(*i)++;
-	var = expand_var(s, i, env);
+	keep = 0;
+	n_str = NULL;
+	printf("\n keep + idx, str %i, %i, %s \n", keep, idx, *str);
+	if ((*str)[keep + idx] == '?')
+	{
+		printf("\nfound ?\n");
+		n_str = ft_itoa(g_gb.exit_st);
+		return (keep += ft_strlen(n_str), free(n_str), (*str)++, keep);
+	}
+	printf("\n *((*str) + keep + idx)) %c\n", *((*str) + keep + idx));
+	while (is_identifier(*((*str) + keep + idx)))
+		keep++;
+	n_str = ft_substr(*str + idx, 0, keep);
+	var = get_env(n_str, env);
+	(*str) += keep;
+	printf("\nvar %s %i\n", var, keep);
 	if (!var || !*var)
-		return ;
-	tmp = ft_strjoin(*res, var);
-	free(*res);
-	free(var);
-	*res = tmp;
-
+		return (free(n_str), n_str = NULL, 0);
+	keep = ft_strlen(var);
+	return (free(n_str), n_str = NULL, keep);
 }
 
-static	void	get_substr_dowble_q(char **ret, char *str, int *i, t_env *env)
+int	ft_substr_len_till_char(char **str, int ch, t_env *env)
 {
-	char	*tmp;
-	// char	*substr;
-	int		idx;
+	int	len;
+	int	env_len;
 
-	idx = *i;
-	tmp = NULL;
-
-	while (str[idx])
+	len = 1;
+	env_len = 0;
+	while (ch && (*str)[len] && (*str)[len] != ch)
 	{
-		idx++;
-		if (str[idx] == '$' && is_identifier(str[idx + 1]))
+		if (ch == 34 && (*str)[len] == '$' && (*str)[len + 1]
+			&& is_identifier((*str)[len + 1]))
 		{
-			quo_2_hlp(ret, &idx, str, env);
-			*i =idx;
+			*str += 1;
+			printf("\nstr before env: %s %i\n", (*str) + len, len);
+			env_len += count_expand_var_len(str, env, len);
+			printf("\n len of env: %i\n", env_len);
 		}
-		if (!str[idx] || str[idx] == 39)
-			break ;
+		else
+			len++;
+	}
+	if (ch && (*str)[len] == ch)
+		len++;
+	while (!ch && (*str)[len] && (*str)[len] != 39
+			&& (*str)[len] != 34 && (*str)[len] != '$')
+		len++;
+	*str += len;
+	return (len + env_len);
+}
+
+void	calc_len_after_env_replacement(int *len, char *str, t_env *env)
+{
+	while (str && *str)
+	{
+		if (*str == 39)
+			*len += ft_substr_len_till_char(&str, 39, env);
+		else if (*str == 34)
+			*len += ft_substr_len_till_char(&str, 34, env);
+		else if (*str == '$' && (*str) + 1 && is_identifier(*(str + 1)))
+		{
+			str++;
+			*len += count_expand_var_len(&str, env, 0);
+		}
+		else
+		{
+			*len += ft_substr_len_till_char(&str, 0, env);
+		}
+		printf("\nLEN of result %s %i\n", str, *len);
 	}
 }
 
-void	mutate_cmd(char *str, t_env *env)
+void	mutate_cmd(char **str, t_env *env)
 {
-	int		i;
+	int		len_with_env;
 	char	*res;
-	// char	*tmp;
 
-	i = 0;
-	res = malloc(sizeof(str));
-	while (str && str[i])
-	{
-		if (str[i] == 39)
-			get_substr_single_q(&res, str, &i);
-		else if (str[i] == 34)
-			get_substr_dowble_q(&res, str, &i, env);
-		// else if (str[i] == '$' && (is_identifier(str[i + 1])
-		// 		|| str[i + 1] == '?'))
-		// 	replace_var(&tmp, str, &i, env);
-		// else if (str[i] == '$' && (str[i + 1] == 34 || str[i + 1] == 39))
-		// 	i++;
-		// else
-			// *tmp++ = str[i++];
-	}
-	// *tmp = '\0';
-	printf("\nmodified to: %s, %s\n", res, str);
+	len_with_env = 0;
+	calc_len_after_env_replacement(&len_with_env, *str, env);
+	res = malloc(sizeof(char) * (len_with_env + 1));
+	modify_cmd(res, *str, env);
+	free(*str);
+	*str = new_cmd(res, NULL);
+	printf("\n ARFER MUTATION: %s\n", *str);
 }

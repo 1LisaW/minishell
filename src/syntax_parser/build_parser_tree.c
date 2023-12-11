@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 13:26:17 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 12:37:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:11:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ t_parser_data	*build_subtree(t_lexer_data **lexer_head,
 void	build_tree(t_data *data, char **oper_arr)
 {
 	t_lexer_data	**tail_lexer_node;
+	int				i;
 
 	tail_lexer_node = &data->lexer_data;
 	while ((*tail_lexer_node)->next)
@@ -73,5 +74,12 @@ void	build_tree(t_data *data, char **oper_arr)
 	data->parser_data = build_subtree(&data->lexer_data,
 			tail_lexer_node,
 			NULL, oper_arr);
+	i = 0;
+	while (oper_arr[i])
+	{
+		free(oper_arr[i]);
+		oper_arr[i] = NULL;
+		i++;
+	}
 	free(oper_arr);
 }

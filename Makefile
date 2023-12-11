@@ -15,7 +15,7 @@ PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 LEXER_FILES	=	lexer lexer_data tokenizer
 
 HELPERS_FILES = helpers modify_cmd modify_cmd_helpers modify_cmd_helpers2 \
-	mutate_cmd mutate_cmd_utils
+	mutate_cmd destroy_data
 
 EXEC_FILES	= executor execute_process redirect redir_utils heredoc_redir
 
@@ -91,13 +91,13 @@ $(addprefix $(OBJ_DIR)/, $(OBJS)): $(SRCS) \
 		$(CC) -c $(CFLAGS) $(SRCS)
 		mv $(OBJS) $(OBJ_DIR)/
 
-$(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)):
+$(addprefix $(OBJ_DIR)/$(LEXER_DIR)/, $(LEXER_OBJS)): $(LEXER_SRCS)
 		@mkdir -p $(OBJ_DIR)/$(LEXER_DIR)
 		$(CC) -c $(CFLAGS) $(LEXER_SRCS)
 		mv $(LEXER_OBJS) $(OBJ_DIR)/$(LEXER_DIR)/
 
 
-$(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)):
+$(addprefix $(OBJ_DIR)/$(PARSER_DIR)/, $(PARSER_OBJS)): $(PARSER_SRCS)
 		@mkdir -p $(OBJ_DIR)/$(PARSER_DIR)
 		$(CC) -c $(CFLAGS) $(PARSER_SRCS)
 		mv $(PARSER_OBJS) $(OBJ_DIR)/$(PARSER_DIR)/
@@ -112,7 +112,7 @@ $(addprefix $(OBJ_DIR)/$(HELPERS_DIR)/, $(HELPERS_OBJS)): $(HELPERS_SRCS)
 		$(CC) -c $(CFLAGS) $(HELPERS_SRCS)
 		mv $(HELPERS_OBJS) $(OBJ_DIR)/$(HELPERS_DIR)/
 
-$(addprefix $(OBJ_DIR)/$(BUILTINS_DIR)/, $(BUILTINS_OBJS)):
+$(addprefix $(OBJ_DIR)/$(BUILTINS_DIR)/, $(BUILTINS_OBJS)): $(BUILTINS_SRCS)
 		@mkdir -p $(OBJ_DIR)/$(BUILTINS_DIR)
 		$(CC) -c $(CFLAGS) $(BUILTINS_SRCS)
 		mv $(BUILTINS_OBJS) $(OBJ_DIR)/$(BUILTINS_DIR)/

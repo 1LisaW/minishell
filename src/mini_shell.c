@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/06 15:09:49 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:13:45 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,49 +101,24 @@ void	minishell(t_env **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*tmpstr;
-	char	*s;
+	// char	*tmpstr;
+	// char	*s;
 	t_env	*envv;
 
-	tmpstr = NULL;
-	// tmpstr = malloc(sizeof(char **)*1000);
-	// data = malloc(sizeof(t_data));
+	// tmpstr = NULL;
 	(void)argv;
 	g_gb.exit_st = 0;
-// 	data->env_vars = NULL;
 	ft_init_env(envp, &envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
-	//testing modify_cmd TO REMOVE
-	tmpstr = ft_strcopy("\"echo $ARG\"");
-//test_modify_cmd(tmpstr, "echo ho", envv);
-//free(tmpstr);
-//test_modify_cmd("echo '$ARG'", "echo '$ARG'", envv);
-//test_modify_cmd("echo $ARG", "echo ho", envv);
-	s = ft_strcopy("\"\"\'\'echo \"$ARG\"");
-	// s = ft_strcopy("\"\"\"\'f\'f\""); 
-	modify_cmd(tmpstr, s, envv);
-	printf("%s\n", tmpstr);
-	tmpstr = new_cmd(tmpstr, NULL);
-	printf("%s\n", tmpstr);
-	free(tmpstr);
-	free(s);
-//test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
-
-// tmpstr = ft_strcopy("\'\'ec\"$ARG\"a");
-// test_modify_cmd(tmpstr, "e'c$ARGa'", envv);
-// test_modify_cmd("e'c$ARGa'", "e'c$ARGa'", envv);
-// free(tmpstr);
-
-//char test_string[1024];  // Large enough for our test cases
-//strcpy(test_string, "ec$ARG'a");
-//modify_cmd(test_string, envv);
-//printf("%s\n", test_string);
-
-//end testing modify_cmd
-// <<<<<<< C-013
-// 	minishell(data->env_vars);
-// =======
+	// tmpstr = ft_strcopy("\"echo $ARG\"");
+	// s = ft_strcopy("\"\"\'\'echo \"$ARG\"");
+	// modify_cmd(tmpstr, s, envv);
+	// printf("%s\n", tmpstr);
+	// tmpstr = new_cmd(tmpstr, NULL);
+	// printf("%s\n", tmpstr);
+	// free(tmpstr);
+	// free(s);
 	minishell(&envv);
 	return (0);
 }

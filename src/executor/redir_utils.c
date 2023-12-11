@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 06:09:10 by tklimova          #+#    #+#             */
-/*   Updated: 2023/10/31 15:18:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:01:18 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,4 +48,13 @@ void	clear_exec_data(t_exec_data *exec_data, t_data *data)
 	dup2(exec_data->stdout_dup, STDOUT_FILENO);
 	close(exec_data->stdin_dup);
 	close(exec_data->stdout_dup);
+}
+
+void	change_redir_data_without_cmd(t_parser_data *parser_node)
+{
+	parser_node->lexer_type = word;
+	parser_node->text = ft_strcopy("/bin/cat");
+	if (parser_node->redir_data->is_here_doc && (!parser_node->parent
+			|| !ft_strcmp(parser_node->parent->text, "|")))
+		parser_node->flags = IS_WAIT;
 }

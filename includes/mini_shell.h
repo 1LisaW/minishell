@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/06 13:36:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:00:58 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ typedef struct s_data
 	int				status_code;
 }			t_data;
 
-typedef struct s_ptrs 
+typedef struct s_ptrs
 {
 	char	*temp;
 	char	*r_ptr;
@@ -153,7 +153,7 @@ char			*get_path(char *text, t_env *envv);
 
 void			modify_cmd(char *ret, char *s, t_env *env);
 
-void			mutate_cmd(char *str, t_env *env);
+void			mutate_cmd(char **str, t_env *env);
 
 //builtins
 int				pwd(void);
@@ -196,6 +196,8 @@ void			here_doc(t_exec_data *exec_data, t_redir_data *redir_data,
 
 void			clear_exec_data(t_exec_data *exec_data, t_data *data);
 
+void			change_redir_data_without_cmd(t_parser_data *parser_node);
+
 void			make_redirections(t_parser_data *parser_node,
 					t_exec_data *exec_data, int *prev_fd);
 
@@ -232,6 +234,8 @@ char			*new_cmd(char *s, bool *flg);
 void			expand_and_modify(void);
 
 int				calc_len(char *s);
+
+void			calc_len_after_env_replacement(int *len, char *str, t_env *env);
 
 extern t_gb	g_gb;
 #endif
