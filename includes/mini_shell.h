@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/05 14:08:35 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:29:40 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,7 @@ typedef struct s_exec_data
 typedef struct s_gb
 {
 	int		exit_st;
+	int		under_exec;
 }	t_gb;
 
 void			init_data(t_data *data);
@@ -131,11 +132,9 @@ void			delete_lexer_data(t_data *data);
 
 void			tokenizer(t_lexer_data *lexer_node);
 
-void			child_signals(int signum);
-
-void			dismiss_signal(int signum);
-
 void			config_signals(void);
+
+void			signal_middle(void);
 
 void			ft_init_env(char **envp, t_env **envv);
 
@@ -230,6 +229,16 @@ char			*new_cmd(char *s, bool *flg);
 void			expand_and_modify(void);
 
 int				calc_len(char *s);
+
+void			free_env(t_env **env);
+
+bool			is_inbuilt(char *cmd);
+
+int				exec_builtins(t_parser_data *token);
+
+int				exit_builtin(t_parser_data *data);
+
+int				get_error(void);
 
 extern t_gb	g_gb;
 #endif

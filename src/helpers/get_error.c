@@ -6,11 +6,11 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:12:18 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:59:55 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:04:29 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_shell.h"
+#include "../../includes/mini_shell.h"
 
 static int	get_error_code(int err_code, bool set_err_code)
 {

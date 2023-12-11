@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/04 11:45:34 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/11 10:54:32 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 {
 	int	status_code;
 
-	if (ft_strcmp(parser_node->text, "/bin/pwd"))
-		return (0);
+	if (is_inbuilt(parser_node->text) == 1)
+		exec_builtins(parser_node);
 	// printf("\n [LOG] prev_fd: %i\n",*prev_fd);
 	// if (exec_data->was_stdinredir) //!opt &&
 	// {
@@ -33,8 +33,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 			close(exec_data->fd_out);
 	}
 	printf("[LOG] BEFORE RUN builtin, flags:%d, opt: %i, text: %s\n", parser_node->flags, opt, parser_node->text);
-	if ((parser_node->flags & IS_PIPE) == opt)
-		// && !ft_strcmp(parser_node->text, "/bin/pwd"))
+	if ((parser_node->flags & IS_PIPE) == opt
+		 && is_inbuilt(parser_node->text) == 0)
 	{
 		printf("[LOG] RUN builtin [IS_PIPE], flags:%d\n", parser_node->flags);
 		status_code = pwd();

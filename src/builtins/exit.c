@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:05:40 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:39:37 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/11 11:16:41 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exit_builtin(t_parser_data *data)
 		|| ft_strncmp(data->text, "exit", ft_strlen(data->text)))
 		return (EXIT_FAILURE);
 	if (data->cmd_line[i])
-		g_gb.exit_st = ft_atoi(data->cmd_line[i]);
+		g_gb.exit_st = ft_atol(data->cmd_line[i]);
 	if (!valid_exit_arg(data->cmd_line + i) || ft_strlen(data->cmd_line[i]))
 	{
 		print_error(2, "exit", "incorrect arguments");

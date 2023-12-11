@@ -3,44 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/28 11:32:12 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/08 10:49:51 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-//to close childs we will probably need it later
-void	child_signals(int signum)
+static void	handler(int signum)
 {
-	if (signum == SIGINT)
+	(void)signum;
+	if (!g_gb.under_exec)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		exit(130);
-	}
-}
-
-void	dismiss_signal(int signum)
-{
-	if (signum == SIGINT)
-	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		ft_putstr_fd("\n", STDOUT_FILENO);
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_gb.exit_st = 1;
 	}
 }
 
 void	config_signals(void)
 {
-	struct sigaction	sa;
+	rl_catch_signals = 0;
+	if (signal(SIGINT, handler) == SIG_ERR
+		|| signal(SIGQUIT, SIG_IGN) == SIG_ERR
+		|| signal(SIGTSTP, SIG_IGN) == SIG_ERR)
+		return (print_error(2, "signal", strerror(errno)), exit_with_status(1));
+}
 
-	sa.sa_handler = &dismiss_signal;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
-	signal(SIGQUIT, SIG_IGN);
+void	signal_middle(void)
+{
+	if (signal(SIGINT, SIG_IGN) == SIG_ERR
+		|| signal(SIGQUIT, SIG_IGN) == SIG_ERR
+		|| signal(SIGTSTP, SIG_IGN) == SIG_ERR)
+		return (print_error(2, "signal", strerror(errno)), exit_with_status(1));
 }
