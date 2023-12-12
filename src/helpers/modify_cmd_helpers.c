@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/05 14:07:43 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/11 21:42:13 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,9 @@ char	*expand_var(char *s, int *i, t_env *env)
 	char	*str;
 
 	keep = *i;
-	if (s[keep] == '?')
+	if (s[keep] && s[keep] == '?')
 		return ((*i)++, ft_itoa(g_gb.exit_st));
-	while (is_identifier(s[keep]))
+	while (s[keep] && is_identifier(s[keep]))
 		keep++;
 	keep -= *i;
 	str = ft_substr(s, *i, keep);

@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/05 14:05:14 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:15:05 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,27 @@ char	*get_path(char *text, t_env *envv)
 	char	*path;
 	char	**paths;
 	int		i;
+	char 	*tmp[2];
 
 	i = 0;
 	path = NULL;
 	path = get_env("PATH", envv);
 	paths = ft_split(path, ':');
-	if (path && *path)
-		free(path);
-	path = NULL;
+	tmp[0] = ft_strjoin("/", text);
+	tmp[1] = ft_strjoin(paths[i], tmp[0]);
 	while (paths[i]
-		&& access(ft_strjoin(paths[i], ft_strjoin("/", text)), F_OK) == -1)
+		&& access(tmp[1], F_OK) == -1)
+	{
 		i++;
+		(free(tmp[0]), free(tmp[1]), tmp[0] = ft_strjoin("/", text), tmp[1] = ft_strjoin(paths[i], tmp[0]));
+	}
+	(free(tmp[0]), free(tmp[1]));
 	if (paths[i])
-		path = ft_strjoin(paths[i], ft_strjoin("/", text));
+	{
+		tmp[1] = ft_strjoin("/", text);
+		path = ft_strjoin(paths[i], tmp[1]);
+		free(tmp[1]);
+	}
 	ft_free_arr(paths);
 	return (path);
 }
@@ -41,6 +49,7 @@ void	ft_init_env(char **envp, t_env **envv)
 	char	*tmp_var;
 
 	i = 0;
+	*envv = NULL;
 	while (envp && envp[i])
 	{
 		tmp_value = ft_strchr(envp[i], 61);
@@ -76,27 +85,4 @@ void	print_error(int n, ...)
 	}
 	ft_putstr_fd("\n", 2);
 	va_end(ptr);
-}
-
-  void	ft_destroy_env(t_env **envv)
-{
-	t_env	*curr_env;
-
-	while (envv 
-		&& (*envv))
-	{
-		// printf("\n(*envv)->var: %s, (*envv)->value : %s\n", (*envv)->var, (*envv)->value);
-		curr_env = (*envv)->next;
-		// if (curr_env)
-		// 	printf("\n(*curr_env)->var: %s, (*curr_env)->value : %s\n", curr_env->var, curr_env->value);
-
-		if ((*envv)->var)
-			free((*envv)->var);
-		(*envv)->var = NULL;
-		if ((*envv)->value)
-			free((*envv)->value);
-		(*envv)->value = NULL;
-		free((*envv));
-		*envv = curr_env; 
-	}
 }

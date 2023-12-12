@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/01 12:22:12 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:23:10 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 	return (1);
 }
 
-void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data, int *prev_fd)
+void	check_prolong(t_parser_data *parser_node,
+				t_exec_data *exec_data, int *prev_fd)
 {
 	if (!ft_strcmp(parser_node->text, "&&") && exec_data->status_code)
 		exec_data->go_on = 0;
@@ -35,40 +36,26 @@ void	check_prolong(t_parser_data *parser_node, t_exec_data *exec_data, int *prev
 	if (exec_data->go_on && ft_strcmp(parser_node->text, "|"))
 	{
 		printf("[LOG] %i",*prev_fd);
-		perror("\n[LOG] GOON\n %i");
+		// perror("\n[LOG] GOON\n %i");
 	}
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
 			t_exec_data *exec_data, t_data *data)
 {
-	t_parser_data	*temp;
-	t_redir_data	*redir_node;
-	t_data			*temp2;
-
-	temp2 = data;
-	temp = parser_node;
-	redir_node = parser_node->redir_data;
-	while (redir_node)
-	{
-		//modify_cmd(redir_node->text, parser_node->text, data);
-		redir_node = redir_node->next;
-	}
-	// printf("\n [LOG] NO_DE:%s, %i\n",
-		// parser_node->text, parser_node->lexer_type);
+	mutate_parser_node(parser_node, data);
 	if (parser_node->lexer_type == redir_notation)
 		make_redir_without_cmd(parser_node, exec_data);
-	// printf("\n [LOG] EXEC PROC\n");
 	if (parser_node->lexer_type == operator)
 		return (check_prolong(parser_node, exec_data, prev_fd));
 	if (parser_node->lexer_type == word)
+	{
+		if (ft_strcmp(parser_node->text, "pwd"))
+			bind_current_path_to_cmd(parser_node, data->env_vars);
 		create_process(prev_fd, parser_node, exec_data);
-	// printf("\n [LOG] Parent node : %s flags:%i\n",
-			// parser_node->text, parser_node->flags);
+	}
 	if (parser_node->flags & IS_WAIT)
 	{
-		// printf("\n [LOG] Waiting for execution in	execute_process:%s\n",
-			// parser_node->text);
 		while (wait(NULL) != -1)
 			;
 	}

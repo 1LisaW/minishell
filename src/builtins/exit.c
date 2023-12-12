@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:05:40 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:39:37 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/11 20:24:28 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	exit_builtin(t_parser_data *data)
 
 	g_gb.exit_st = get_error();
 	i = 1;
-	if (!data || !data->text || !data->cmd_line 
+	if (!data || !data->text || !data->cmd_line
 		|| ft_strncmp(data->text, "exit", ft_strlen(data->text)))
 		return (EXIT_FAILURE);
 	if (data->cmd_line[i])
