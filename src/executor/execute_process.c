@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 14:09:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:18:41 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,8 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, NULL);
-	destroy_data(exec_data->link_to_data);
-	ft_destroy_env(&(exec_data->link_to_data->env_vars));
+	// ft_destroy_env(&(exec_data->link_to_data->env_vars));
+	// destroy_data(exec_data->link_to_data);
 	perror("\n[LOG] command not found \n");
 	exit (127);
 }

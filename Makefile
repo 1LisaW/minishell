@@ -125,7 +125,7 @@ $(NAME):	$(addprefix $(OBJ_DIR)/, $(ALL_OBJS)) $(LIB)
 		$(CC) $(addprefix $(OBJ_DIR)/, $(ALL_OBJS))  -I include $(LIB) -lreadline -o $(NAME)
 
 run:
-	valgrind --suppressions=suppressions.supp --leak-check=full --show-leak-kinds=all ./minishell
+	valgrind --suppressions=suppressions.supp --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes --trace-children=yes ./minishell
 
 clean:
 	$(RM) $(addprefix $(OBJ_DIR)/, $(ALL_OBJS)) $(OBJ_DIR)
