@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redir_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 06:09:10 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 15:50:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:39:08 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ void	change_redir_data_without_cmd(t_parser_data *parser_node)
 	parser_node->text = ft_strcopy("cat");
 	parser_node->cmd_line = (char **)malloc((2) * sizeof(char *));
 	parser_node->cmd_line[0] = ft_strcopy("cat");
+	parser_node->cmd_line[1] = NULL;
 	if (parser_node->redir_data->is_here_doc && (!parser_node->parent
 			|| !ft_strcmp(parser_node->parent->text, "|")))
 		parser_node->flags = IS_WAIT;

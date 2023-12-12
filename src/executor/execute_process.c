@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 15:27:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:09:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,6 @@ void	handle_fd(int *prev_fd)
 void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			t_exec_data *exec_data)
 {
-	// printf("\n [LOG] RUN CHILD PROCESS %s\n", parser_node->text);
 	handle_fd(prev_fd);
 	close(fd[0]);
 	if (!(parser_node->flags & IS_WAIT))
@@ -56,18 +55,17 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	close(fd[1]);
 	if (exec_data->was_stdoutredir)
 	{
-		// perror("/n[LOG] STDOUT WAS REDIRED/n");
 		dup2(exec_data->fd_out, STDOUT_FILENO);
 		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
-	// else
-		// perror("/n[LOG] STDOUT WAS NOT REDIRED/n");
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, NULL);
+	destroy_data(exec_data->link_to_data);
+	ft_destroy_env(&(exec_data->link_to_data->env_vars));
 	perror("\n[LOG] command not found \n");
 	exit (127);
 }
@@ -82,7 +80,6 @@ int	parent_process(int *prev_fd, t_exec_data *exec_data,
 		close(exec_data->fd_out);
 	if (!(parser_node->flags & IS_WAIT))
 	{
-		// printf("\n [LOG]Parent is not WAITING!\n");
 		*prev_fd = fd[0];
 		return (0);
 	}
