@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/11 21:00:58 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 14:31:22 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,7 +153,7 @@ char			*get_path(char *text, t_env *envv);
 
 void			modify_cmd(char *ret, char *s, t_env *env);
 
-void			mutate_cmd(char **str, t_env *env);
+void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 
 //builtins
 int				pwd(void);
@@ -208,6 +208,10 @@ void			clear_savedstd(t_exec_data *exec_data);
 
 int				create_process(int *prev_fd, t_parser_data *parser_node,
 					t_exec_data *exec_data);
+
+void			command_not_found(char *cmd);
+
+void			bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env);
 
 void			executor(t_data *data);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/11 20:51:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:27:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 {
 	int	status_code;
 
-	if (ft_strcmp(parser_node->text, "/bin/pwd"))
+	if (ft_strcmp(parser_node->text, "pwd"))
 		return (0);
 	if ((parser_node->flags & IS_PIPE) == opt && exec_data->was_stdoutredir)
 	{
@@ -25,7 +25,7 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
-	printf("[LOG] BEFORE RUN builtin, flags:%d, opt: %i, text: %s\n", parser_node->flags, opt, parser_node->text);
+	// printf("[LOG] BEFORE RUN builtin, flags:%d, opt: %i, text: %s\n", parser_node->flags, opt, parser_node->text);
 	if ((parser_node->flags & IS_PIPE) == opt)
 	{
 		printf("[LOG] RUN builtin [IS_PIPE], flags:%d\n", parser_node->flags);
@@ -48,7 +48,7 @@ void	handle_fd(int *prev_fd)
 void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			t_exec_data *exec_data)
 {
-	printf("\n [LOG] RUN CHILD PROCESS %s\n", parser_node->text);
+	// printf("\n [LOG] RUN CHILD PROCESS %s\n", parser_node->text);
 	handle_fd(prev_fd);
 	close(fd[0]);
 	if (!(parser_node->flags & IS_WAIT))
@@ -56,19 +56,19 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	close(fd[1]);
 	if (exec_data->was_stdoutredir)
 	{
-		perror("/n[LOG] STDOUT WAS REDIRED/n");
+		// perror("/n[LOG] STDOUT WAS REDIRED/n");
 		dup2(exec_data->fd_out, STDOUT_FILENO);
 		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
-	else
-		perror("/n[LOG] STDOUT WAS NOT REDIRED/n");
+	// else
+		// perror("/n[LOG] STDOUT WAS NOT REDIRED/n");
 	if (exec_data->status_code)
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
-	perror("\n[LOG] NOT buildin in PIPE\n");
 	execve(parser_node->text, parser_node->cmd_line, NULL);
+	perror("\n[LOG] command not found \n");
 	exit (127);
 }
 
@@ -82,7 +82,7 @@ int	parent_process(int *prev_fd, t_exec_data *exec_data,
 		close(exec_data->fd_out);
 	if (!(parser_node->flags & IS_WAIT))
 	{
-		printf("\n [LOG]Parent is not WAITING!\n");
+		// printf("\n [LOG]Parent is not WAITING!\n");
 		*prev_fd = fd[0];
 		return (0);
 	}
@@ -113,9 +113,9 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		dup2(fd[0], STDOUT_FILENO);
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
-		if (WIFEXITED(exec_data->status_code))
-			printf("\n [LOG] WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text,
-				WEXITSTATUS(exec_data->status_code), exec_data->status_code);
+		// if (WIFEXITED(exec_data->status_code))
+			// printf("\n [LOG] WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text,
+				// WEXITSTATUS(exec_data->status_code), exec_data->status_code);
 	}
 	return (0);
 }

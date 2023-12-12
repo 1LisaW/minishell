@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/11 21:03:11 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:15:05 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,27 @@ char	*get_path(char *text, t_env *envv)
 	char	*path;
 	char	**paths;
 	int		i;
+	char 	*tmp[2];
 
 	i = 0;
 	path = NULL;
 	path = get_env("PATH", envv);
 	paths = ft_split(path, ':');
-	if (path && *path)
-		free(path);
-	path = NULL;
+	tmp[0] = ft_strjoin("/", text);
+	tmp[1] = ft_strjoin(paths[i], tmp[0]);
 	while (paths[i]
-		&& access(ft_strjoin(paths[i], ft_strjoin("/", text)), F_OK) == -1)
+		&& access(tmp[1], F_OK) == -1)
+	{
 		i++;
+		(free(tmp[0]), free(tmp[1]), tmp[0] = ft_strjoin("/", text), tmp[1] = ft_strjoin(paths[i], tmp[0]));
+	}
+	(free(tmp[0]), free(tmp[1]));
 	if (paths[i])
-		path = ft_strjoin(paths[i], ft_strjoin("/", text));
+	{
+		tmp[1] = ft_strjoin("/", text);
+		path = ft_strjoin(paths[i], tmp[1]);
+		free(tmp[1]);
+	}
 	ft_free_arr(paths);
 	return (path);
 }

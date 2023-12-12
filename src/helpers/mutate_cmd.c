@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutate_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/11 22:47:53 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 13:07:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,4 +102,26 @@ void	mutate_cmd(char **str, t_env *env)
 	free(*str);
 	*str = new_cmd(res, NULL);
 	printf("\n ARFER MUTATION: %s\n", *str);
+}
+
+void	mutate_parser_node(t_parser_data *parser_node, t_data *data)
+{
+	t_redir_data	*redir_node;
+	char			**cmd;
+
+	redir_node = parser_node->redir_data;
+	cmd = parser_node->cmd_line;
+	while (redir_node)
+	{
+		mutate_cmd(&redir_node->text, data->env_vars);
+		redir_node = redir_node->next;
+	}
+	if (parser_node->lexer_type == word)
+	{
+		mutate_cmd(&parser_node->text, data->env_vars);
+		while (*cmd){
+			mutate_cmd(&(*cmd), data->env_vars);
+			cmd += 1;
+		}
+	}
 }

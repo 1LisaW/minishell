@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/11 20:23:55 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 15:23:10 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,27 +36,24 @@ void	check_prolong(t_parser_data *parser_node,
 	if (exec_data->go_on && ft_strcmp(parser_node->text, "|"))
 	{
 		printf("[LOG] %i",*prev_fd);
-		perror("\n[LOG] GOON\n %i");
+		// perror("\n[LOG] GOON\n %i");
 	}
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
 			t_exec_data *exec_data, t_data *data)
 {
-	t_redir_data	*redir_node;
-
-	redir_node = parser_node->redir_data;
-	while (redir_node)
-	{
-		mutate_cmd(&redir_node->text, data->env_vars);
-		redir_node = redir_node->next;
-	}
+	mutate_parser_node(parser_node, data);
 	if (parser_node->lexer_type == redir_notation)
 		make_redir_without_cmd(parser_node, exec_data);
 	if (parser_node->lexer_type == operator)
 		return (check_prolong(parser_node, exec_data, prev_fd));
 	if (parser_node->lexer_type == word)
+	{
+		if (ft_strcmp(parser_node->text, "pwd"))
+			bind_current_path_to_cmd(parser_node, data->env_vars);
 		create_process(prev_fd, parser_node, exec_data);
+	}
 	if (parser_node->flags & IS_WAIT)
 	{
 		while (wait(NULL) != -1)
