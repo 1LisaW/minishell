@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 15:22:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:53:08 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_gb.exit_st = 0;
 	ft_init_env(envp, &envv);
+	set_envv(envv);
 	if (argc != 1)
 		return (ft_putendl_fd("Usage: ./minishell <envp>", 2), 0);
 	minishell(&envv);

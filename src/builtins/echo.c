@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:14 by plandolf          #+#    #+#             */
-/*   Updated: 2023/10/26 12:02:47 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:56:16 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	echo(t_parser_data *data)
 	int		i;
 	int		n;
 
-	i = 0;
+	i = 1;
 	n = 0;
-	if (data->cmd_line[0] && ft_strcmp(data->cmd_line[0], "-n") == 0)
+	if (data->cmd_line[1] && ft_strcmp(data->cmd_line[1], "-n") == 0)
 	{
 		n = 1;
 		i++;

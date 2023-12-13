@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:59:02 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:54:51 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ static char	*ft_home(t_env *env)
 
 	if (env == NULL)
 		return (NULL);
-	path = get_env("HOME", env);
+	path = get_env_value("HOME", env);
 	if (ft_strlen(path) == 0)
 	{
 		ft_putendl_fd("cd: HOME not set", 2);
@@ -34,7 +34,7 @@ static void	ft_update_pwd(t_env *env, char *var, char *value)
 	t_env	*tmp;
 
 	tmp = env;
-	pwd = get_env("PWD", tmp);
+	pwd = get_env_value("PWD", tmp);
 	if (ft_strcmp(var, "OLDPWD") == 0)
 		set_env("OLDPWD", pwd, &tmp);
 	if (ft_strcmp(var, "PWD") == 0)
@@ -74,16 +74,18 @@ static int	ft_cd_home(t_env *env)
 	ft_update_pwd(env, "PWD", cwd);
 	free(path);
 	path = NULL;
-	if (get_env("PWD", env) == NULL || get_env("OLDPWD", env) == NULL)
+	if (get_env_value("PWD", env) == NULL || get_env_value("OLDPWD", env) == NULL)
 		return (ft_exit_cd(&cwd, EXIT_FAILURE));
 	return (ft_exit_cd(&cwd, EXIT_SUCCESS));
 }
 
-int	cd(char **args, t_env *env)
+int	cd(char **args)
 {
 	char	*cwd;
 	DIR		*dir;
+	t_env	*env;
 
+	env = get_envv();
 	if (args == NULL || env == NULL)
 		return (EXIT_FAILURE);
 	if (args[1] == NULL)
@@ -99,8 +101,8 @@ int	cd(char **args, t_env *env)
 	ft_update_pwd(env, "OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	ft_update_pwd(env, "PWD", cwd);
-	if (get_env("PWD", env) == NULL
-		|| get_env("OLDPWD", env) == NULL)
+	if (get_env_value("PWD", env) == NULL
+		|| get_env_value("OLDPWD", env) == NULL)
 		return (ft_exit_cd(&cwd, EXIT_FAILURE));
 	return (ft_exit_cd(&cwd, EXIT_SUCCESS));
 }

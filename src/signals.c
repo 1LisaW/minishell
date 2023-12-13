@@ -12,35 +12,38 @@
 
 #include "../includes/mini_shell.h"
 
-//to close childs we will probably need it later
-void	child_signals(int signum)
+static void	handle_cmd_signal(int sig)
 {
-	if (signum == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		exit(130);
+		set_error_code(130);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
 	}
 }
 
-void	dismiss_signal(int signum)
+static void	handle_global_signal(int sig)
 {
-	if (signum == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		set_error_code(1);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
 	}
 }
 
+void	handle_cmd_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_cmd_signal);
+}
 void	config_signals(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = &dismiss_signal;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_global_signal);
 }

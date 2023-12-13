@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 14:31:22 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:55:09 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,9 +133,16 @@ void			tokenizer(t_lexer_data *lexer_node);
 
 void			child_signals(int signum);
 
-void			dismiss_signal(int signum);
+//SIGNALS
 
 void			config_signals(void);
+
+void			handle_cmd_signals(void);
+
+//ERROR
+void			set_error_code(int err_code);
+
+int				get_error(void);
 
 void			ft_init_env(char **envp, t_env **envv);
 
@@ -143,7 +150,7 @@ void			ft_destroy_env(t_env **envv);
 
 void			add_env(char *var, char *value, t_env **envv);
 
-char			*get_env(char *text, t_env *envv);
+char			*get_env_value(char *text, t_env *envv);
 
 void			set_env(char *var, char *value, t_env **envv);
 
@@ -157,8 +164,16 @@ void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 
 //builtins
 int				pwd(void);
-int				cd(char **args, t_env *env);
+int				cd(char **args);
 int				echo(t_parser_data *data);
+
+//env get set
+
+void	set_envv(t_env *envv);
+
+t_env	*get_envv(void);
+
+char	*get_env_var(void);
 
 //modif_cmd
 void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);

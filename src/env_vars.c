@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   env_vars.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/20 13:30:06 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/06 13:57:17 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:47:26 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 #include <string.h>
 
-char	*get_env(char *text, t_env *envv)
+char	*get_env_value(char *text, t_env *envv)
 {
 	t_env	*tmp;
 

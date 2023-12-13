@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/12 15:15:05 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:45:45 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ char	*get_path(char *text, t_env *envv)
 
 	i = 0;
 	path = NULL;
-	path = get_env("PATH", envv);
+	path = get_env_value("PATH", envv);
 	paths = ft_split(path, ':');
 	tmp[0] = ft_strjoin("/", text);
 	tmp[1] = ft_strjoin(paths[i], tmp[0]);

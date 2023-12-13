@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "mini_shell.h"
+#include "../../includes/mini_shell.h"
 
 static int	get_error_code(int err_code, bool set_err_code)
 {

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/11 21:42:13 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 11:45:48 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*expand_var(char *s, int *i, t_env *env)
 		keep++;
 	keep -= *i;
 	str = ft_substr(s, *i, keep);
-	var = get_env(str, env);
+	var = get_env_value(str, env);
 	*i += keep;
 	if (!var || !*var)
 		return (free(str), str = NULL, NULL);

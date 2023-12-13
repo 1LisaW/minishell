@@ -8,14 +8,15 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 RM		=	rm -rf
 
-FILES	=	mini_shell processes data_init signals env_vars
+FILES	=	mini_shell processes data_init signals env_vars env_get_set
 
 PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
 HELPERS_FILES = helpers modify_cmd modify_cmd_helpers modify_cmd_helpers2 \
-	mutate_cmd destroy_data
+	mutate_cmd destroy_data\
+	get_error
 
 EXEC_FILES	= executor execute_process redirect redir_utils heredoc_redir \
 	execute_process_utils
