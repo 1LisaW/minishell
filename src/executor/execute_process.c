@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:30:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:35:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 		if (!exec_data->status_code && exec_data->fd_out != -1)
 			close(exec_data->fd_out);
 	}
-	// printf("[LOG] BEFORE RUN builtin, flags:%d, opt: %i, text: %s\n", parser_node->flags, opt, parser_node->text);
 	if ((parser_node->flags & IS_PIPE) == opt)
 	{
-		printf("[LOG] RUN builtin [IS_PIPE], flags:%d\n", parser_node->flags);
 		status_code = pwd();
 		if (parser_node->flags & IS_WAIT)
 			exec_data->status_code = status_code;
@@ -64,8 +62,6 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, NULL);
-	// ft_destroy_env(&(exec_data->link_to_data->env_vars));
-	// destroy_data(exec_data->link_to_data);
 	print_error(2, parser_node->text, "command not found");
 	exit (127);
 }
@@ -110,9 +106,6 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		dup2(fd[0], STDOUT_FILENO);
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
-		// if (WIFEXITED(exec_data->status_code))
-			// printf("\n [LOG] WIFEXITED STATUS of %s is: %d, %d\n", parser_node->text,
-				// WEXITSTATUS(exec_data->status_code), exec_data->status_code);
 	}
 	return (0);
 }

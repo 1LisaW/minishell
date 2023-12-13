@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:31:15 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:36:30 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,4 @@ void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)
 	free(parser_node->cmd_line[0]);
 	parser_node->cmd_line[0] = ft_strcopy(cmd_with_path);
 	free(cmd_with_path);
-	// printf("\n ARFER MUTATION parser_node->text: %s\n", parser_node->text);
 }
