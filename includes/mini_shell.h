@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 14:31:22 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:36:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ typedef struct s_exec_data
 	int		go_on;
 	int		fd_out;
 	char	*err_file;
+	t_data	*link_to_data;
 }			t_exec_data;
 
 typedef struct s_gb
@@ -211,7 +212,8 @@ int				create_process(int *prev_fd, t_parser_data *parser_node,
 
 void			command_not_found(char *cmd);
 
-void			bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env);
+void			bind_current_path_to_cmd(t_parser_data *parser_node,
+					t_env *env);
 
 void			executor(t_data *data);
 

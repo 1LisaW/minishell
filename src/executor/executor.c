@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 15:23:10 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 14:23:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,17 +27,12 @@ int	get_next_node(t_parser_data **curr_node, t_parser_data **prev_node)
 }
 
 void	check_prolong(t_parser_data *parser_node,
-				t_exec_data *exec_data, int *prev_fd)
+				t_exec_data *exec_data)
 {
 	if (!ft_strcmp(parser_node->text, "&&") && exec_data->status_code)
 		exec_data->go_on = 0;
 	if (!ft_strcmp(parser_node->text, "||") && !exec_data->status_code)
 		exec_data->go_on = 0;
-	if (exec_data->go_on && ft_strcmp(parser_node->text, "|"))
-	{
-		printf("[LOG] %i",*prev_fd);
-		// perror("\n[LOG] GOON\n %i");
-	}
 }
 
 void	execute_process(int *prev_fd, t_parser_data *parser_node,
@@ -47,7 +42,7 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 	if (parser_node->lexer_type == redir_notation)
 		make_redir_without_cmd(parser_node, exec_data);
 	if (parser_node->lexer_type == operator)
-		return (check_prolong(parser_node, exec_data, prev_fd));
+		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 	{
 		if (ft_strcmp(parser_node->text, "pwd"))
@@ -90,8 +85,12 @@ void	executor(t_data *data)
 	t_exec_data	exec_data[1];
 
 	init_exec_data(exec_data);
+	exec_data->link_to_data = data;
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data, &prev_fd, exec_data);
+	g_gb.exit_st = exec_data->status_code;
+	perror(ft_itoa(exec_data->status_code));
+	perror(ft_itoa(g_gb.exit_st));
 	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }
