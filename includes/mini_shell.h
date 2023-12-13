@@ -6,7 +6,7 @@
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 11:55:09 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/13 23:47:57 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -165,7 +165,11 @@ void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 //builtins
 int				pwd(void);
 int				cd(char **args);
-int				echo(t_parser_data *data);
+void			echo(char **cmd);
+int				env(char **argv);
+void			unset(char **cmd);
+int				exit_builtin(t_parser_data *data);
+void			export(char **cmd);
 
 //env get set
 
@@ -255,6 +259,18 @@ void			expand_and_modify(void);
 int				calc_len(char *s);
 
 void			calc_len_after_env_replacement(int *len, char *str, t_env *env);
+
+bool			is_builtin(char *cmd);
+
+int				exec_builtins(t_parser_data *token);
+
+void			free_env(t_env *env);
+
+bool			identifier_front(int c);
+
+void			export_var(char *s, char c);
+
+ssize_t			find_c(char *s, char c);
 
 extern t_gb	g_gb;
 #endif

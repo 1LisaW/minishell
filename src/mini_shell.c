@@ -6,7 +6,7 @@
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 11:53:08 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/14 00:39:02 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	minishell(t_env **envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
-	t_parser_data	*parser_data = NULL;
 	init_data(data);
 	data->env_vars = *envp;
 	while (1)
@@ -41,6 +40,8 @@ void	minishell(t_env **envp)
 		cmd_buff = readline("minishell> ");
 		if (!cmd_buff)
 		{
+			ft_destroy_env(envp);
+			rl_clear_history();
 			ft_putendl_fd("exit", 2);
 			break ;
 		}
@@ -54,18 +55,6 @@ void	minishell(t_env **envp)
 			rl_clear_history();
 			break ;
 		}
-		//testing builtin commands TO REMOVE
-		if (!ft_strcmp(cmd_buff, "env"))
-			print_env(*envp);
-		if (!ft_strcmp(cmd_buff, "pwd"))
-			pwd();
-		// if (!ft_strcmp(cmd_buff, "cd"))
-		// 	cd(args, *envp);
-		if (!ft_strcmp(cmd_buff, "echo"))
-			echo(parser_data);
-		// test ends here
-			// echo(args_echo);
-		//end testing builtin commands
 		lexer(data, cmd_buff);
 		free(cmd_buff);
 	}

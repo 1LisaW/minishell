@@ -6,7 +6,7 @@
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 11:54:51 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/14 00:23:13 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static int	ft_exit_cd(char **path, int exit_code)
 	free(*path);
 	*path = NULL;
 	if (exit_code == EXIT_SUCCESS)
-		return (EXIT_SUCCESS);
+		return (exit_with_status(0), g_gb.exit_st);
 	else
 	{
 		perror("cd Error");
-		return (EXIT_FAILURE);
+		return (exit_with_status(1), g_gb.exit_st);
 	}
 }
 
@@ -74,7 +74,8 @@ static int	ft_cd_home(t_env *env)
 	ft_update_pwd(env, "PWD", cwd);
 	free(path);
 	path = NULL;
-	if (get_env_value("PWD", env) == NULL || get_env_value("OLDPWD", env) == NULL)
+	if (get_env_value("PWD", env) == NULL 
+		|| get_env_value("OLDPWD", env) == NULL)
 		return (ft_exit_cd(&cwd, EXIT_FAILURE));
 	return (ft_exit_cd(&cwd, EXIT_SUCCESS));
 }

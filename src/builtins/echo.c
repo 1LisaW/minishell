@@ -6,35 +6,45 @@
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:14 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 11:56:16 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/14 00:20:16 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	echo(t_parser_data *data)
+static	bool	check_option(char *s)
 {
-	int		i;
-	int		n;
+	if (!*s)
+		return (false);
+	if (*s == '-' && *(s + 1))
+	{
+		s++;
+		while (*s == 'n')
+			s++;
+	}
+	if (*s)
+		return (false);
+	return (true);
+}
 
-	i = 1;
-	n = 0;
-	if (data->cmd_line[1] && ft_strcmp(data->cmd_line[1], "-n") == 0)
+void	echo(char **cmd)
+{
+	bool	flg;
+
+	cmd++;
+	flg = false;
+	while (*cmd && check_option(*cmd))
 	{
-		n = 1;
-		i++;
+		flg = true;
+		cmd++;
 	}
-	while (data->cmd_line[i])
+	while (*cmd)
 	{
-		if (printf("%s", data->cmd_line[i]) != ft_strlen(data->cmd_line[i]))
-			return (EXIT_FAILURE);
-		if (ft_strlen(data->cmd_line[i]) != 0 && data->cmd_line[i + 1] != NULL)
-			if (printf(" ") != ft_strlen(" "))
-				return (EXIT_FAILURE);
-		i++;
+		ft_putstr_fd(*cmd++, 1);
+		if (*cmd)
+			ft_putstr_fd(" ", 1);
 	}
-	if (!n)
-		if (printf("\n") != ft_strlen("\n"))
-			return (EXIT_FAILURE);
-	return (EXIT_SUCCESS);
+	if (!flg)
+		ft_putstr_fd("\n", 1);
+	exit_with_status(0);
 }
