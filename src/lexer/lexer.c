@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/12/12 13:54:44 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 13:31:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,5 @@ void	lexer(t_data *data, char *cmd_buff)
 		cmd_buff += w_len;
 	}
 	syntax_parser(data);
-	printf("\nDESTROY!!!!\n");
 	destroy_data(data);
 }
