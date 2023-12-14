@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:52:33 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/04 11:42:53 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/13 23:51:07 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-bool	is_inbuilt(char *cmd)
+bool	is_builtin(char *cmd)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
 		return (true);
@@ -34,18 +34,18 @@ bool	is_inbuilt(char *cmd)
 int	exec_builtins(t_parser_data *token)
 {
 	if (ft_strcmp(token->text, "echo") == 0)
-		return (echo(token->cmd_line));
+		 return (echo(token->cmd_line), g_gb.exit_st);
 	if (ft_strcmp(token->text, "export") == 0)
-		return (export(token->cmd_line));
+		return (export(token->cmd_line), g_gb.exit_st);
 	if (ft_strcmp(token->text, "env") == 0)
 		return (env(token->cmd_line));
 	if (ft_strcmp(token->text, "cd") == 0)
 		return (cd(token->cmd_line));
 	if (ft_strcmp(token->text, "unset") == 0)
-		return (unset(token->cmd_line));
+		return (unset(token->cmd_line), g_gb.exit_st);
 	if (ft_strcmp(token->text, "pwd") == 0)
 		return (pwd());
 	if (ft_strcmp(token->text, "exit") == 0)
-		return (exit_builtin(token->cmd_line));
+		return (exit_builtin(token));
 	return (EXIT_FAILURE);
 }

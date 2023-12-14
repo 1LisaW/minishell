@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 14:23:16 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:28:56 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 	{
-		if (ft_strcmp(parser_node->text, "pwd"))
-			bind_current_path_to_cmd(parser_node, data->env_vars);
+		// if (is_builtin(parser_node->text) == 1)
+		// 	exec_builtins(parser_node);
 		create_process(prev_fd, parser_node, exec_data);
 	}
 	if (parser_node->flags & IS_WAIT)

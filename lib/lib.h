@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/12/01 10:43:35 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/13 22:40:11 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,7 @@ int		ft_issign(char c);
 int		ft_isdigit(int c);
 
 char	*ft_itoa(int n);
+
+bool	ft_memcmp(const void *s1, const void *s2, size_t n);
 
 #endif

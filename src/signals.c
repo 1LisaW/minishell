@@ -3,44 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/28 11:32:12 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/14 01:03:57 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-//to close childs we will probably need it later
-void	child_signals(int signum)
+static void	handle_cmd_signal(int sig)
 {
-	if (signum == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
-		exit(130);
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		g_gb.exit_st = 130;
 	}
 }
 
-void	dismiss_signal(int signum)
+static void	handle_global_signal(int sig)
 {
-	if (signum == SIGINT)
+	if (sig == SIGINT)
 	{
-		ft_putchar_fd('\n', STDOUT_FILENO);
+		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_gb.exit_st = 1;
 	}
 }
 
+void	handle_cmd_signals(void)
+{
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_cmd_signal);
+}
 void	config_signals(void)
 {
-	struct sigaction	sa;
-
-	sa.sa_handler = &dismiss_signal;
-	sa.sa_flags = SA_RESTART;
-	sigemptyset(&sa.sa_mask);
-	sigaddset(&sa.sa_mask, SIGINT);
-	sigaction(SIGINT, &sa, NULL);
 	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGINT, handle_global_signal);
 }

@@ -13,7 +13,8 @@ ft_strdup ft_putstr_fd \
 ft_substr ft_split ft_strjoin ft_free_arr ft_strcopy ft_strncmp ft_atol\
 ft_strlcpy ft_isalpha ft_isalnum\
 ft_issign ft_isspace ft_isdigit\
-ft_itoa
+ft_itoa\
+ft_memcmp
 
 SRC	=	$(addsuffix .c, $(FILES))
 

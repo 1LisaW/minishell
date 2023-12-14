@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:35:16 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 17:28:22 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 {
 	int	status_code;
 
-	if (ft_strcmp(parser_node->text, "pwd"))
-		return (0);
+	if (is_builtin(parser_node->text) == 1)
+		exec_builtins(parser_node);
 	if ((parser_node->flags & IS_PIPE) == opt && exec_data->was_stdoutredir)
 	{
 		dup2(exec_data->fd_out, STDOUT_FILENO);
@@ -27,7 +27,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 	}
 	if ((parser_node->flags & IS_PIPE) == opt)
 	{
-		status_code = pwd();
+		status_code = g_gb.exit_st;
+// 		status_code = pwd();
 		if (parser_node->flags & IS_WAIT)
 			exec_data->status_code = status_code;
 		return (1);

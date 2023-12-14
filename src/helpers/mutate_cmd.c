@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   mutate_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
 /*   Updated: 2023/12/13 13:34:44 by tklimova         ###   ########.fr       */
@@ -28,7 +28,7 @@ int	count_expand_var_len(char **str, t_env *env, int idx)
 	while (is_identifier(*((*str) + keep + idx)))
 		keep++;
 	n_str = ft_substr(*str + idx, 0, keep);
-	var = get_env(n_str, env);
+	var = get_env_value(n_str, env);
 	(*str) += keep;
 	if (!var || !*var)
 		return (free(n_str), n_str = NULL, 0);

@@ -1,35 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pwd.c                                              :+:      :+:    :+:   */
+/*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/05 11:00:47 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/14 00:46:24 by pascal           ###   ########.fr       */
+/*   Created: 2023/12/13 17:54:20 by pascal            #+#    #+#             */
+/*   Updated: 2023/12/13 21:51:10 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	pwd(void)
+int	env(char **argv)
 {
-	char	*cwd;
+	t_env	*envv;
 
-	cwd = getcwd(NULL, 0);
-	if (cwd == NULL)
-	{
-		perror("Error");
+	envv = get_envv();
+	if (envv == NULL || envv->var == NULL)
 		return (exit_with_status(1), g_gb.exit_st);
-	}
-	else if (printf("%s\n", cwd) != ft_strlen(cwd) + 1)
+	if (argv != NULL && argv[1] != NULL)
 	{
-		free(cwd);
-		cwd = NULL;
-		perror("\nPrintf error");
-		return (exit_with_status(1), g_gb.exit_st);
+		if (access(argv[1], F_OK) == 0)
+		{
+			ft_putstr_fd("permission denied\n", 2);
+			return (exit_with_status(126), g_gb.exit_st);
+		}
+		ft_putstr_fd("command not found\n", 2);
+		return (exit_with_status(127), g_gb.exit_st);
 	}
-	free(cwd);
-	cwd = NULL;
+	while (envv)
+	{
+		ft_putstr_fd(envv->var, 1);
+		ft_putchar_fd('=', 1);
+		ft_putendl_fd(envv->value, 1);
+		envv = envv->next;
+	}
 	return (exit_with_status(0), g_gb.exit_st);
 }
