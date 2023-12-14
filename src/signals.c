@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/09/28 11:32:12 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/14 01:03:57 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ static void	handle_cmd_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		set_error_code(130);
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
+		g_gb.exit_st = 130;
 	}
 }
 
@@ -27,11 +27,11 @@ static void	handle_global_signal(int sig)
 {
 	if (sig == SIGINT)
 	{
-		set_error_code(1);
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
+		g_gb.exit_st = 1;
 	}
 }
 
