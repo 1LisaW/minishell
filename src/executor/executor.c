@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:52:52 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:10:30 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,8 @@ void	executor(t_data *data)
 {
 	int			prev_fd;
 	t_exec_data	exec_data[1];
+	char		*status_code;
+	char		*exit_st;
 
 	init_exec_data(exec_data);
 	data->exec_data = exec_data;
@@ -90,8 +92,12 @@ void	executor(t_data *data)
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data, &prev_fd, exec_data);
 	g_gb.exit_st = exec_data->status_code;
-	perror(ft_itoa(exec_data->status_code));
-	perror(ft_itoa(g_gb.exit_st));
+	status_code = ft_itoa(exec_data->status_code);
+	exit_st = ft_itoa(g_gb.exit_st);
+	perror(status_code);
+	perror(exit_st);
+	free(status_code);
+	free(exit_st);
 	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }

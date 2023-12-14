@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export_helpers.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 23:39:39 by pascal            #+#    #+#             */
-/*   Updated: 2023/12/14 00:32:57 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/14 14:15:35 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,16 @@ static	void	export_var_help(char *s, char *var, char c,
 		ssize_t index)
 {
 	t_env	*trav;
+	char	*substr;
 
+	substr = ft_substr(s, index + 1, ft_strlen(s) - index);
 	trav = get_envv();
 	if (c == '=')
-		(add_env(var, ft_substr(s, index + 1, ft_strlen(s) - index), &trav));
+		(add_env(var, substr, &trav), free(substr));
 	else if (c == '+')
 	{
 		s = eliminate_plus(s);
-		(add_env(var, ft_substr(s, index + 1, ft_strlen(s) - index), &trav));
+		(add_env(var, substr, &trav), free(substr), free(s));
 	}
 	else
 		(add_env(var, "", &trav));
