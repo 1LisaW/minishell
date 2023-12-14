@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:54:15 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:12:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ typedef struct s_exec_data
 	int		fd_out;
 	char	*err_file;
 	t_data	*link_to_data;
+	int		*herdoc_fds;
+	int		stop_heredoc;
 }			t_exec_data;
 
 typedef struct s_gb

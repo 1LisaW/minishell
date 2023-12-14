@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 06:09:10 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 13:39:08 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:11:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_exec_data(t_exec_data *exec_data)
 	exec_data->was_stdinredir = 0;
 	exec_data->was_stdoutredir = 0;
 	exec_data->go_on = 1;
+	exec_data->stop_heredoc = 0;
 }
 
 void	reset_std(t_exec_data *exec_data, int fd)

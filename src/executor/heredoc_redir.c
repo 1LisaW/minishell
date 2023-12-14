@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:58:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:44:48 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,8 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 	len = ft_strlen(delimiter);
 	update_heredoc_params(&pos, &is_new_line, 10);
 	rb = 1;
-	while (pos < len && rb)
+	while (pos < len && rb && !g_gb.exit_st)
 	{
-		printf("%i\n", g_gb.exit_st);
 		buffer[pos] = '\0';
 		rb = read(exec_data->stdin_dup, buffer + pos, 1);
 		if (buffer[pos] != delimiter[pos] || buffer[pos] == 10)
@@ -80,6 +79,7 @@ void	here_doc(t_exec_data *exec_data, t_redir_data *redir_data, int *prev_fd)
 	len[0] = ft_strlen(redir_data->text);
 	if (pipe(fd) == -1)
 		return ;
+	exec_data->herdoc_fds = fd;
 	read_stdin(exec_data, redir_data, len, fd);
 	if (!exec_data->status_code)
 		*prev_fd = fd[0];

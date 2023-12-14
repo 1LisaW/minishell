@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:54:26 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/14 14:50:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,11 +39,18 @@ void	minishell(t_env **envp)
 	{
 		config_signals();
 		cmd_buff = readline("minishell> ");
+		if(g_gb.exit_st == 1 && data->exec_data->here_doc)
+		{
+			printf("\n");
+			rl_on_new_line();
+			rl_replace_line("", 0);
+			rl_redisplay();
+			return ;
+		}
 		if (!cmd_buff)
 		{
 			ft_destroy_env(envp);
-			if (data->exec_data && data->exec_data->here_doc)
-				close(data->exec_data->stdin_dup);
+			perror("<<!!!!");
 			rl_clear_history();
 			ft_putendl_fd("exit", 2);
 			break ;
@@ -52,6 +59,7 @@ void	minishell(t_env **envp)
 			add_history(cmd_buff);
 		if (!ft_strcmp(cmd_buff, "exit"))
 		{
+			perror("<><><>");
 			if (cmd_buff)
 				free(cmd_buff);
 			ft_destroy_env(envp);
