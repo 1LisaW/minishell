@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/14 00:39:02 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/12 23:54:26 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	minishell(t_env **envp)
 {
 	char	*cmd_buff;
 	t_data	data[1];
+
 	init_data(data);
 	data->env_vars = *envp;
 	while (1)
@@ -41,6 +42,8 @@ void	minishell(t_env **envp)
 		if (!cmd_buff)
 		{
 			ft_destroy_env(envp);
+			if (data->exec_data && data->exec_data->here_doc)
+				close(data->exec_data->stdin_dup);
 			rl_clear_history();
 			ft_putendl_fd("exit", 2);
 			break ;

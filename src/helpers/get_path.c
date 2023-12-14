@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 12:44:52 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 13:21:54 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:22:46 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_path(char *text, t_env *envv)
 
 	path = NULL;
 	tmp = NULL;
-	path = get_env("PATH", envv);
+	path = get_env_value("PATH", envv);
 	paths = ft_split(path, ':');
 	path = NULL;
 	find_curr_path(&i, paths, text);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 23:47:57 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/12 23:54:15 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ typedef struct s_data
 	t_parser_data	*parser_data;
 	t_env			*env_vars;
 	t_env			*env_del;
+	struct s_exec_data		*exec_data;
 	int				status_code;
 }			t_data;
 

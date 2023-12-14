@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 17:28:22 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/12 23:34:01 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 {
 	int	status_code;
 
-	if (is_builtin(parser_node->text) == 1)
-		exec_builtins(parser_node);
+	if (is_builtin(parser_node->text) != 1)
+		return (0);
 	if ((parser_node->flags & IS_PIPE) == opt && exec_data->was_stdoutredir)
 	{
 		dup2(exec_data->fd_out, STDOUT_FILENO);
@@ -27,8 +27,7 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 	}
 	if ((parser_node->flags & IS_PIPE) == opt)
 	{
-		status_code = g_gb.exit_st;
-// 		status_code = pwd();
+		status_code = exec_builtins(parser_node);
 		if (parser_node->flags & IS_WAIT)
 			exec_data->status_code = status_code;
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/14 01:03:57 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/12 23:34:20 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ void	handle_cmd_signals(void)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGINT, handle_cmd_signal);
 }
+
 void	config_signals(void)
 {
 	signal(SIGQUIT, SIG_IGN);
