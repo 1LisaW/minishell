@@ -6,7 +6,7 @@
 /*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:25:13 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/13 13:34:44 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,16 @@ int	count_expand_var_len(char **str, t_env *env, int idx)
 
 	keep = 0;
 	n_str = NULL;
-	// printf("\n keep + idx, str %i, %i, %s \n", keep, idx, *str);
 	if ((*str)[keep + idx] == '?')
 	{
-		printf("\nfound ?\n");
 		n_str = ft_itoa(g_gb.exit_st);
 		return (keep += ft_strlen(n_str), free(n_str), (*str)++, keep);
 	}
-	// printf("\n *((*str) + keep + idx)) %c\n", *((*str) + keep + idx));
 	while (is_identifier(*((*str) + keep + idx)))
 		keep++;
 	n_str = ft_substr(*str + idx, 0, keep);
 	var = get_env_value(n_str, env);
 	(*str) += keep;
-	// printf("\nvar %s %i\n", var, keep);
 	if (!var || !*var)
 		return (free(n_str), n_str = NULL, 0);
 	keep = ft_strlen(var);
@@ -53,9 +49,7 @@ int	ft_substr_len_till_char(char **str, int ch, t_env *env)
 			&& is_identifier((*str)[len + 1]))
 		{
 			*str += 1;
-			// printf("\nstr before env: %s %i\n", (*str) + len, len);
 			env_len += count_expand_var_len(str, env, len);
-			// printf("\n len of env: %i\n", env_len);
 		}
 		else
 			len++;
@@ -86,7 +80,6 @@ void	calc_len_after_env_replacement(int *len, char *str, t_env *env)
 		{
 			*len += ft_substr_len_till_char(&str, 0, env);
 		}
-		// printf("\nLEN of result %s %i\n", str, *len);
 	}
 }
 
@@ -101,7 +94,6 @@ void	mutate_cmd(char **str, t_env *env)
 	modify_cmd(res, *str, env);
 	free(*str);
 	*str = new_cmd(res, NULL);
-	// printf("\n ARFER MUTATION: %s\n", *str);
 }
 
 void	mutate_parser_node(t_parser_data *parser_node, t_data *data)
@@ -119,7 +111,8 @@ void	mutate_parser_node(t_parser_data *parser_node, t_data *data)
 	if (parser_node->lexer_type == word)
 	{
 		mutate_cmd(&parser_node->text, data->env_vars);
-		while (*cmd){
+		while (*cmd)
+		{
 			mutate_cmd(&(*cmd), data->env_vars);
 			cmd += 1;
 		}

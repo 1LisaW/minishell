@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/11/01 13:49:20 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/13 15:44:17 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 	rb = 1;
 	while (pos < len && rb)
 	{
+		printf("%i\n", g_gb.exit_st);
 		buffer[pos] = '\0';
 		rb = read(exec_data->stdin_dup, buffer + pos, 1);
 		if (buffer[pos] != delimiter[pos] || buffer[pos] == 10)

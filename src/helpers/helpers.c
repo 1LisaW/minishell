@@ -12,36 +12,6 @@
 
 #include "../../includes/mini_shell.h"
 
-char	*get_path(char *text, t_env *envv)
-{
-	char	*path;
-	char	**paths;
-	int		i;
-	char 	*tmp[2];
-
-	i = 0;
-	path = NULL;
-	path = get_env_value("PATH", envv);
-	paths = ft_split(path, ':');
-	tmp[0] = ft_strjoin("/", text);
-	tmp[1] = ft_strjoin(paths[i], tmp[0]);
-	while (paths[i]
-		&& access(tmp[1], F_OK) == -1)
-	{
-		i++;
-		(free(tmp[0]), free(tmp[1]), tmp[0] = ft_strjoin("/", text), tmp[1] = ft_strjoin(paths[i], tmp[0]));
-	}
-	(free(tmp[0]), free(tmp[1]));
-	if (paths[i])
-	{
-		tmp[1] = ft_strjoin("/", text);
-		path = ft_strjoin(paths[i], tmp[1]);
-		free(tmp[1]);
-	}
-	ft_free_arr(paths);
-	return (path);
-}
-
 void	ft_init_env(char **envp, t_env **envv)
 {
 	int		i;

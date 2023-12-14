@@ -8,14 +8,14 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 RM		=	rm -rf
 
-FILES	=	mini_shell processes data_init signals env_vars env_get_set
+FILES	=	mini_shell data_init signals env_vars env_get_set
 
 PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 
 LEXER_FILES	=	lexer lexer_data tokenizer
 
 HELPERS_FILES = helpers modify_cmd modify_cmd_helpers modify_cmd_helpers2 \
-	mutate_cmd destroy_data\
+	mutate_cmd destroy_data get_path\
 	get_error\
 	exec_builtins helpers_2
 
@@ -127,7 +127,7 @@ $(NAME):	$(addprefix $(OBJ_DIR)/, $(ALL_OBJS)) $(LIB)
 		$(CC) $(addprefix $(OBJ_DIR)/, $(ALL_OBJS))  -I include $(LIB) -lreadline -o $(NAME)
 
 run:
-	valgrind --suppressions=suppressions.supp --leak-check=full --show-leak-kinds=all ./minishell
+	valgrind --suppressions=suppressions.supp --leak-check=full --show-leak-kinds=all --child-silent-after-fork=yes ./minishell
 
 clean:
 	$(RM) $(addprefix $(OBJ_DIR)/, $(ALL_OBJS)) $(OBJ_DIR)

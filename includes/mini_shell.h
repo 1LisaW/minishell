@@ -110,6 +110,7 @@ typedef struct s_exec_data
 	int		go_on;
 	int		fd_out;
 	char	*err_file;
+	t_data	*link_to_data;
 }			t_exec_data;
 
 typedef struct s_gb
@@ -230,7 +231,8 @@ int				create_process(int *prev_fd, t_parser_data *parser_node,
 
 void			command_not_found(char *cmd);
 
-void			bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env);
+void			bind_current_path_to_cmd(t_parser_data *parser_node,
+					t_env *env);
 
 void			executor(t_data *data);
 
