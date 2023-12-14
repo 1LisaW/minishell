@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 17:28:56 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/12 23:52:52 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,8 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 	{
-		// if (is_builtin(parser_node->text) == 1)
-		// 	exec_builtins(parser_node);
+		if (is_builtin(parser_node->text) != 1)
+			bind_current_path_to_cmd(parser_node, data->env_vars);
 		create_process(prev_fd, parser_node, exec_data);
 	}
 	if (parser_node->flags & IS_WAIT)
@@ -85,6 +85,7 @@ void	executor(t_data *data)
 	t_exec_data	exec_data[1];
 
 	init_exec_data(exec_data);
+	data->exec_data = exec_data;
 	exec_data->link_to_data = data;
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data, &prev_fd, exec_data);

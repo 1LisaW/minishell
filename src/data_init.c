@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:23:52 by root              #+#    #+#             */
-/*   Updated: 2023/10/15 20:28:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/12 23:48:37 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ void	init_data(t_data *data)
 	data->parser_data = NULL;
 	data->env_vars = NULL;
 	data->env_del = NULL;
+	data->exec_data = NULL;
 }
 
 void	destroy_parser_data(t_parser_data *parser_data)
