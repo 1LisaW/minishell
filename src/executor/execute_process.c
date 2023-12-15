@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:34:01 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/15 11:54:23 by pascal           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 	int	fd[2];
 	int	child_id;
 
+	handle_cmd_signals();
 	make_redirections(parser_node, exec_data, prev_fd);
 	if (run_buildin(exec_data, parser_node, 0x0))
 		return (0);
@@ -107,5 +108,6 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
 	}
+	config_signals();
 	return (0);
 }
