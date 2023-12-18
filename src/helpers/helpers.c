@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 11:45:45 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/18 15:03:28 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,15 @@ void	ft_init_env(char **envp, t_env **envv)
 
 	i = 0;
 	*envv = NULL;
-	while (envp && envp[i])
+	while (envp && envp[i]) 
 	{
-		tmp_value = ft_strchr(envp[i], 61);
-		tmp_var = ft_substr(envp[i], 0, tmp_value - envp[i]);
-		add_env(tmp_var, tmp_value + 1, envv);
-		free(tmp_var);
+		tmp_value = ft_strchr(envp[i], '=');
+		if (tmp_value)
+		{
+			tmp_var = ft_substr(envp[i], 0, tmp_value - envp[i]);
+			add_env(tmp_var, tmp_value + 1, envv);
+			free(tmp_var);
+		}
 		i++;
 	}
 }
