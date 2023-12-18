@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/04 15:59:49 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/14 15:14:15 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/18 14:33:09 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,15 @@
 
 t_gb	g_gb;
 
-void	print_env(t_env *envv)
+static void	handle_exit(t_env **envp, t_data *data, char *cmd_buff)
 {
-	t_env	*tmp;
-
-	tmp = envv;
-	while (tmp)
-	{
-		ft_putstr_fd(tmp->var, 1);
-		ft_putchar_fd('=', 1);
-		ft_putendl_fd(tmp->value, 1);
-		tmp = tmp->next;
-	}
+	ft_destroy_env(envp);
+	if (data->exec_data && data->exec_data->here_doc)
+		close(data->exec_data->stdin_dup);
+	rl_clear_history();
+	ft_putendl_fd("exit", 2);
+	if (cmd_buff)
+		free(cmd_buff);
 }
 
 void	minishell(t_env **envp)
@@ -35,27 +32,20 @@ void	minishell(t_env **envp)
 
 	init_data(data);
 	data->env_vars = *envp;
-	while (1)
+	while (1) 
 	{
 		config_signals();
 		cmd_buff = readline("minishell> ");
 		if (!cmd_buff)
 		{
-			ft_destroy_env(envp);
-			if (data->exec_data && data->exec_data->here_doc)
-				close(data->exec_data->stdin_dup);
-			rl_clear_history();
-			ft_putendl_fd("exit", 2);
+			handle_exit(envp, data, NULL);
 			break ;
 		}
 		if (ft_strlen(cmd_buff) > 0 && ft_strcmp(cmd_buff, "exit"))
 			add_history(cmd_buff);
 		if (!ft_strcmp(cmd_buff, "exit"))
 		{
-			if (cmd_buff)
-				free(cmd_buff);
-			ft_destroy_env(envp);
-			rl_clear_history();
+			handle_exit(envp, data, cmd_buff);
 			break ;
 		}
 		lexer(data, cmd_buff);

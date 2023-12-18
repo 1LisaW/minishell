@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_builtins.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:52:33 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 23:51:07 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/18 13:27:15 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ bool	is_builtin(char *cmd)
 int	exec_builtins(t_parser_data *token)
 {
 	if (ft_strcmp(token->text, "echo") == 0)
-		 return (echo(token->cmd_line), g_gb.exit_st);
+		return (echo(token->cmd_line), g_gb.exit_st);
 	if (ft_strcmp(token->text, "export") == 0)
 		return (export(token->cmd_line), g_gb.exit_st);
 	if (ft_strcmp(token->text, "env") == 0)

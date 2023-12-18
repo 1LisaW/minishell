@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lib.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/11 19:58:21 by root              #+#    #+#             */
-/*   Updated: 2023/12/13 22:40:11 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/18 13:29:22 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,5 +81,13 @@ int		ft_isdigit(int c);
 char	*ft_itoa(int n);
 
 bool	ft_memcmp(const void *s1, const void *s2, size_t n);
+
+int		ft_str_arr_len(char **arr);
+
+void	*ft_memset(void *s, int c, size_t n);
+
+char	**ft_dup_str_arr(char **arr);
+
+void	*ft_calloc(size_t count, size_t size);
 
 #endif

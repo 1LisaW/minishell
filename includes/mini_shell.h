@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:54:15 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:31:40 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,12 +85,12 @@ typedef struct s_env
 
 typedef struct s_data
 {
-	t_lexer_data	*lexer_data;
-	t_parser_data	*parser_data;
-	t_env			*env_vars;
-	t_env			*env_del;
+	t_lexer_data			*lexer_data;
+	t_parser_data			*parser_data;
+	t_env					*env_vars;
+	t_env					*env_del;
 	struct s_exec_data		*exec_data;
-	int				status_code;
+	int						status_code;
 }			t_data;
 
 typedef struct s_ptrs
@@ -175,11 +175,11 @@ void			export(char **cmd);
 
 //env get set
 
-void	set_envv(t_env *envv);
+void			set_envv(t_env *envv);
 
-t_env	*get_envv(void);
+t_env			*get_envv(void);
 
-char	*get_env_var(void);
+char			*get_env_var(void);
 
 //modif_cmd
 void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);
@@ -276,4 +276,5 @@ void			export_var(char *s, char c);
 ssize_t			find_c(char *s, char c);
 
 extern t_gb	g_gb;
+
 #endif
