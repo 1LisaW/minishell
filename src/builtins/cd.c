@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/14 00:23:13 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 02:13:08 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static int	ft_cd_home(t_env *env)
 	ft_update_pwd(env, "PWD", cwd);
 	free(path);
 	path = NULL;
-	if (get_env_value("PWD", env) == NULL 
+	if (get_env_value("PWD", env) == NULL
 		|| get_env_value("OLDPWD", env) == NULL)
 		return (ft_exit_cd(&cwd, EXIT_FAILURE));
 	return (ft_exit_cd(&cwd, EXIT_SUCCESS));

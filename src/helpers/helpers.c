@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/18 15:03:28 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/19 22:04:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_init_env(char **envp, t_env **envv)
 
 	i = 0;
 	*envv = NULL;
-	while (envp && envp[i]) 
+	while (envp && envp[i])
 	{
 		tmp_value = ft_strchr(envp[i], '=');
 		if (tmp_value)
@@ -35,7 +35,7 @@ void	ft_init_env(char **envp, t_env **envv)
 
 void	exit_with_status(int exit_status)
 {
-	g_gb.exit_st = exit_status;
+	g_gb.exit_st = WEXITSTATUS(exit_status);
 }
 
 void	*malloc_error(int errnum)
