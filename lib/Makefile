@@ -14,7 +14,7 @@ ft_substr ft_split ft_strjoin ft_free_arr ft_strcopy ft_strncmp ft_atol\
 ft_strlcpy ft_isalpha ft_isalnum\
 ft_issign ft_isspace ft_isdigit\
 ft_itoa\
-ft_memcmp
+ft_memcmp ft_dup_str_arr ft_calloc ft_str_arr_len ft_memset
 
 SRC	=	$(addsuffix .c, $(FILES))
 
@@ -24,8 +24,6 @@ all:	$(NAME)
 
 %.o : %.c
 		$(CC) -c $(CFLAGS) $< -o $@
-
-$(OBJ) : *.%.o: *.%.c
 
 $(NAME): $(OBJ)
 		${AR} $(NAME) $(OBJ)

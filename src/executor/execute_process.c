@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/15 11:54:23 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/19 12:25:13 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ void	handle_fd(int *prev_fd)
 void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			t_exec_data *exec_data)
 {
+	t_env	*envv;
+	char	**envp;
+
+	envv = get_envv();
+	envp = env_list_to_array(envv);
 	handle_fd(prev_fd);
 	close(fd[0]);
 	if (!(parser_node->flags & IS_WAIT))
@@ -61,7 +66,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 		exit(1);
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
-	execve(parser_node->text, parser_node->cmd_line, NULL);
+	execve(parser_node->text, parser_node->cmd_line, envp);
 	print_error(2, parser_node->text, "command not found");
 	exit (127);
 }

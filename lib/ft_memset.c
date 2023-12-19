@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 11:33:05 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/12 11:33:13 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/18 13:25:40 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,4 +25,3 @@ void	*ft_memset(void *s, int c, size_t n)
 	}
 	return (s);
 }
-
