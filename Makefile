@@ -8,7 +8,7 @@ CFLAGS	=	-Wall -Wextra -Werror -g
 
 RM		=	rm -rf
 
-FILES	=	mini_shell data_init signals env_vars env_get_set
+FILES	=	mini_shell data_init signals env_vars env_get_set envp_get_set
 
 PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 

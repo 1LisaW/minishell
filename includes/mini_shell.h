@@ -6,7 +6,7 @@
 /*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/18 13:31:40 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/19 12:16:59 by plandolf         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,6 +180,14 @@ void			set_envv(t_env *envv);
 t_env			*get_envv(void);
 
 char			*get_env_var(void);
+
+char			**env_list_to_array(t_env *env_list);
+
+//envp get set
+
+void			set_envp(char **envp);
+
+char			**get_envp(void);
 
 //modif_cmd
 void			process_char(t_ptrs *ptrs, bool *in_single_quotes, t_env *env);
