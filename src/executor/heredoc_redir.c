@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 04:09:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 13:15:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,15 @@ void	write_in_stdout(int fd_out, char *buffer, int *pos, int *is_new_line)
 	update_heredoc_params(pos, is_new_line, buffer[*pos]);
 }
 
+void	sigint_handler_nonl(int sig)
+{
+	rl_on_new_line();
+	rl_replace_line("", 0);
+	rl_redisplay();
+	g_gb.exit_st = 130;
+	(void) sig;
+}
+
 void	read_str(char *buffer, char *delimiter, int fd_out,
 			t_exec_data *exec_data)
 {
@@ -38,10 +47,13 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 	len = ft_strlen(delimiter);
 	update_heredoc_params(&pos, &is_new_line, 10);
 	rb = 1;
+	signal(SIGINT, sigint_handler_nonl);
 	while (pos < len && rb && !g_gb.exit_st)
 	{
 		buffer[pos] = '\0';
 		rb = read(exec_data->stdin_dup, buffer + pos, 1);
+		// if (!rb)
+			// signal(SIGINT, sigint_handler_nonl);
 		if (buffer[pos] != delimiter[pos] || buffer[pos] == 10)
 			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		else
@@ -53,15 +65,8 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 				break ;
 			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		}
-		if (g_gb.exit_st)
-		{
-			write(1, "\0", 1);
-			break ;
-		}
-		printf("\nSTATUS_CODE_: %i, %s, %i\n", g_gb.exit_st, buffer, rb);
+		//printf("\nSTATUS_CODE_: %i, %s, %i\n", g_gb.exit_st, buffer, rb);
 	}
-	if (g_gb.exit_st)
-			write(1, "\0", 1);
 }
 
 void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
