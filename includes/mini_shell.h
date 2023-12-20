@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/19 12:16:59 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:56:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,6 +136,8 @@ void			tokenizer(t_lexer_data *lexer_node);
 void			child_signals(int signum);
 
 //SIGNALS
+
+void			handle_cmd_signal(int sig);
 
 void			config_signals(void);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 02:13:41 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:03:57 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,6 @@ void	executor(t_data *data)
 {
 	int			prev_fd;
 	t_exec_data	exec_data[1];
-	char		*exit_st;
 
 	init_exec_data(exec_data);
 	data->exec_data = exec_data;
@@ -91,9 +90,6 @@ void	executor(t_data *data)
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data, &prev_fd, exec_data);
 	g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
-	exit_st = ft_itoa(g_gb.exit_st);
-	perror(exit_st);
-	free(exit_st);
 	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }
