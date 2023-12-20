@@ -3,17 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/12 23:34:20 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 15:56:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/mini_shell.h"
 
-static void	handle_cmd_signal(int sig)
+void	handle_cmd_signal(int sig)
 {
+	perror("\nhandle_cmd_signal\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -25,6 +26,7 @@ static void	handle_cmd_signal(int sig)
 
 static void	handle_global_signal(int sig)
 {
+	perror("\nhandle_global_signal\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");

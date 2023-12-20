@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mutate_cmd.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:34:44 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 02:14:04 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,8 @@ int	count_expand_var_len(char **str, t_env *env, int idx)
 	if ((*str)[keep + idx] == '?')
 	{
 		n_str = ft_itoa(g_gb.exit_st);
-		return (keep += ft_strlen(n_str), free(n_str), (*str)++, keep);
+		keep += ft_strlen(n_str) + 1;
+		return (free(n_str), (*str)++, keep);
 	}
 	while (is_identifier(*((*str) + keep + idx)))
 		keep++;
@@ -71,15 +72,14 @@ void	calc_len_after_env_replacement(int *len, char *str, t_env *env)
 			*len += ft_substr_len_till_char(&str, 39, env);
 		else if (*str == 34)
 			*len += ft_substr_len_till_char(&str, 34, env);
-		else if (*str == '$' && (*str) + 1 && is_identifier(*(str + 1)))
+		else if (*str == '$' && (*str) + 1 && (is_identifier(*(str + 1))
+				|| *(str + 1) == '?'))
 		{
 			str++;
 			*len += count_expand_var_len(&str, env, 0);
 		}
 		else
-		{
 			*len += ft_substr_len_till_char(&str, 0, env);
-		}
 	}
 }
 

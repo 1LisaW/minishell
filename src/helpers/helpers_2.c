@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   helpers_2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: plandolf <plandolf@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 23:36:46 by pascal            #+#    #+#             */
-/*   Updated: 2023/12/19 15:20:29 by plandolf         ###   ########.fr       */
+/*   Updated: 2023/12/20 02:14:15 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ char	**env_list_to_array(t_env *env_list)
 
 	count = 0;
 	temp = env_list;
-	while (temp) 
+	while (temp)
 	{
 		count++;
 		temp = temp->next;

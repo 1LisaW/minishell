@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:31:39 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 16:11:38 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ void	open_stream(t_redir_data *redir_data,
 {
 	if (redir_data->is_here_doc)
 	{
+		printf("\nexec_data->status_code %i\n", exec_data->status_code);
 		here_doc(exec_data, redir_data, prev_fd);
+		printf("\nexec_data->status_code %i\n", exec_data->status_code);
 		return ;
 	}
 	if (exec_data->status_code)
@@ -71,16 +73,16 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 {
 	t_redir_data	*redir_data;
 
-	update_exec_data(parser_node, exec_data);
 	if (!parser_node || !parser_node->redir_data)
 		return ;
+	update_exec_data(parser_node, exec_data);
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{
 		open_stream(redir_data, exec_data, prev_fd);
 		redir_data = redir_data->next;
 	}
-	if (exec_data->status_code)
+	if (exec_data->status_code == 1)
 		perror(exec_data->err_file);
 }
 
