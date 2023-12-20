@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:35 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 23:56:40 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 07:31:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ static	void	print_env(void)
 	free_env(save);
 }
 
-void	export(char **cmd)
+int	export(char **cmd)
 {
 	if (!cmd[1])
 		print_env();
@@ -100,7 +100,7 @@ void	export(char **cmd)
 	{
 		while (*++cmd)
 			if (!export_help(*cmd))
-				return ;
+				return (0);
 	}
-	exit_with_status(0);
+	return (0);
 }

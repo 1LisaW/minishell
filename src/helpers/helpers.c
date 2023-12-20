@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/19 22:04:50 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:13:30 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,9 @@ void	ft_init_env(char **envp, t_env **envv)
 	}
 }
 
-void	exit_with_status(int exit_status)
+int	exit_with_status(int exit_status)
 {
-	g_gb.exit_st = WEXITSTATUS(exit_status);
+	return (WEXITSTATUS(exit_status));
 }
 
 void	*malloc_error(int errnum)

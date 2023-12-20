@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirect.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 16:11:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:46:33 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,10 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 		redir_data = redir_data->next;
 	}
 	if (exec_data->status_code == 1)
+	{
 		perror(exec_data->err_file);
+		printf("PROBLEM WITH FILE");
+	}
 }
 
 void	make_redir_without_cmd(t_parser_data *parser_node,

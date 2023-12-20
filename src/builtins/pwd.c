@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:00:47 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/14 00:46:24 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 09:13:32 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,17 @@ int	pwd(void)
 	if (cwd == NULL)
 	{
 		perror("Error");
-		return (exit_with_status(1), g_gb.exit_st);
+		return (1);
 	}
 	else if (printf("%s\n", cwd) != ft_strlen(cwd) + 1)
 	{
 		free(cwd);
 		cwd = NULL;
+		perror(cwd);
 		perror("\nPrintf error");
-		return (exit_with_status(1), g_gb.exit_st);
+		return (1);
 	}
 	free(cwd);
 	cwd = NULL;
-	return (exit_with_status(0), g_gb.exit_st);
+	return (0);
 }

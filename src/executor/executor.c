@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 16:03:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 08:53:48 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,11 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		if (is_builtin(parser_node->text) != 1)
 			bind_current_path_to_cmd(parser_node, data->env_vars);
 		create_process(prev_fd, parser_node, exec_data);
+		// g_gb.exit_st = WIFEXITED(exec_data->status_code);
 	}
 	if (parser_node->flags & IS_WAIT)
 	{
+		printf("\nEXECDATA STATUS %i\n", exec_data->status_code);
 		while (wait(NULL) != -1)
 			;
 	}
@@ -89,7 +91,7 @@ void	executor(t_data *data)
 	exec_data->link_to_data = data;
 	prev_fd = dup(STDIN_FILENO);
 	morris_traversal(data, &prev_fd, exec_data);
-	g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
+	printf("\nmorris_traversal WEXITSTATUS %i\n", WEXITSTATUS(exec_data->status_code));
 	clear_exec_data(exec_data, data);
 	close(prev_fd);
 }

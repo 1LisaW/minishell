@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 15:56:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 07:31:23 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,11 @@ void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 //builtins
 int				pwd(void);
 int				cd(char **args);
-void			echo(char **cmd);
+int				echo(char **cmd);
 int				env(char **argv);
-void			unset(char **cmd);
+int				unset(char **cmd);
 int				exit_builtin(t_parser_data *data);
-void			export(char **cmd);
+int				export(char **cmd);
 
 //env get set
 
@@ -251,7 +251,7 @@ bool			is_identifier(int c);
 
 char			*expand_var(char *s, int *i, t_env *env);
 
-void			exit_with_status(int exit_status);
+int			exit_with_status(int exit_status);
 
 int				check_next_quote(char *s, char c);
 

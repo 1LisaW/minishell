@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 14:34:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 09:06:28 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 		status_code = exec_builtins(parser_node);
 		if (parser_node->flags & IS_WAIT)
 			exec_data->status_code = status_code;
-		return (1);
+		return (exec_data->status_code);
 	}
-	return (0);
+	return (1);
 }
 
 void	handle_fd(int *prev_fd)
@@ -63,7 +63,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			close(exec_data->fd_out);
 	}
 	if (exec_data->status_code)
-		exit(1);
+		exit(exec_data->status_code);
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, envp);
@@ -112,6 +112,9 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		dup2(fd[0], STDOUT_FILENO);
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
+		g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
+		if (g_gb.exit_st == 4)
+			g_gb.exit_st = 1;
 	}
 	config_signals();
 	return (0);

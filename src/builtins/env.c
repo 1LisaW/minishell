@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:54:20 by pascal            #+#    #+#             */
-/*   Updated: 2023/12/13 21:51:10 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 07:19:47 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ int	env(char **argv)
 		if (access(argv[1], F_OK) == 0)
 		{
 			ft_putstr_fd("permission denied\n", 2);
-			return (exit_with_status(126), g_gb.exit_st);
+			return (126);
 		}
 		ft_putstr_fd("command not found\n", 2);
-		return (exit_with_status(127), g_gb.exit_st);
+		return (127);
 	}
 	while (envv)
 	{
@@ -36,5 +36,5 @@ int	env(char **argv)
 		ft_putendl_fd(envv->value, 1);
 		envv = envv->next;
 	}
-	return (exit_with_status(0), g_gb.exit_st);
+	return (0);
 }

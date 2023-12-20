@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:14 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/14 00:20:16 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 08:00:49 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static	bool	check_option(char *s)
 	return (true);
 }
 
-void	echo(char **cmd)
+int	echo(char **cmd)
 {
 	bool	flg;
 
@@ -46,5 +46,5 @@ void	echo(char **cmd)
 	}
 	if (!flg)
 		ft_putstr_fd("\n", 1);
-	exit_with_status(0);
+	return (0);
 }
