@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:35 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 07:31:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:01:40 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ static	bool	export_help(char *s)
 		save++;
 	if (!l || (!(*save == '+' && *(save + 1) == '=') && *save != '=' && *save))
 		return (print_error(3, "export", s, "not a valid identifier"),
-			exit_with_status(1), false);
+			false);
 	return (export_var(s, *save), true);
 }
 

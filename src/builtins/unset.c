@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:53 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 07:32:34 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:01:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static	bool	valid_identifier(char *s)
 		s++;
 	if (!l || (!(*s == '+' && *(s + 1) == '=') && *s != '=' && *s))
 		return (print_error(3, "unset", s, "not a valid identifier"),
-			exit_with_status(1), false);
+			false);
 	return (true);
 }
 

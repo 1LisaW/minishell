@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/28 10:36:16 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 07:13:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:25:11 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,6 @@ int	exit_with_status(int exit_status)
 void	*malloc_error(int errnum)
 {
 	print_error(2, "malloc", strerror(errnum));
-	exit_with_status(1);
 	exit(1);
 }
 

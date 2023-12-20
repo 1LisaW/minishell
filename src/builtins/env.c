@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/13 17:54:20 by pascal            #+#    #+#             */
-/*   Updated: 2023/12/20 07:19:47 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:02:12 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	env(char **argv)
 
 	envv = get_envv();
 	if (envv == NULL || envv->var == NULL)
-		return (exit_with_status(1), g_gb.exit_st);
+		return (1);
 	if (argv != NULL && argv[1] != NULL)
 	{
 		if (access(argv[1], F_OK) == 0)

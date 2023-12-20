@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 07:22:40 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:01:59 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,11 @@ static int	ft_exit_cd(char **path, int exit_code)
 	free(*path);
 	*path = NULL;
 	if (exit_code == EXIT_SUCCESS)
-		return (exit_with_status(0), g_gb.exit_st);
+		return (0);
 	else
 	{
 		perror("cd Error");
-		return (exit_with_status(1), g_gb.exit_st);
+		return (1);
 	}
 }
 

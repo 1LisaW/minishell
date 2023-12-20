@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 07:31:23 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:23:39 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -251,7 +251,7 @@ bool			is_identifier(int c);
 
 char			*expand_var(char *s, int *i, t_env *env);
 
-int			exit_with_status(int exit_status);
+int				exit_with_status(int exit_status);
 
 int				check_next_quote(char *s, char c);
 

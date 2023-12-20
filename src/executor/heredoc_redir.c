@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 15:55:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:14:03 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,7 @@ static void	sigint_here_doc_handler(int sig)
 	close(pipefd[1]);
 }
 
-void	read_str(char *buffer, char *delimiter, int fd_out,
-			t_exec_data *exec_data)
+void	read_str(char *buffer, char *delimiter, int fd_out)
 {
 	while (ft_strcmp(buffer, delimiter))
 	{
@@ -45,7 +44,6 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 		buffer = readline("heredoc>");
 		signal(SIGINT, handle_cmd_signal);
 	}
-	printf("\nREADLINE : %s %i\n", buffer, exec_data->status_code);
 }
 
 void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
@@ -55,10 +53,9 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 
 	buffer = NULL;
 	g_gb.exit_st = 0;
-	read_str(buffer, redir_data->text, fd[1], exec_data);
+	read_str(buffer, redir_data->text, fd[1]);
 	close(fd[1]);
 	free(buffer);
-	printf("\ng_gb.exit_st : %i\n", g_gb.exit_st);
 	if (g_gb.exit_st)
 		exec_data->status_code = g_gb.exit_st;
 }
