@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 23:58:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 04:09:38 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,30 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 	len = ft_strlen(delimiter);
 	update_heredoc_params(&pos, &is_new_line, 10);
 	rb = 1;
-	while (pos < len && rb)
+	while (pos < len && rb && !g_gb.exit_st)
 	{
-		printf("%i\n", g_gb.exit_st);
 		buffer[pos] = '\0';
 		rb = read(exec_data->stdin_dup, buffer + pos, 1);
 		if (buffer[pos] != delimiter[pos] || buffer[pos] == 10)
 			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		else
 			pos++;
-		if (pos == len && rb && is_new_line)
+		if ((pos == len && rb && is_new_line && !g_gb.exit_st))
 		{
 			rb = read(exec_data->stdin_dup, buffer + pos, 1);
-			if (buffer[pos] == 10)
+			if (buffer[pos] == 10 || g_gb.exit_st)
 				break ;
 			write_in_stdout(fd_out, buffer, &pos, &is_new_line);
 		}
+		if (g_gb.exit_st)
+		{
+			write(1, "\0", 1);
+			break ;
+		}
+		printf("\nSTATUS_CODE_: %i, %s, %i\n", g_gb.exit_st, buffer, rb);
 	}
+	if (g_gb.exit_st)
+			write(1, "\0", 1);
 }
 
 void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
@@ -65,6 +72,7 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 	buffer = malloc(sizeof(char) * (len[0] + 1));
 	if (!buffer)
 		return ;
+	g_gb.exit_st = 0;
 	read_str(buffer, redir_data->text, fd[1], exec_data);
 	close(fd[1]);
 	free(buffer);
