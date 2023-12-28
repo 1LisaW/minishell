@@ -1,52 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   modify_cmd_helpers2.c                              :+:      :+:    :+:   */
+/*   mutate_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/01 12:26:26 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/28 23:57:00 by tklimova         ###   ########.fr       */
+/*   Created: 2023/12/29 00:09:51 by tklimova          #+#    #+#             */
+/*   Updated: 2023/12/29 00:15:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	calc_len(char *s)
+void	ft_update_for_empty_cmd(t_parser_data *parser_node)
 {
-	int		l;
-	int		save;
-	char	kp;
-
-	l = 0;
-	while (*s)
+	if (!*parser_node->text)
 	{
-		if (*s == 34 || *s == 39)
-		{
-			kp = *s;
-			save = check_next_quote(++s, kp);
-			s += save + 1;
-			l += save;
-			continue ;
-		}
-		s++;
-		l++;
+		free(parser_node->text);
+		parser_node->text = ft_strcopy("\'\'");
+		free(parser_node->cmd_line[0]);
+		parser_node->cmd_line[0] = ft_strcopy("\'\'");
 	}
-	return (l);
-}
-
-int	check_next_quote(char *s, char c)
-{
-	int	i;
-
-	i = 0;
-	while (*s)
-	{
-		if (*s == c)
-			return (i);
-		i++;
-		s++;
-	}
-	ft_putendl_fd("syntax error: unclosed quotes", 1);
-	return (-1);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   modify_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 15:18:41 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 11:45:48 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/29 00:17:02 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,12 +45,12 @@ char	*new_cmd(char *s, bool *flg)
 	ssize_t	l;
 	char	kp;
 
-	new = malloc(sizeof(char) * (calc_len(s) + 1));
+	new = malloc(sizeof(char) * (calc_len(s) + 2));
 	if (!new)
 		return (malloc_error(errno));
 	l = 0;
 	save = s;
-	while (*s)
+	while (s && *s)
 	{
 		if (*s == 34 || *s == 39)
 		{
@@ -61,7 +61,8 @@ char	*new_cmd(char *s, bool *flg)
 			s++;
 			continue ;
 		}
-		new[l++] = *s++;
+		if (*s)
+			new[l++] = *s++;
 	}
 	return (new[l] = '\0', free(save), new);
 }

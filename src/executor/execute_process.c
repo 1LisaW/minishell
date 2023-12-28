@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/28 20:06:03 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 01:17:27 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,10 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 	{
 		status_code = exec_builtins(parser_node);
 		if (parser_node->flags & IS_WAIT)
+		{
 			exec_data->status_code = status_code;
+			ft_set_gb_status_code(exec_data);
+		}
 		return (1);
 	}
 	return (0);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/12/13 13:31:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 00:59:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,16 @@ int	get_oper_length(char quote, char *str)
 		|| !ft_strncmp(str, ">", 1))
 		return (1);
 	return (0);
+}
+
+static void	ft_print_invalid_quotes(char quote, int *w_len)
+{
+	if (quote)
+	{
+		*w_len = -1;
+		ft_putendl_fd("syntax error: unclosed quotes", 1);
+		g_gb.exit_st = 2;
+	}
 }
 
 void	get_word_len(char *cmd_buff, int *w_len)
@@ -49,6 +59,7 @@ void	get_word_len(char *cmd_buff, int *w_len)
 				|| get_oper_length(quote, cmd_buff + *w_len)) && !quote)
 			break ;
 	}
+	ft_print_invalid_quotes(quote, w_len);
 }
 
 char	*get_word(char *cmd_buff, int len)
@@ -84,13 +95,16 @@ void	lexer(t_data *data, char *cmd_buff)
 		if (!*cmd_buff)
 			break ;
 		get_word_len(cmd_buff, &w_len);
-		if (w_len)
+		if (w_len == -1)
+			break ;
+		else if (w_len)
 		{
 			lexer_node = add_lexer_node(data, get_word(cmd_buff, w_len));
 			tokenizer(lexer_node);
 		}
 		cmd_buff += w_len;
 	}
-	syntax_parser(data);
+	if (w_len != -1)
+		syntax_parser(data);
 	destroy_data(data);
 }

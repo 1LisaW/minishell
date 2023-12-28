@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/18 16:29:14 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:58:35 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 01:03:58 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,8 @@ void	syntax_parser(t_data *data)
 	syntax_error = catch_syntax_error(data->lexer_data);
 	if (syntax_error)
 	{
-		perror("syntax error near unexpected token");
-		perror(syntax_error);
+		g_gb.exit_st = 2;
+		ft_putendl_fd("syntax error: near unexpected token", 1);
 		return ;
 	}
 	oper_arr = malloc(sizeof(char *) * 4);

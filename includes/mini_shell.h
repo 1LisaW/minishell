@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/28 20:05:46 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 00:15:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,8 @@ void			unset_var(char *var, t_env **envv);
 char			*get_path(char *text, t_env *envv);
 
 void			modify_cmd(char *ret, char *s, t_env *env);
+
+void			ft_update_for_empty_cmd(t_parser_data *parser_node);
 
 void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 
