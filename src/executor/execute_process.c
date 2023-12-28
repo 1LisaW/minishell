@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:24:38 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:06:03 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	run_buildin(t_exec_data *exec_data, t_parser_data *parser_node,
 			exec_data->status_code = status_code;
 		return (1);
 	}
-	return (1);
+	return (0);
 }
 
 void	handle_fd(int *prev_fd)
@@ -112,9 +112,7 @@ int	create_process(int *prev_fd, t_parser_data *parser_node,
 		dup2(fd[0], STDOUT_FILENO);
 		close(fd[0]);
 		waitpid(child_id, &exec_data->status_code, 0);
-		g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
-		if (g_gb.exit_st == 4)
-			g_gb.exit_st = 1;
+		ft_set_gb_status_code(exec_data);
 	}
 	config_signals();
 	return (0);

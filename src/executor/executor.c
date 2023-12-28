@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 15:11:22 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:24:27 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:59:44 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,9 +45,10 @@ void	execute_process(int *prev_fd, t_parser_data *parser_node,
 		return (check_prolong(parser_node, exec_data));
 	if (parser_node->lexer_type == word)
 	{
-		if (is_builtin(parser_node->text) != 1)
+		if (!exec_data->ctrl_c && is_builtin(parser_node->text) != 1)
 			bind_current_path_to_cmd(parser_node, data->env_vars);
-		create_process(prev_fd, parser_node, exec_data);
+		if (!exec_data->ctrl_c)
+			create_process(prev_fd, parser_node, exec_data);
 	}
 	if (parser_node->flags & IS_WAIT)
 	{

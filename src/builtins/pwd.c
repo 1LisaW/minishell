@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:00:47 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 09:13:32 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:58:19 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	pwd(void)
 	}
 	else if (printf("%s\n", cwd) != ft_strlen(cwd) + 1)
 	{
+		printf("\nExaption : |%s|, %i\n", cwd, ft_strlen(cwd));
 		free(cwd);
 		cwd = NULL;
 		perror(cwd);

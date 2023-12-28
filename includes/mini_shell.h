@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:23:39 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:05:46 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_exec_data
 	int		go_on;
 	int		fd_out;
 	char	*err_file;
+	int		ctrl_c;
 	t_data	*link_to_data;
 }			t_exec_data;
 
@@ -244,6 +245,8 @@ void			command_not_found(char *cmd);
 
 void			bind_current_path_to_cmd(t_parser_data *parser_node,
 					t_env *env);
+
+void			ft_set_gb_status_code(t_exec_data *exec_data);
 
 void			executor(t_data *data);
 

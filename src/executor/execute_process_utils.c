@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:36:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 20:05:03 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,4 +35,11 @@ void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)
 	free(parser_node->cmd_line[0]);
 	parser_node->cmd_line[0] = ft_strcopy(cmd_with_path);
 	free(cmd_with_path);
+}
+
+void	ft_set_gb_status_code(t_exec_data *exec_data)
+{
+	g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
+	if (g_gb.exit_st == 4)
+		g_gb.exit_st = 1;
 }

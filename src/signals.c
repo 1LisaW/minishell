@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 07:03:09 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:58:18 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	handle_cmd_signal(int sig)
 {
-	perror("\nhandle_cmd_signal\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");
@@ -26,7 +25,6 @@ void	handle_cmd_signal(int sig)
 
 static void	handle_global_signal(int sig)
 {
-	perror("\nhandle_global_signal\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");

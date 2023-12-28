@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:14:03 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/28 19:57:31 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ static void	sigint_here_doc_handler(int sig)
 	int	pipefd[2];
 
 	(void) sig;
-	perror("\nsigint_here_doc_handler\n");
 	g_gb.exit_st = 130;
 	if (pipe(pipefd) < 0)
 		perror("Pipe: ");
@@ -27,13 +26,14 @@ static void	sigint_here_doc_handler(int sig)
 	close(pipefd[1]);
 }
 
-void	read_str(char *buffer, char *delimiter, int fd_out)
+void	read_str(char *buffer, char *delimiter, int fd_out,
+			t_exec_data *exec_data)
 {
 	while (ft_strcmp(buffer, delimiter))
 	{
 		if (g_gb.exit_st)
 		{
-			write(STDIN_FILENO, "\n", 1);
+			exec_data->ctrl_c = 1;
 			break ;
 		}
 		write(fd_out, buffer, ft_strlen(buffer));
@@ -53,7 +53,7 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 
 	buffer = NULL;
 	g_gb.exit_st = 0;
-	read_str(buffer, redir_data->text, fd[1]);
+	read_str(buffer, redir_data->text, fd[1], exec_data);
 	close(fd[1]);
 	free(buffer);
 	if (g_gb.exit_st)

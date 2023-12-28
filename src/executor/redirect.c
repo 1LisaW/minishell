@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/18 15:59:55 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 10:13:32 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/20 10:50:02 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,9 @@ void	make_redirections(t_parser_data *parser_node, t_exec_data *exec_data,
 {
 	t_redir_data	*redir_data;
 
+	update_exec_data(parser_node, exec_data);
 	if (!parser_node || !parser_node->redir_data)
 		return ;
-	update_exec_data(parser_node, exec_data);
 	redir_data = parser_node->redir_data;
 	while (redir_data)
 	{
