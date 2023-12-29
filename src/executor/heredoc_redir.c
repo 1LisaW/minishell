@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/29 22:04:49 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 23:16:00 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 			break ;
 		}
 		write(fd_out, buffer, ft_strlen(buffer));
-		write(fd_out, "\n", 1);
+		// write(fd_out, "\n", 1);
 		if (g_gb.exit_st)
 			break ;
 		signal(SIGINT, sigint_here_doc_handler);
@@ -57,7 +57,7 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 	close(fd[1]);
 	free(buffer);
 	if (g_gb.exit_st)
-		exec_data->status_code = g_gb.exit_st;
+		exec_data->status_code = 130;
 }
 
 void	here_doc(t_exec_data *exec_data, t_redir_data *redir_data, int *prev_fd)
@@ -68,6 +68,7 @@ void	here_doc(t_exec_data *exec_data, t_redir_data *redir_data, int *prev_fd)
 		return ;
 	if (pipe(fd) == -1)
 		return ;
+	exec_data->here_doc = redir_data->text;
 	read_stdin(exec_data, redir_data, fd);
 	if (!exec_data->status_code)
 		*prev_fd = fd[0];
