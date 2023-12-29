@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/29 00:17:52 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:17:28 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,12 @@ void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)
 
 void	ft_set_gb_status_code(t_exec_data *exec_data)
 {
-	g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
+	if (g_gb.exit_st == 404)
+		g_gb.exit_st = 130;
+	else if (exec_data->ctrl_c)
+		g_gb.exit_st = 130;
+	else
+		g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
 	if (g_gb.exit_st == 4)
 		g_gb.exit_st = 1;
 }

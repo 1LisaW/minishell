@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 10:58:18 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:18:16 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	handle_cmd_signal(int sig)
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
-		g_gb.exit_st = 130;
+		g_gb.exit_st = 404;
 	}
 }
 
@@ -31,7 +31,7 @@ static void	handle_global_signal(int sig)
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_gb.exit_st = 130;
+		g_gb.exit_st = 404;
 	}
 }
 

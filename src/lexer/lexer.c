@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/12/29 00:59:21 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 21:51:17 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	get_oper_length(char quote, char *str)
 
 static void	ft_print_invalid_quotes(char quote, int *w_len)
 {
+	if (g_gb.exit_st == 404)
+		g_gb.exit_st = 130;
 	if (quote)
 	{
 		*w_len = -1;
@@ -88,6 +90,7 @@ void	lexer(t_data *data, char *cmd_buff)
 	char			sep;
 
 	sep = ' ';
+	w_len = 0;
 	while (cmd_buff && *cmd_buff)
 	{
 		while (*cmd_buff == sep)

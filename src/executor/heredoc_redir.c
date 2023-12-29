@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/28 19:57:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 22:04:49 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	sigint_here_doc_handler(int sig)
 	int	pipefd[2];
 
 	(void) sig;
-	g_gb.exit_st = 130;
+	g_gb.exit_st = 404;
 	if (pipe(pipefd) < 0)
 		perror("Pipe: ");
 	dup2(pipefd[0], STDIN_FILENO);

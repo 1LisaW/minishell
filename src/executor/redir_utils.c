@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 06:09:10 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/28 19:57:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 17:06:57 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,8 @@ void	reset_std(t_exec_data *exec_data, int fd)
 	}
 }
 
-void	clear_exec_data(t_exec_data *exec_data, t_data *data)
+void	clear_exec_data(t_exec_data *exec_data)
 {
-	data->status_code = exec_data->status_code;
 	dup2(exec_data->stdin_dup, STDIN_FILENO);
 	dup2(exec_data->stdout_dup, STDOUT_FILENO);
 	close(exec_data->stdin_dup);

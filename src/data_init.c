@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 13:23:52 by root              #+#    #+#             */
-/*   Updated: 2023/12/12 23:48:37 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 18:34:12 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ void	destroy_parser_data(t_parser_data *parser_data)
 	parser_data->parent = NULL;
 	if (parser_data)
 		free(parser_data);
+	parser_data = NULL;
 }
 
 void	destroy_data(t_data *data)
