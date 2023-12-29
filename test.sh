@@ -15,3 +15,5 @@ ls>2|pwd>3|<README.md cat>4
 <unexisted.file cat || echo $?
 expr $? + $?
 touch "a b.txt"
+
+export ARG="ex" && export ARG1="it" && $ARG$ARG1
