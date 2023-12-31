@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/31 00:24:14 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 14:54:43 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ static char	*ft_home(t_env *env)
 	if (ft_strlen(path) == 0)
 	{
 		ft_putendl_fd("cd: HOME not set", 2);
-		free(path);
 		path = NULL;
 	}
 	return (path);
