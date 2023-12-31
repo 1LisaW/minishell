@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/31 12:50:06 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 14:54:36 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_set_gb_status_code(t_exec_data *exec_data)
 		g_gb.exit_st = 130;
 	else if (exec_data->ctrl_c)
 		g_gb.exit_st = 130;
+	else if (exec_data->status_code == 1)
+		g_gb.exit_st = exec_data->status_code;
 	else
 		g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
 	if (g_gb.exit_st == 4)

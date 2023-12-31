@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/31 13:58:55 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 14:54:58 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 			|| exec_data->was_stdoutredir || exec_data->here_doc))
 		exit(exec_data->status_code);
 	if (run_buildin(exec_data, parser_node, 0x2))
-		exit (0);
+		exit (exec_data->status_code);
 	execve(parser_node->text, parser_node->cmd_line, envp);
 	exit(ft_response_bad_execve(parser_node->text));
 }
