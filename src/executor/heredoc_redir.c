@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 15:55:07 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:44:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ static void	sigint_here_doc_handler(int sig)
 	int	pipefd[2];
 
 	(void) sig;
-	perror("\nsigint_here_doc_handler\n");
-	g_gb.exit_st = 130;
+	g_gb.exit_st = 404;
 	if (pipe(pipefd) < 0)
 		perror("Pipe: ");
 	dup2(pipefd[0], STDIN_FILENO);
@@ -34,18 +33,20 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 	{
 		if (g_gb.exit_st)
 		{
-			write(STDIN_FILENO, "\n", 1);
+			exec_data->ctrl_c = 1;
 			break ;
 		}
-		write(fd_out, buffer, ft_strlen(buffer));
-		write(fd_out, "\n", 1);
 		if (g_gb.exit_st)
 			break ;
 		signal(SIGINT, sigint_here_doc_handler);
 		buffer = readline("heredoc>");
 		signal(SIGINT, handle_cmd_signal);
+		if (ft_strcmp(buffer, delimiter))
+		{
+			write(fd_out, buffer, ft_strlen(buffer));
+			write(fd_out, "\n", 1);
+		}
 	}
-	printf("\nREADLINE : %s %i\n", buffer, exec_data->status_code);
 }
 
 void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
@@ -58,9 +59,8 @@ void	read_stdin(t_exec_data *exec_data, t_redir_data *redir_data,
 	read_str(buffer, redir_data->text, fd[1], exec_data);
 	close(fd[1]);
 	free(buffer);
-	printf("\ng_gb.exit_st : %i\n", g_gb.exit_st);
 	if (g_gb.exit_st)
-		exec_data->status_code = g_gb.exit_st;
+		exec_data->status_code = 130;
 }
 
 void	here_doc(t_exec_data *exec_data, t_redir_data *redir_data, int *prev_fd)
@@ -71,6 +71,7 @@ void	here_doc(t_exec_data *exec_data, t_redir_data *redir_data, int *prev_fd)
 		return ;
 	if (pipe(fd) == -1)
 		return ;
+	exec_data->here_doc = redir_data->text;
 	read_stdin(exec_data, redir_data, fd);
 	if (!exec_data->status_code)
 		*prev_fd = fd[0];

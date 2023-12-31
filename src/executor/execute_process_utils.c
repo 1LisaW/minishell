@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execute_process_utils.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/13 13:36:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:50:06 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,17 @@ void	command_not_found(char *cmd)
 	execve("/usr/lib/command-not-found", cmds, NULL);
 }
 
+int	ft_response_bad_execve(char *cmd)
+{
+	if (access(cmd, F_OK) == 0)
+	{
+		print_error(2, cmd, "Permission denied");
+		return (126);
+	}
+	print_error(2, cmd, "command not found");
+	return (127);
+}
+
 void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)
 {
 	char	*cmd_with_path;
@@ -35,4 +46,18 @@ void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)
 	free(parser_node->cmd_line[0]);
 	parser_node->cmd_line[0] = ft_strcopy(cmd_with_path);
 	free(cmd_with_path);
+}
+
+void	ft_set_gb_status_code(t_exec_data *exec_data)
+{
+	if (g_gb.exit_st < 0)
+		return ;
+	if (g_gb.exit_st == 404)
+		g_gb.exit_st = 130;
+	else if (exec_data->ctrl_c)
+		g_gb.exit_st = 130;
+	else
+		g_gb.exit_st = WEXITSTATUS(exec_data->status_code);
+	if (g_gb.exit_st == 4)
+		g_gb.exit_st = 1;
 }

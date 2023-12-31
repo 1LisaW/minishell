@@ -1,40 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   mutate_cmd_helpers.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/12/13 17:54:20 by pascal            #+#    #+#             */
-/*   Updated: 2023/12/20 10:02:12 by tklimova         ###   ########.fr       */
+/*   Created: 2023/12/29 00:09:51 by tklimova          #+#    #+#             */
+/*   Updated: 2023/12/29 00:15:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/mini_shell.h"
 
-int	env(char **argv)
+void	ft_update_for_empty_cmd(t_parser_data *parser_node)
 {
-	t_env	*envv;
-
-	envv = get_envv();
-	if (envv == NULL || envv->var == NULL)
-		return (1);
-	if (argv != NULL && argv[1] != NULL)
+	if (!*parser_node->text)
 	{
-		if (access(argv[1], F_OK) == 0)
-		{
-			ft_putstr_fd("permission denied\n", 2);
-			return (126);
-		}
-		ft_putstr_fd("command not found\n", 2);
-		return (127);
+		free(parser_node->text);
+		parser_node->text = ft_strcopy("\'\'");
+		free(parser_node->cmd_line[0]);
+		parser_node->cmd_line[0] = ft_strcopy("\'\'");
 	}
-	while (envv)
-	{
-		ft_putstr_fd(envv->var, 1);
-		ft_putchar_fd('=', 1);
-		ft_putendl_fd(envv->value, 1);
-		envv = envv->next;
-	}
-	return (0);
 }

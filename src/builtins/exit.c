@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/25 12:05:40 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 12:13:09 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/30 01:25:01 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,28 +34,36 @@ static bool	valid_exit_arg(char **args)
 	return (true);
 }
 
+int	ft_update_exit_code(t_parser_data *data)
+{
+	int	nb;
+
+	nb = -1 * g_gb.exit_st - 1;
+	if (data->cmd_line + 1 && ft_strlen(*(data->cmd_line + 1)))
+	{
+		nb = -1 * (int)ft_atol(*(data->cmd_line + 1)) - 1;
+	}
+	g_gb.exit_st = nb;
+	return (g_gb.exit_st);
+}
+
 int	exit_builtin(t_parser_data *data)
 {
 	int		i;
 
-	g_gb.exit_st = get_error();
 	i = 1;
 	if (!data || !data->text || !data->cmd_line
 		|| ft_strncmp(data->text, "exit", ft_strlen(data->text)))
 		return (EXIT_FAILURE);
-	if (data->cmd_line[i])
-		g_gb.exit_st = ft_atol(data->cmd_line[i]);
-	if (!valid_exit_arg(data->cmd_line + i) || ft_strlen(data->cmd_line[i]))
+	if (!valid_exit_arg(data->cmd_line + i))
 	{
 		print_error(2, "exit", "incorrect arguments");
-		exit_with_status(258);
+		return (258);
 	}
 	else if (data->cmd_line[i] && data->cmd_line[++i])
 	{
 		print_error(2, "exit", "too many arguments");
-		return (exit_with_status(258), g_gb.exit_st);
+		return (258);
 	}
-	ft_putendl_fd("exit", STDERR_FILENO);
-	exit(g_gb.exit_st);
-	return (g_gb.exit_st);
+	return (ft_update_exit_code(data));
 }

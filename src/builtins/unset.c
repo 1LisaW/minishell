@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: pascal <pascal@student.42.fr>              +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 13:01:53 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/13 22:48:36 by pascal           ###   ########.fr       */
+/*   Updated: 2023/12/20 10:01:25 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static	bool	valid_identifier(char *s)
 		s++;
 	if (!l || (!(*s == '+' && *(s + 1) == '=') && *s != '=' && *s))
 		return (print_error(3, "unset", s, "not a valid identifier"),
-			exit_with_status(1), false);
+			false);
 	return (true);
 }
 
@@ -54,7 +54,7 @@ bool	identifier_front(int c)
 	return ((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || c == '_');
 }
 
-void	unset(char **cmd)
+int	unset(char **cmd)
 {
 	t_env	*env;
 	t_env	*save;
@@ -79,6 +79,7 @@ void	unset(char **cmd)
 			keep++;
 		}
 	}
+	return (0);
 }
 
 void	free_env(t_env *env)

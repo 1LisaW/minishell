@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/06 15:12:13 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 02:14:04 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 00:16:21 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,8 +89,9 @@ void	mutate_cmd(char **str, t_env *env)
 	char	*res;
 
 	len_with_env = 0;
+	res = NULL;
 	calc_len_after_env_replacement(&len_with_env, *str, env);
-	res = malloc(sizeof(char) * (len_with_env + 1));
+	res = malloc(sizeof(char) * (len_with_env + 2));
 	modify_cmd(res, *str, env);
 	free(*str);
 	*str = new_cmd(res, NULL);
@@ -111,10 +112,11 @@ void	mutate_parser_node(t_parser_data *parser_node, t_data *data)
 	if (parser_node->lexer_type == word)
 	{
 		mutate_cmd(&parser_node->text, data->env_vars);
-		while (*cmd)
+		while (cmd && *cmd)
 		{
 			mutate_cmd(&(*cmd), data->env_vars);
 			cmd += 1;
 		}
+		ft_update_for_empty_cmd(parser_node);
 	}
 }

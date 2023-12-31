@@ -15,6 +15,7 @@ PARSER_FILES	=	syntax_parser parser_data parse_redirection build_parser_tree
 LEXER_FILES	=	lexer lexer_data tokenizer
 
 HELPERS_FILES = helpers modify_cmd modify_cmd_helpers modify_cmd_helpers2 \
+	mutate_cmd_helpers\
 	mutate_cmd destroy_data get_path\
 	get_error\
 	exec_builtins helpers_2

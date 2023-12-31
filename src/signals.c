@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   signals.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/12 16:29:00 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 15:56:33 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 23:16:12 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,26 +14,26 @@
 
 void	handle_cmd_signal(int sig)
 {
-	perror("\nhandle_cmd_signal\n");
-	if (sig == SIGINT)
-	{
-		printf("\n");
-		rl_on_new_line();
-		rl_replace_line("", 0);
-		g_gb.exit_st = 130;
-	}
-}
-
-static void	handle_global_signal(int sig)
-{
-	perror("\nhandle_global_signal\n");
 	if (sig == SIGINT)
 	{
 		printf("\n");
 		rl_on_new_line();
 		rl_replace_line("", 0);
 		rl_redisplay();
-		g_gb.exit_st = 1;
+		write(STDIN_FILENO, "\n", 1);
+		g_gb.exit_st = 404;
+	}
+}
+
+static void	handle_global_signal(int sig)
+{
+	if (sig == SIGINT)
+	{
+		printf("\n");
+		rl_on_new_line();
+		rl_replace_line("", 0);
+		rl_redisplay();
+		g_gb.exit_st = 404;
 	}
 }
 

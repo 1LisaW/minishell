@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 06:09:10 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/12 13:39:08 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/29 17:06:57 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	init_exec_data(t_exec_data *exec_data)
 	exec_data->was_stdinredir = 0;
 	exec_data->was_stdoutredir = 0;
 	exec_data->go_on = 1;
+	exec_data->ctrl_c = 0;
 }
 
 void	reset_std(t_exec_data *exec_data, int fd)
@@ -41,9 +42,8 @@ void	reset_std(t_exec_data *exec_data, int fd)
 	}
 }
 
-void	clear_exec_data(t_exec_data *exec_data, t_data *data)
+void	clear_exec_data(t_exec_data *exec_data)
 {
-	data->status_code = exec_data->status_code;
 	dup2(exec_data->stdin_dup, STDIN_FILENO);
 	dup2(exec_data->stdout_dup, STDOUT_FILENO);
 	close(exec_data->stdin_dup);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   mini_shell.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/20 15:56:31 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:45:00 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ typedef struct s_exec_data
 	int		go_on;
 	int		fd_out;
 	char	*err_file;
+	int		ctrl_c;
 	t_data	*link_to_data;
 }			t_exec_data;
 
@@ -164,16 +165,18 @@ char			*get_path(char *text, t_env *envv);
 
 void			modify_cmd(char *ret, char *s, t_env *env);
 
+void			ft_update_for_empty_cmd(t_parser_data *parser_node);
+
 void			mutate_parser_node(t_parser_data *s_parser_data, t_data *data);
 
 //builtins
 int				pwd(void);
 int				cd(char **args);
-void			echo(char **cmd);
+int				echo(char **cmd);
 int				env(char **argv);
-void			unset(char **cmd);
+int				unset(char **cmd);
 int				exit_builtin(t_parser_data *data);
-void			export(char **cmd);
+int				export(char **cmd);
 
 //env get set
 
@@ -225,7 +228,7 @@ void			reset_std(t_exec_data *exec_data, int fd);
 void			here_doc(t_exec_data *exec_data, t_redir_data *redir_data,
 					int *prev_fd);
 
-void			clear_exec_data(t_exec_data *exec_data, t_data *data);
+void			clear_exec_data(t_exec_data *exec_data);
 
 void			change_redir_data_without_cmd(t_parser_data *parser_node);
 
@@ -245,13 +248,17 @@ void			command_not_found(char *cmd);
 void			bind_current_path_to_cmd(t_parser_data *parser_node,
 					t_env *env);
 
+void			ft_set_gb_status_code(t_exec_data *exec_data);
+
+int				ft_response_bad_execve(char *cmd);
+
 void			executor(t_data *data);
 
 bool			is_identifier(int c);
 
 char			*expand_var(char *s, int *i, t_env *env);
 
-void			exit_with_status(int exit_status);
+int				exit_with_status(int exit_status);
 
 int				check_next_quote(char *s, char c);
 
