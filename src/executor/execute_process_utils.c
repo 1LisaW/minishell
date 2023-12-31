@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/12 14:15:20 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/30 00:24:30 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:50:06 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,17 @@ void	command_not_found(char *cmd)
 	cmds[1] = ft_strjoin(cmd, NULL);
 	cmds[2] = NULL;
 	execve("/usr/lib/command-not-found", cmds, NULL);
+}
+
+int	ft_response_bad_execve(char *cmd)
+{
+	if (access(cmd, F_OK) == 0)
+	{
+		print_error(2, cmd, "Permission denied");
+		return (126);
+	}
+	print_error(2, cmd, "command not found");
+	return (127);
 }
 
 void	bind_current_path_to_cmd(t_parser_data *parser_node, t_env *env)

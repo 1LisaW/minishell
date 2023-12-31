@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/15 13:28:25 by root              #+#    #+#             */
-/*   Updated: 2023/12/29 21:51:17 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:58:37 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ static void	ft_print_invalid_quotes(char quote, int *w_len)
 
 void	get_word_len(char *cmd_buff, int *w_len)
 {
-	char	sep;
 	char	quote;
 
-	sep = ' ';
 	quote = '\0';
 	*w_len = 0;
 	*w_len = get_oper_length(quote, cmd_buff);
@@ -57,7 +55,7 @@ void	get_word_len(char *cmd_buff, int *w_len)
 		else if (quote && (cmd_buff[*w_len] == quote))
 			quote = 0;
 		(*w_len)++;
-		if ((cmd_buff[*w_len] == sep
+		if ((ft_isspace(cmd_buff[*w_len])
 				|| get_oper_length(quote, cmd_buff + *w_len)) && !quote)
 			break ;
 	}
@@ -87,13 +85,11 @@ void	lexer(t_data *data, char *cmd_buff)
 {
 	int				w_len;
 	t_lexer_data	*lexer_node;
-	char			sep;
 
-	sep = ' ';
 	w_len = 0;
 	while (cmd_buff && *cmd_buff)
 	{
-		while (*cmd_buff == sep)
+		while (ft_isspace(*cmd_buff))
 			cmd_buff++;
 		if (!*cmd_buff)
 			break ;

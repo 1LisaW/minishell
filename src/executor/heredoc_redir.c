@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/30 01:25:34 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:44:50 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,16 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 			exec_data->ctrl_c = 1;
 			break ;
 		}
-		write(fd_out, buffer, ft_strlen(buffer));
 		if (g_gb.exit_st)
 			break ;
 		signal(SIGINT, sigint_here_doc_handler);
 		buffer = readline("heredoc>");
 		signal(SIGINT, handle_cmd_signal);
+		if (ft_strcmp(buffer, delimiter))
+		{
+			write(fd_out, buffer, ft_strlen(buffer));
+			write(fd_out, "\n", 1);
+		}
 	}
 }
 

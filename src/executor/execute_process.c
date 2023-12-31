@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/11 13:51:15 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/29 23:02:57 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 13:58:55 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,7 @@ void	child_process(int *prev_fd, int *fd, t_parser_data *parser_node,
 	if (run_buildin(exec_data, parser_node, 0x2))
 		exit (0);
 	execve(parser_node->text, parser_node->cmd_line, envp);
-	print_error(2, parser_node->text, "command not found");
-	exit (127);
+	exit(ft_response_bad_execve(parser_node->text));
 }
 
 int	parent_process(int *prev_fd, t_exec_data *exec_data,

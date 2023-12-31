@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/05 14:58:51 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/29 17:07:33 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 12:45:00 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,6 +249,8 @@ void			bind_current_path_to_cmd(t_parser_data *parser_node,
 					t_env *env);
 
 void			ft_set_gb_status_code(t_exec_data *exec_data);
+
+int				ft_response_bad_execve(char *cmd);
 
 void			executor(t_data *data);
 

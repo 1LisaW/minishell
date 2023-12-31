@@ -6,7 +6,7 @@
 /*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/05 11:08:59 by plandolf          #+#    #+#             */
-/*   Updated: 2023/12/20 10:01:59 by tklimova         ###   ########.fr       */
+/*   Updated: 2023/12/31 00:24:14 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,12 @@ static int	ft_cd_home(t_env *env)
 		return (EXIT_FAILURE);
 	if (chdir(path) != 0)
 	{
-		free(path);
 		path = NULL;
 		return (ft_exit_cd(&path, EXIT_FAILURE));
 	}
 	ft_update_pwd(env, "OLDPWD", NULL);
 	cwd = getcwd(cwd, 0);
 	ft_update_pwd(env, "PWD", cwd);
-	free(path);
 	path = NULL;
 	if (get_env_value("PWD", env) == NULL
 		|| get_env_value("OLDPWD", env) == NULL)
