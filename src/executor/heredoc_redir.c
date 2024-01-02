@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_redir.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tklimova <tklimova@student.42berlin.de>    +#+  +:+       +#+        */
+/*   By: tklimova <tklimova@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/31 15:11:37 by tklimova          #+#    #+#             */
-/*   Updated: 2023/12/31 13:44:50 by tklimova         ###   ########.fr       */
+/*   Updated: 2024/01/02 11:40:26 by tklimova         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,11 @@ void	read_str(char *buffer, char *delimiter, int fd_out,
 		{
 			write(fd_out, buffer, ft_strlen(buffer));
 			write(fd_out, "\n", 1);
+		}
+		if (!buffer)
+		{
+			ft_putendl_fd("warning: here-document delimited by end-of-file", 2);
+			break ;
 		}
 	}
 }
